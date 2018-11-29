@@ -1,14 +1,13 @@
 import os
 from random import randint
 
-rot = 0
+imgRot = 0
 
 def setup():
     global currentImage
     global challengeCards
     global backImage
     size(600, 600, P3D)
-    
     
     dir = "..\Assets\Challenge Cards"
     challengeCards = []
@@ -18,18 +17,22 @@ def setup():
         else:
             challengeCards.append(loadImage(dir+"\\"+file))
             
-    print(challengeCards)
-    currentImage = backImage
+    currentImage = challengeCards[randint(0, len(challengeCards)-1)]
     
 def draw():
     global currentImage
-    global rot
+    global backImage
+    global imgRot
     
     background(0)
     imageMode(CENTER)
-    translate(width/2, height/2)
+    translate(width/2, height/2, 0)
     imgScale = 0.4
-    rotateY(radians(rot))
+    rotateY(radians(imgRot))
+    image(backImage, 0, 0, backImage.width*imgScale, backImage.height*imgScale)
+    rotateY(radians(180))
+    scale(-1, 1)
+    translate(0, 0, -1)
     image(currentImage, 0, 0, currentImage.width*imgScale, currentImage.height*imgScale)
      
 def mousePressed():
@@ -39,7 +42,6 @@ def mousePressed():
     currentImage = challengeCards[randint(0, len(challengeCards)-1)]
     
 def mouseWheel(event):
-    global rot
+    global imgRot
     
-    rot+= event.getCount()*5
-    print(radians(rot))
+    imgRot+= event.getCount()*5
