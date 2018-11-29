@@ -7,6 +7,7 @@ def setup():
     global currentImage
     global challengeCards
     global backImage
+    global bg
     size(600, 600, P3D)
     
     dir = "..\Assets\Challenge Cards"
@@ -23,8 +24,10 @@ def draw():
     global currentImage
     global backImage
     global imgRot
+    global bg
     
-    background(0)
+    background(180, 180, 180, 128)
+    
     imageMode(CENTER)
     translate(width/2, height/2, 0)
     imgScale = 0.4
@@ -34,6 +37,10 @@ def draw():
     scale(-1, 1)
     translate(0, 0, -1)
     image(currentImage, 0, 0, currentImage.width*imgScale, currentImage.height*imgScale)
+
+    translate(0, 0+height/2, 0)
+    fill(200, 200, 200)
+    box(1000, 20, 1000)
      
 def mousePressed():
     global currentImage
