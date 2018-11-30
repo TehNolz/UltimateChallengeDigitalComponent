@@ -36,7 +36,7 @@ def setup():
         if var:
             break
     
-    #Pick a random card to show
+    #Pick a random card to show.
     currentImage = challengeCards[randint(0, len(challengeCards)-1)]
     
 def draw():
