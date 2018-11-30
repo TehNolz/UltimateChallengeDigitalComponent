@@ -38,15 +38,23 @@ def draw():
     translate(width/2, 0, 0)
     
     imageMode(CENTER)
+    rectMode(CENTER)
+    
     pushMatrix()
     translate(0, height/2, 0)
-    imgScale = 0.4
+    imgScale = 0.3
     rotateY(radians(imgRot))
     image(backImage, 0, 0, backImage.width*imgScale, backImage.height*imgScale)
     rotateY(radians(180))
     scale(-1, 1)
     translate(0, 0, -1)
     image(currentImage, 0, 0, currentImage.width*imgScale, currentImage.height*imgScale)
+    popMatrix()
+    
+    pushMatrix()
+    translate(0, 0-height/4, 0)
+    color(0, 255, 0)
+    rect(0, 0, 300, 100)
     popMatrix()
      
 def mousePressed():
