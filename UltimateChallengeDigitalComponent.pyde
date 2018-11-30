@@ -10,13 +10,33 @@ def setup():
     global backImage
     size(600, 600, P3D)
     
+    #Load the loading screen (so meta)
+    loadingImage = loadImage("image-misc-loadingscreen.png")
+    image(loadingImage, 0, 0)
+    
+    #Load all images in another thread.
     challengeCards = []
     for file in os.listdir("data"):
-        if file == "challenge-back.png":
-            backImage = loadImage(file)
-        else:
-            challengeCards.append(loadImage(file))
-            
+        var = file.split("-")
+        print(var)
+        if var[0] == "card":
+            if var[1] == "challenge":
+                if var[2] == "back.png":
+                    backImage = requestImage(file)
+                else:
+                    challengeCards.append(requestImage(file))
+    
+    #Hold the script until all images have been loaded.
+    var = True
+    while True:
+        if backImage.width == 0:
+            for img in challengeCards:
+                if img.width != 0:
+                    var = False
+        if var:
+            break
+    
+    #Pick a random card to show
     currentImage = challengeCards[randint(0, len(challengeCards)-1)]
     
 def draw():
