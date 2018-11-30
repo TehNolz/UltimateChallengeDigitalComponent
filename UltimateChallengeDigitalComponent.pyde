@@ -18,7 +18,6 @@ def setup():
     challengeCards = []
     for file in os.listdir("data"):
         var = file.split("-")
-        print(var)
         if var[0] == "card":
             if var[1] == "challenge":
                 if var[2] == "back.png":
