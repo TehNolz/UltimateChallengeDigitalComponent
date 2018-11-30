@@ -10,13 +10,12 @@ def setup():
     global backImage
     size(600, 600, P3D)
     
-    dir = "..\Assets\Challenge Cards"
     challengeCards = []
-    for file in os.listdir(dir):
+    for file in os.listdir("data"):
         if file == "challenge-back.png":
-            backImage = loadImage(dir+"\\"+file)
+            backImage = loadImage(file)
         else:
-            challengeCards.append(loadImage(dir+"\\"+file))
+            challengeCards.append(loadImage(file))
             
     currentImage = challengeCards[randint(0, len(challengeCards)-1)]
     
@@ -27,10 +26,10 @@ def draw():
     global turnImage
     
     if turnImage:
-        imgRot+=3
+        imgRot+=10
         if imgRot == 360:
             imgRot = 0
-    if turnImage and (imgRot == 180 or imgRot == 0):
+    if turnImage and (imgRot == 0):
         turnImage = False
     elif imgRot == 180:
         currentImage = challengeCards[randint(0, len(challengeCards)-1)]
