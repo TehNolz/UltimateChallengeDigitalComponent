@@ -1,307 +1,617 @@
 {
-    "challengeCards": {
+    "base": {
         "1": {
-            "file": "card-challenge-1.png",
-            "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "2": {
-            "file": "card-challenge-2.png",
-            "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "3": {
-            "file": "card-challenge-3.png",
-            "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "4": {
-            "file": "card-challenge-4.png",
-            "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "5": {
-            "file": "card-challenge-5.png",
-            "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "6": {
-            "file": "card-challenge-6.png",
-            "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "7": {
-            "file": "card-challenge-7.png",
-            "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "8": {
-            "file": "card-challenge-8.png",
-            "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "9": {
-            "file": "card-challenge-9.png",
+            "file": "card-base-1.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "10": {
-            "file": "card-challenge-10.png",
+            "file": "card-base-10.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "11": {
-            "file": "card-challenge-11.png",
+            "file": "card-base-11.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "12": {
-            "file": "card-challenge-12.png",
+            "file": "card-base-12.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "13": {
-            "file": "card-challenge-13.png",
+            "file": "card-base-13.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "14": {
-            "file": "card-challenge-14.png",
+            "file": "card-base-14.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "15": {
-            "file": "card-challenge-15.png",
+            "file": "card-base-15.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "16": {
-            "file": "card-challenge-16.png",
+            "file": "card-base-16.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "17": {
-            "file": "card-challenge-17.png",
+            "file": "card-base-17.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "18": {
-            "file": "card-challenge-18.png",
+            "file": "card-base-18.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "19": {
-            "file": "card-challenge-19.png",
+            "file": "card-base-19.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "2": {
+            "file": "card-base-2.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "20": {
-            "file": "card-challenge-20.png",
+            "file": "card-base-20.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "21": {
-            "file": "card-challenge-21.png",
+            "file": "card-base-21.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "22": {
-            "file": "card-challenge-22.png",
+            "file": "card-base-22.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "23": {
-            "file": "card-challenge-23.png",
+            "file": "card-base-23.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "24": {
-            "file": "card-challenge-24.png",
+            "file": "card-base-24.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "25": {
-            "file": "card-challenge-25.png",
+            "file": "card-base-25.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "26": {
-            "file": "card-challenge-26.png",
+            "file": "card-base-26.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "27": {
-            "file": "card-challenge-27.png",
+            "file": "card-base-27.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "28": {
-            "file": "card-challenge-28.png",
+            "file": "card-base-28.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "29": {
-            "file": "card-challenge-29.png",
+            "file": "card-base-29.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "3": {
+            "file": "card-base-3.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "30": {
-            "file": "card-challenge-30.png",
+            "file": "card-base-30.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "31": {
-            "file": "card-challenge-31.png",
+            "file": "card-base-31.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "32": {
-            "file": "card-challenge-32.png",
+            "file": "card-base-32.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "33": {
-            "file": "card-challenge-33.png",
+            "file": "card-base-33.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "34": {
-            "file": "card-challenge-34.png",
+            "file": "card-base-34.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "35": {
-            "file": "card-challenge-35.png",
+            "file": "card-base-35.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "36": {
-            "file": "card-challenge-36.png",
+            "file": "card-base-36.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "37": {
-            "file": "card-challenge-37.png",
+            "file": "card-base-37.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "38": {
-            "file": "card-challenge-38.png",
+            "file": "card-base-38.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "39": {
-            "file": "card-challenge-39.png",
+            "file": "card-base-39.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "4": {
+            "file": "card-base-4.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "40": {
-            "file": "card-challenge-40.png",
+            "file": "card-base-40.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "41": {
-            "file": "card-challenge-41.png",
+            "file": "card-base-41.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "42": {
-            "file": "card-challenge-42.png",
+            "file": "card-base-42.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "43": {
-            "file": "card-challenge-43.png",
+            "file": "card-base-43.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "44": {
-            "file": "card-challenge-44.png",
+            "file": "card-base-44.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "45": {
-            "file": "card-challenge-45.png",
+            "file": "card-base-45.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "46": {
-            "file": "card-challenge-46.png",
+            "file": "card-base-46.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "47": {
-            "file": "card-challenge-47.png",
+            "file": "card-base-47.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "48": {
-            "file": "card-challenge-48.png",
+            "file": "card-base-48.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "49": {
-            "file": "card-challenge-49.png",
+            "file": "card-base-49.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "5": {
+            "file": "card-base-5.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "50": {
-            "file": "card-challenge-50.png",
+            "file": "card-base-50.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "6": {
+            "file": "card-base-6.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "7": {
+            "file": "card-base-7.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "8": {
+            "file": "card-base-8.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "9": {
+            "file": "card-base-9.png",
             "dice": false,
             "timer": false,
             "skippable": true
         },
         "back": {
-            "file": "card-challenge-back.png"
+            "file": "card-base-back.png"
+        }
+    },
+    "expansion1": {
+        "1": {
+            "file": "card-expansion1-1.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "10": {
+            "file": "card-expansion1-10.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "11": {
+            "file": "card-expansion1-11.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "12": {
+            "file": "card-expansion1-12.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "13": {
+            "file": "card-expansion1-13.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "14": {
+            "file": "card-expansion1-14.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "15": {
+            "file": "card-expansion1-15.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "16": {
+            "file": "card-expansion1-16.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "17": {
+            "file": "card-expansion1-17.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "18": {
+            "file": "card-expansion1-18.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "19": {
+            "file": "card-expansion1-19.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "2": {
+            "file": "card-expansion1-2.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "20": {
+            "file": "card-expansion1-20.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "21": {
+            "file": "card-expansion1-21.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "22": {
+            "file": "card-expansion1-22.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "23": {
+            "file": "card-expansion1-23.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "24": {
+            "file": "card-expansion1-24.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "25": {
+            "file": "card-expansion1-25.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "3": {
+            "file": "card-expansion1-3.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "4": {
+            "file": "card-expansion1-4.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "5": {
+            "file": "card-expansion1-5.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "6": {
+            "file": "card-expansion1-6.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "7": {
+            "file": "card-expansion1-7.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "8": {
+            "file": "card-expansion1-8.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "9": {
+            "file": "card-expansion1-9.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "back": {
+            "file": "card-expansion1-back.png"
+        }
+    },
+    "expansion2": {
+        "1": {
+            "file": "card-expansion2-1.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "10": {
+            "file": "card-expansion2-10.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "11": {
+            "file": "card-expansion2-11.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "12": {
+            "file": "card-expansion2-12.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "13": {
+            "file": "card-expansion2-13.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "14": {
+            "file": "card-expansion2-14.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "15": {
+            "file": "card-expansion2-15.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "16": {
+            "file": "card-expansion2-16.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "17": {
+            "file": "card-expansion2-17.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "18": {
+            "file": "card-expansion2-18.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "19": {
+            "file": "card-expansion2-19.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "2": {
+            "file": "card-expansion2-2.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "20": {
+            "file": "card-expansion2-20.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "21": {
+            "file": "card-expansion2-21.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "22": {
+            "file": "card-expansion2-22.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "23": {
+            "file": "card-expansion2-23.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "24": {
+            "file": "card-expansion2-24.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "25": {
+            "file": "card-expansion2-25.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "3": {
+            "file": "card-expansion2-3.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "4": {
+            "file": "card-expansion2-4.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "5": {
+            "file": "card-expansion2-5.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "6": {
+            "file": "card-expansion2-6.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "7": {
+            "file": "card-expansion2-7.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "8": {
+            "file": "card-expansion2-8.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "9": {
+            "file": "card-expansion2-9.png",
+            "dice": false,
+            "timer": false,
+            "skippable": true
+        },
+        "back": {
+            "file": "card-expansion2-back.png"
         }
     }
 }
