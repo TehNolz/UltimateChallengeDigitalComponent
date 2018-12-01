@@ -76,6 +76,7 @@ def draw():
     global retractImage
     global imgIndex
     global cardconfig
+    global baseScale
     
     #Calculate scaling. This assumes the normal screen resolution is 1133x600
     baseScale = (height/6)/100.0
@@ -133,8 +134,6 @@ def draw():
         
         pushMatrix()
         translate(0, height/2, 0)
-        if mousePressed:
-            print(mouseX, mouseY)
         popMatrix()
      
 def mousePressed():
@@ -144,8 +143,9 @@ def mousePressed():
     global turnImage
     
     if mouseButton == LEFT:
-        if not retractImage:
-            turnImage = True
+        if (416*baseScale <= mouseX <= 716*baseScale) and (510*baseScale <= mouseY <= 570*baseScale):
+            if not retractImage:
+                turnImage = True
     elif mouseButton == RIGHT:
         if not turnImage:
             retractImage = True
