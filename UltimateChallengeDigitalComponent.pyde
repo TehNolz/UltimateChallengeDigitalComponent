@@ -28,11 +28,19 @@ def setup():
     size(1133, 600, P3D)
     
     #Load the loading screen (so meta)
-    loadingImage = loadImage("misc-loadingscreen.png")
-    image(loadingImage, 0, 0, 1133, 600)
+    image(loadImage("misc-loadingscreen.png"), 0, 0, 1133, 600)
     
-    #Load all images
+    #Load game images
     imgIndex = {}
+    for file in os.listdir("data"):
+        type = file.split("-")[0]
+        if  type != "card":
+            if not type in imgIndex:
+                imgIndex[type] = {}
+            name = file.split("-")[1].split(".")[0]
+            imgIndex[type][name] = requestImage(file)
+        
+    #Load card images
     log.info("Loading images...")
     cardconfig = json.loads(open("cardconfig.json").read())
     for category in cardconfig:
@@ -40,15 +48,14 @@ def setup():
         for card in cardconfig[category]:
             if card != "back":
                 card = int(card)
-            imgIndex[category][card] = requestImage(cardconfig[category][str(card)]["file"])
-    
+            imgIndex[category][card] = requestImage(cardconfig[category][str(card)]["file"])    
     
     #Wait for all images to finish loading.
     while True:
         var = True
         for category in imgIndex:
-            for card in imgIndex[category]:
-                imgWidth = imgIndex[category][card].width
+            for img in imgIndex[category]:
+                imgWidth = imgIndex[category][img].width
                 if imgWidth == 0:
                     var = False
         if var:
@@ -70,7 +77,7 @@ def draw():
     global imgIndex
     global cardconfig
     
-    #Calculate scale.
+    #Calculate scaling. This assumes the normal screen resolution is 1133x600
     baseScale = (height/6)/100.0
     
     background(180, 180, 180, 128)
@@ -109,7 +116,6 @@ def draw():
         base = 400
         imgHeight = base*baseScale
         imgWidth = ((base/4)*3)*baseScale
-        print(imgWidth, imgHeight)
         translate(0, height/2, imgRet*baseScale)
         rotateY(radians(imgRot))
         image(backImage, 0, 0, imgWidth, imgHeight)
@@ -121,9 +127,14 @@ def draw():
         
         pushMatrix()
         translate(0, 0, 0)
-        fill(0, 255, 0)
         translate(0, height*0.90, 0)
-        rect(0, 0, imgWidth, imgWidth/5)
+        image(imgIndex["gamescreen"]["nextcard"], 0, 0, imgWidth, imgWidth/5)
+        popMatrix()
+        
+        pushMatrix()
+        translate(0, height/2, 0)
+        if mousePressed:
+            print(mouseX, mouseY)
         popMatrix()
      
 def mousePressed():
