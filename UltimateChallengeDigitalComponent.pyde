@@ -1,5 +1,12 @@
 import os
+import logging
+import json
 from random import randint
+
+#Setup logging
+logging.basicConfig(level=logging.NOTSET)
+log = logging.getLogger("LOG")
+log.info("Hello world!")
 
 #####Declare globals
 #Images
@@ -13,38 +20,43 @@ retractImage = False
 currentMenu = "gamescreen"
 
 def setup():
+    log.info("Running setup!")
     global currentImage
-    global challengeCards
     global backImage
+    global cardconfig
+    global imgIndex
     size(600, 600, P3D)
     
     #Load the loading screen (so meta)
     loadingImage = loadImage("image-misc-loadingscreen.png")
     image(loadingImage, 0, 0)
     
-    #Load all images in another thread.
-    challengeCards = []
-    for file in os.listdir("data"):
-        var = file.split("-")
-        if var[0] == "card":
-            if var[1] == "challenge":
-                if var[2] == "back.png":
-                    backImage = requestImage(file)
-                else:
-                    challengeCards.append(requestImage(file))
+    #Load all images
+    imgIndex = {}
+    log.info("Loading images...")
+    cardconfig = json.loads(open("cardconfig.json").read())
+    for category in cardconfig:
+        imgIndex[category] = {}
+        for card in cardconfig[category]:
+            if card != "back":
+                card = int(card)
+            imgIndex[category][card] = requestImage(cardconfig[category][str(card)]["file"])
     
-    #Hold the script until all images have been loaded.
-    var = True
+    #Wait for all images to finish loading.
     while True:
-        if backImage.width == 0:
-            for img in challengeCards:
-                if img.width != 0:
+        var = True
+        for category in imgIndex:
+            for card in imgIndex[category]:
+                imgWidth = imgIndex[category][card].width
+                if imgWidth == 0:
                     var = False
         if var:
             break
+    log.info("Finished loading images.")
         
     #Pick a random card to show.
-    currentImage = challengeCards[randint(0, len(challengeCards)-1)]
+    currentImage = imgIndex["challengeCards"][randint(1, len(imgIndex["challengeCards"]))]
+    backImage = imgIndex["challengeCards"]["back"]
     
 def draw():
     global currentImage
@@ -54,6 +66,8 @@ def draw():
     global imgPos
     global turnImage
     global retractImage
+    global imgIndex
+    global cardconfig
     
     #Calculate scale.
     baseScale = (height/6)/100.0
@@ -73,7 +87,7 @@ def draw():
         if turnImage and (imgRot == 0):
             turnImage = False
         elif imgRot == 180:
-            currentImage = challengeCards[randint(0, len(challengeCards)-1)]
+            currentImage = imgIndex["challengeCards"][randint(1, len(imgIndex["challengeCards"])-1)]
             
         #Challenge card retract. When retractImage is true, the card will move forwards/backwards depending on whether its currently backwards/forwards.
         if retractImage:
