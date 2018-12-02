@@ -204,6 +204,8 @@ def keyPressed():
     global currentCard
     global consoleHistory
     global consoleHistoryInt
+    global turnImage
+    global retractImage
     print(keyCode)
     
     #Open console
