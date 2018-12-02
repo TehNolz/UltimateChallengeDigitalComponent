@@ -19,8 +19,12 @@ retractImage = False
 
 #Menus
 currentMenu = "gamescreen"
+
+#Console
 showConsole = False
 consoleText = ""
+consoleHistory = []
+consoleHistoryInt = 0
 
 #gameconfig
 gameconfig = {
@@ -200,30 +204,59 @@ def keyPressed():
     global showConsole
     global consoleText
     global currentCard
+    global consoleHistory
+    global consoleHistoryInt
+    print(keyCode)
+    
+    #Open console
     if key == "`":
         showConsole = not showConsole
         if not showConsole:
             consoleText = ""
-    elif key == "" and showConsole:
-        consoleText = consoleText[:-1]
-    elif key == "\n":
-        command = consoleText.split(" ")
-        if command[0] == "setcard":
-            exists = False
-            for deck in cardconfig:
-                if command[1] in cardconfig[deck]:
-                    exists = True
-            if exists:
-                deck = command[1].split("-")[0]
-                showStart = cardconfig[deck][command[1]]["dice"] or cardconfig[deck][command[1]]["timer"]
-                
-                currentCard = {
-                    "id": command[1],
-                    "back": deck+"-back",
-                    "showStart": showStart
-                }
-        consoleText = ""
-    
+            
     elif showConsole:
-        if type(key) == unicode:
+        #Backspace
+        if key == "" and showConsole:
+            consoleText = consoleText[:-1]
+            
+        #Execute command
+        elif key == "\n":
+            command = consoleText.split(" ")
+            if command[0] == "setcard":
+                exists = False
+                for deck in cardconfig:
+                    if command[1] in cardconfig[deck]:
+                        exists = True
+                if exists:
+                    deck = command[1].split("-")[0]
+                    showStart = cardconfig[deck][command[1]]["dice"] or cardconfig[deck][command[1]]["timer"]
+                    
+                    currentCard = {
+                        "id": command[1],
+                        "back": deck+"-back",
+                        "showStart": showStart
+                    }
+            else:
+                return None
+            
+            consoleHistory.append(consoleText)
+            consoleText = ""
+            
+        #Command history
+        #Up
+        elif keyCode == 38:
+            consoleText = consoleHistory[len(consoleHistory)-consoleHistoryInt-1]
+            if consoleHistoryInt < len(consoleHistory):
+                consoleHistoryInt+=1
+        
+        #Down
+        elif keyCode == 40: 
+            consoleText = consoleHistory[len(consoleHistory)-consoleHistoryInt-1]
+            if consoleHistoryInt > 0:
+                consoleHistoryInt-=1
+                if consoleHistory == 0:
+                    consoleText = ""
+        
+        #Type a character
+        elif type(key) == unicode:
             consoleText+=key
