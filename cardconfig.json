@@ -1,617 +1,508 @@
 {
     "base": {
-        "1": {
+        "base-1": {
             "file": "card-base-1.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "10": {
+        "base-10": {
             "file": "card-base-10.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "11": {
+        "base-11": {
             "file": "card-base-11.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "12": {
+        "base-12": {
             "file": "card-base-12.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "13": {
+        "base-13": {
             "file": "card-base-13.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "14": {
+        "base-14": {
             "file": "card-base-14.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "15": {
+        "base-15": {
             "file": "card-base-15.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "16": {
+        "base-16": {
             "file": "card-base-16.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "17": {
+        "base-17": {
             "file": "card-base-17.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "18": {
+        "base-18": {
             "file": "card-base-18.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "19": {
+        "base-19": {
             "file": "card-base-19.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "2": {
+        "base-2": {
             "file": "card-base-2.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "20": {
+        "base-20": {
             "file": "card-base-20.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "21": {
+        "base-21": {
             "file": "card-base-21.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "22": {
+        "base-22": {
             "file": "card-base-22.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "23": {
+        "base-23": {
             "file": "card-base-23.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "24": {
+        "base-24": {
             "file": "card-base-24.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "25": {
+        "base-25": {
             "file": "card-base-25.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "26": {
+        "base-26": {
             "file": "card-base-26.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "27": {
+        "base-27": {
             "file": "card-base-27.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "28": {
+        "base-28": {
             "file": "card-base-28.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "29": {
+        "base-29": {
             "file": "card-base-29.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "3": {
+        "base-3": {
             "file": "card-base-3.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "30": {
+        "base-30": {
             "file": "card-base-30.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "31": {
+        "base-31": {
             "file": "card-base-31.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "32": {
+        "base-32": {
             "file": "card-base-32.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "33": {
+        "base-33": {
             "file": "card-base-33.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "34": {
+        "base-34": {
             "file": "card-base-34.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "35": {
+        "base-35": {
             "file": "card-base-35.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "36": {
+        "base-36": {
             "file": "card-base-36.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "37": {
+        "base-37": {
             "file": "card-base-37.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "38": {
+        "base-38": {
             "file": "card-base-38.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "39": {
+        "base-39": {
             "file": "card-base-39.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "4": {
+        "base-4": {
             "file": "card-base-4.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "40": {
+        "base-40": {
             "file": "card-base-40.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "41": {
+        "base-41": {
             "file": "card-base-41.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "42": {
+        "base-42": {
             "file": "card-base-42.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "43": {
+        "base-43": {
             "file": "card-base-43.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "44": {
+        "base-44": {
             "file": "card-base-44.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "45": {
+        "base-45": {
             "file": "card-base-45.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "46": {
+        "base-46": {
             "file": "card-base-46.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "47": {
+        "base-47": {
             "file": "card-base-47.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "48": {
+        "base-48": {
             "file": "card-base-48.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "49": {
+        "base-49": {
             "file": "card-base-49.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "5": {
+        "base-5": {
             "file": "card-base-5.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "50": {
+        "base-50": {
             "file": "card-base-50.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "6": {
+        "base-6": {
             "file": "card-base-6.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "7": {
+        "base-7": {
             "file": "card-base-7.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "8": {
+        "base-8": {
             "file": "card-base-8.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "9": {
+        "base-9": {
             "file": "card-base-9.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "back": {
-            "file": "card-base-back.png"
+            "timer": false
         }
     },
     "expansion1": {
-        "1": {
+        "expansion1-1": {
             "file": "card-expansion1-1.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "10": {
+        "expansion1-10": {
             "file": "card-expansion1-10.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "11": {
+        "expansion1-11": {
             "file": "card-expansion1-11.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "12": {
+        "expansion1-12": {
             "file": "card-expansion1-12.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "13": {
+        "expansion1-13": {
             "file": "card-expansion1-13.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "14": {
+        "expansion1-14": {
             "file": "card-expansion1-14.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "15": {
+        "expansion1-15": {
             "file": "card-expansion1-15.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "16": {
+        "expansion1-16": {
             "file": "card-expansion1-16.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "17": {
+        "expansion1-17": {
             "file": "card-expansion1-17.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "18": {
+        "expansion1-18": {
             "file": "card-expansion1-18.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "19": {
+        "expansion1-19": {
             "file": "card-expansion1-19.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "2": {
+        "expansion1-2": {
             "file": "card-expansion1-2.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "20": {
+        "expansion1-20": {
             "file": "card-expansion1-20.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "21": {
+        "expansion1-21": {
             "file": "card-expansion1-21.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "22": {
+        "expansion1-22": {
             "file": "card-expansion1-22.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "23": {
+        "expansion1-23": {
             "file": "card-expansion1-23.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "24": {
+        "expansion1-24": {
             "file": "card-expansion1-24.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "25": {
+        "expansion1-25": {
             "file": "card-expansion1-25.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "3": {
+        "expansion1-3": {
             "file": "card-expansion1-3.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "4": {
+        "expansion1-4": {
             "file": "card-expansion1-4.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "5": {
+        "expansion1-5": {
             "file": "card-expansion1-5.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "6": {
+        "expansion1-6": {
             "file": "card-expansion1-6.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "7": {
+        "expansion1-7": {
             "file": "card-expansion1-7.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "8": {
+        "expansion1-8": {
             "file": "card-expansion1-8.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "9": {
+        "expansion1-9": {
             "file": "card-expansion1-9.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "back": {
-            "file": "card-expansion1-back.png"
+            "timer": false
         }
     },
     "expansion2": {
-        "1": {
+        "expansion2-1": {
             "file": "card-expansion2-1.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "10": {
+        "expansion2-10": {
             "file": "card-expansion2-10.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "11": {
+        "expansion2-11": {
             "file": "card-expansion2-11.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "12": {
+        "expansion2-12": {
             "file": "card-expansion2-12.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "13": {
+        "expansion2-13": {
             "file": "card-expansion2-13.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "14": {
+        "expansion2-14": {
             "file": "card-expansion2-14.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "15": {
+        "expansion2-15": {
             "file": "card-expansion2-15.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "16": {
+        "expansion2-16": {
             "file": "card-expansion2-16.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "17": {
+        "expansion2-17": {
             "file": "card-expansion2-17.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "18": {
+        "expansion2-18": {
             "file": "card-expansion2-18.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "19": {
+        "expansion2-19": {
             "file": "card-expansion2-19.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "2": {
+        "expansion2-2": {
             "file": "card-expansion2-2.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "20": {
+        "expansion2-20": {
             "file": "card-expansion2-20.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "21": {
+        "expansion2-21": {
             "file": "card-expansion2-21.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "22": {
+        "expansion2-22": {
             "file": "card-expansion2-22.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "23": {
+        "expansion2-23": {
             "file": "card-expansion2-23.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "24": {
+        "expansion2-24": {
             "file": "card-expansion2-24.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "25": {
+        "expansion2-25": {
             "file": "card-expansion2-25.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "3": {
+        "expansion2-3": {
             "file": "card-expansion2-3.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "4": {
+        "expansion2-4": {
             "file": "card-expansion2-4.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "5": {
+        "expansion2-5": {
             "file": "card-expansion2-5.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "6": {
+        "expansion2-6": {
             "file": "card-expansion2-6.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "7": {
+        "expansion2-7": {
             "file": "card-expansion2-7.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "8": {
+        "expansion2-8": {
             "file": "card-expansion2-8.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
+            "timer": false
         },
-        "9": {
+        "expansion2-9": {
             "file": "card-expansion2-9.png",
             "dice": false,
-            "timer": false,
-            "skippable": true
-        },
-        "back": {
-            "file": "card-expansion2-back.png"
+            "timer": false
         }
     }
 }
