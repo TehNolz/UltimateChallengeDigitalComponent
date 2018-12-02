@@ -196,9 +196,7 @@ def mousePressed():
         if (416*baseScale <= mouseX <= 716*baseScale) and (510*baseScale <= mouseY <= 570*baseScale):
             if not retractImage:
                 turnImage = True
-    elif mouseButton == RIGHT:
-        if not turnImage:
-            retractImage = True
+        
             
 def keyPressed():
     global showConsole
@@ -236,6 +234,12 @@ def keyPressed():
                         "back": deck+"-back",
                         "showStart": showStart
                     }
+            elif command[0] == "retractcard":
+                if not turnImage:
+                    retractImage = True
+            elif command[0] == "flipcard":
+                if not retractImage:
+                    turnImage = True
             else:
                 return None
             
