@@ -19,6 +19,8 @@ retractImage = False
 
 #Menus
 currentMenu = "gamescreen"
+showConsole = False
+consoleText = ""
 
 #gameconfig
 gameconfig = {
@@ -54,6 +56,7 @@ def setup():
     global backImage
     global cardconfig
     global imgIndex
+    global font
     size(1133, 600, P3D)
     
     #Load the loading screen (so meta)
@@ -63,7 +66,7 @@ def setup():
     imgIndex = {}
     for file in os.listdir("data"):
         type = file.split("-")[0]
-        if  type != "card":
+        if  type != "card" and file.split(".")[1] == "png":
             name = file.split("-")[1].split(".")[0]
             imgIndex[name] = requestImage(file)
         
@@ -87,7 +90,10 @@ def setup():
                 var = False
         if var:
             break
-    log.info("Finished loading images.")
+
+    log.info("Loading fonts.")
+    font = loadFont("OpenSans-48.vlw")
+    textFont(font)
         
     #Pick a random card to show.
     newCard()
@@ -103,6 +109,7 @@ def draw():
     global imgIndex
     global cardconfig
     global baseScale
+    global consoleText
     
     #Calculate scaling. This assumes the normal screen resolution is 1133x600
     baseScale = (height/6)/100.0
@@ -112,6 +119,7 @@ def draw():
     
     imageMode(CENTER)
     rectMode(CENTER)
+    textAlign(CENTER)
     
     if currentMenu == "gamescreen":
         #Challenge card flip. When turnImage is true, the card will flip and show a new challenge.
@@ -159,9 +167,21 @@ def draw():
         
         pushMatrix()
         translate(0, height, 0)
+        fill(255, 255, 255)
         box(1000*baseScale, 10*baseScale, 1000*baseScale)
         popMatrix()
-     
+        
+        if showConsole:
+            pushMatrix()
+            translate(0, height, 0)
+            fill(0, 0, 0, 128)
+            rect(0, 0, 1000*baseScale, 100*baseScale)
+            fill(255, 255, 255, 128)
+            translate(0, -12*baseScale, 0)
+            textSize(30*baseScale)
+            text(consoleText, 0, 0)
+            popMatrix()
+            
 def mousePressed():
     global currentImage
     global challengeCards
@@ -175,3 +195,35 @@ def mousePressed():
     elif mouseButton == RIGHT:
         if not turnImage:
             retractImage = True
+            
+def keyPressed():
+    global showConsole
+    global consoleText
+    global currentCard
+    if key == "`":
+        showConsole = not showConsole
+        if not showConsole:
+            consoleText = ""
+    elif key == "" and showConsole:
+        consoleText = consoleText[:-1]
+    elif key == "\n":
+        command = consoleText.split(" ")
+        if command[0] == "setcard":
+            exists = False
+            for deck in cardconfig:
+                if command[1] in cardconfig[deck]:
+                    exists = True
+            if exists:
+                deck = command[1].split("-")[0]
+                showStart = cardconfig[deck][command[1]]["dice"] or cardconfig[deck][command[1]]["timer"]
+                
+                currentCard = {
+                    "id": command[1],
+                    "back": deck+"-back",
+                    "showStart": showStart
+                }
+        consoleText = ""
+    
+    elif showConsole:
+        if type(key) == unicode:
+            consoleText+=key
