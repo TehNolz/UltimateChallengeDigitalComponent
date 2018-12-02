@@ -153,13 +153,13 @@ def draw():
         popMatrix()
         
         pushMatrix()
-        translate(0, 0, 0)
         translate(0, height*0.90, 0)
         image(imgIndex["nextcard"], 0, 0, imgWidth, imgWidth/5)
         popMatrix()
         
         pushMatrix()
-        translate(0, height/2, 0)
+        translate(0, height, 0)
+        box(1000*baseScale, 10*baseScale, 1000*baseScale)
         popMatrix()
      
 def mousePressed():
