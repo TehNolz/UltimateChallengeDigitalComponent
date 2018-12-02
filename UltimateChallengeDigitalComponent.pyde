@@ -73,7 +73,7 @@ def setup():
     for category in cardconfig:
         for card in cardconfig[category]:
             imgIndex[card] = requestImage(cardconfig[category][str(card)]["file"])
-        imgIndex[category+"-back"] = requestImage(category+"-back.png")
+        imgIndex[category+"-back"] = requestImage("card-"+category+"-back.png")
     
     #Wait for all images to finish loading.
     while True:
@@ -81,6 +81,9 @@ def setup():
         for img in imgIndex:
             imgWidth = imgIndex[img].width
             if imgWidth == 0:
+                var = False
+            elif imgWidth == -1:
+                log.error("Failed to load image: "+str(img))
                 var = False
         if var:
             break
@@ -142,10 +145,11 @@ def draw():
         imgWidth = ((base/4)*3)*baseScale
         translate(0, height/2, imgRet*baseScale)
         rotateY(radians(imgRot))
-        image(imgIndex[currentCard["id"]], 0, 0, imgWidth, imgHeight)
-        rotateY(radians(180))
-        translate(0, 0, -1)
         image(imgIndex[currentCard["back"]], 0, 0, imgWidth, imgHeight)
+        rotateY(radians(180))
+        scale(-1, 1) #Yes, this IS necessary.
+        translate(0, 0, -1)
+        image(imgIndex[currentCard["id"]], 0, 0, imgWidth, imgHeight)
         popMatrix()
         
         pushMatrix()
