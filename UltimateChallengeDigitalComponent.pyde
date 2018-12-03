@@ -114,7 +114,7 @@ def draw():
     global cardconfig
     global baseScale
     global consoleText
-    
+        
     #Calculate scaling. This assumes the normal screen resolution is 1133x600
     baseScale = (height/6)/100.0
     
@@ -151,6 +151,7 @@ def draw():
                 else:
                     imgRet+=5
 
+        #Card
         pushMatrix()
         base = 400
         imgHeight = base*baseScale
@@ -164,25 +165,30 @@ def draw():
         image(imgIndex[currentCard["id"]], 0, 0, imgWidth, imgHeight)
         popMatrix()
         
+        #Next card button
         pushMatrix()
         translate(0, height*0.90, 0)
         image(imgIndex["nextcard"], 0, 0, imgWidth, imgWidth/5)
         popMatrix()
         
+        #Floor box thing
         pushMatrix()
         translate(0, height, 0)
-        fill(255, 255, 255)
+        fill(255, 255, 255, 255)
         box(1000*baseScale, 10*baseScale, 1000*baseScale)
         popMatrix()
         
         if showConsole:
+            #Console box
             pushMatrix()
             translate(0, height, 0)
             fill(0, 0, 0, 128)
             rect(0, 0, 1000*baseScale, 100*baseScale)
-            fill(255, 255, 255, 128)
+
+            #Console text
             translate(0, -12*baseScale, 0)
             textSize(30*baseScale)
+            fill(255, 255, 255, 128)
             text(consoleText, 0, 0)
             popMatrix()
             
@@ -206,7 +212,6 @@ def keyPressed():
     global consoleHistoryInt
     global turnImage
     global retractImage
-    print(keyCode)
     
     #Open console
     if key == "`":
@@ -243,6 +248,7 @@ def keyPressed():
                 if not retractImage:
                     turnImage = True
             else:
+                consoleText = ""
                 return None
             
             consoleHistory.append(consoleText)
