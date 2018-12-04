@@ -50,7 +50,7 @@ class gameScreen:
         rotateY(radians(180))
         scale(-1, 1) #Yes, this IS necessary.
         translate(0, 0, -1)
-        image(imgIndex[self.currentCard["id"]], 0, 0, imgWidth, imgHeight)
+        image(imgIndex["card-"+self.currentCard["id"]], 0, 0, imgWidth, imgHeight)
         popMatrix()
         
         #Next card button
@@ -66,33 +66,21 @@ class gameScreen:
         box(1000*baseScale, 10*baseScale, 1000*baseScale)
         popMatrix()
         
-        # if showConsole:
-        #     #Console box
-        #     pushMatrix()
-        #     translate(0, height, 0)
-        #     fill(0, 0, 0, 128)
-        #     rect(0, 0, 1000*baseScale, 100*baseScale)
-
-        #     #Console text
-        #     translate(0, -12*baseScale, 0)
-        #     textSize(30*baseScale)
-        #     fill(255, 255, 255, 128)
-        #     text(consoleText, 0, 0)
-        #     popMatrix()
-            
     def newCard(self):
         cardConfig = globals.cardConfig
         
         pool = {}
         for deck in globals.gameconfig["useDecks"]:
             pool.update(cardConfig[deck])
-        chosenCard = choice(pool.keys())
+        self.setCard(choice(pool.keys()))
         
-        deck = chosenCard.split("-")[1]
-        showStart = cardConfig[deck][chosenCard]["dice"] or cardConfig[deck][chosenCard]["timer"]
+        
+    def setCard(self, card):
+        deck = card.split("-")[0]
+        showStart = globals.cardConfig[deck][card]["dice"] or globals.cardConfig[deck][card]["timer"]
         
         self.currentCard = {
-            "id": chosenCard,
+            "id": card,
             "back": "card-"+deck+"-back",
             "showStart": showStart
         }

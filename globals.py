@@ -1,3 +1,5 @@
+import logging
+
 #Data
 imgIndex = {}
 cardConfig = {}
@@ -14,3 +16,10 @@ gameconfig = {
         "expansion2"
     }
 }
+
+#Menus
+currentMenu = "gamescreen"
+
+#Misc
+logging.basicConfig(level=logging.NOTSET)
+log = logging.getLogger("LOG")

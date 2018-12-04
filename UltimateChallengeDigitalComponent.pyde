@@ -1,34 +1,15 @@
 import os
-import logging
 import loaddata
 import globals
+log = globals.log
 import gamescreen
-
-#Setup logging
-logging.basicConfig(level=logging.NOTSET)
-log = logging.getLogger("LOG")
+import debugconsole
 log.info("Hello world!")
 
-#####Declare globals
-#Images
-imgRot = 0
-imgRet = 0
-imgPos = "foreground"
-turnImage = False
-retractImage = False
-
-#Menus
-currentMenu = "gamescreen"
-
-#Console
-showConsole = False
-consoleText = ""
-consoleHistory = []
-consoleHistoryInt = 0
+console = debugconsole.Console()
 
 def setup():
     log.info("Running setup!")
-    global cardConfig
     global imgIndex
     global font
     global gameScreen
@@ -41,20 +22,11 @@ def setup():
     loaddata.loadData()
     font = globals.fonts["OpenSans"]
     textFont(font)
-        
+    
+    log.info("Starting!")
     gameScreen = gamescreen.gameScreen()
     
-def draw():
-    global currentCard
-    global backImage
-    global imgRot
-    global imgRet
-    global imgPos
-    global turnImage
-    global retractImage
-    global baseScale
-    global consoleText
-    
+def draw():    
     imgIndex = globals.imgIndex
     cardConfig = globals.cardConfig
         
@@ -68,11 +40,13 @@ def draw():
     rectMode(CENTER)
     textAlign(CENTER)
     
-    if currentMenu == "gamescreen":
+    if globals.currentMenu == "gamescreen":
         gameScreen.drawScreen()
+        
+    if console.showConsole:
+            console.draw()
             
 def mousePressed():
-    global globalScreen
     baseScale = globals.baseScale
     
     if mouseButton == LEFT:
@@ -80,72 +54,10 @@ def mousePressed():
             if not gameScreen.retractImage:
                 gameScreen.turnImage = True
         
-            
-def keyPressed():
-    global showConsole
-    global consoleText
-    global currentCard
-    global consoleHistory
-    global consoleHistoryInt
-    global turnImage
-    global retractImage
-    
+def keyPressed():    
     #Open console
     if key == "`":
-        showConsole = not showConsole
-        if not showConsole:
-            consoleText = ""
+        console.toggleConsole()
             
-    elif showConsole:
-        #Backspace
-        if key == "" and showConsole:
-            consoleText = consoleText[:-1]
-            
-        #Execute command
-        elif key == "\n":
-            command = consoleText.split(" ")
-            if command[0] == "setcard":
-                exists = False
-                for deck in cardConfig:
-                    if command[1] in cardConfig[deck]:
-                        exists = True
-                if exists:
-                    deck = command[1].split("-")[0]
-                    showStart = cardConfig[deck][command[1]]["dice"] or cardConfig[deck][command[1]]["timer"]
-                    
-                    currentCard = {
-                        "id": command[1],
-                        "back": deck+"-back",
-                        "showStart": showStart
-                    }
-            elif command[0] == "retractcard":
-                if not turnImage:
-                    retractImage = True
-            elif command[0] == "flipcard":
-                if not retractImage:
-                    turnImage = True
-            else:
-                consoleText = ""
-                return None
-            
-            consoleHistory.append(consoleText)
-            consoleText = ""
-            
-        #Command history
-        #Up
-        elif keyCode == 38:
-            consoleText = consoleHistory[len(consoleHistory)-consoleHistoryInt-1]
-            if consoleHistoryInt < len(consoleHistory):
-                consoleHistoryInt+=1
-        
-        #Down
-        elif keyCode == 40: 
-            consoleText = consoleHistory[len(consoleHistory)-consoleHistoryInt-1]
-            if consoleHistoryInt > 0:
-                consoleHistoryInt-=1
-                if consoleHistory == 0:
-                    consoleText = ""
-        
-        #Type a character
-        elif type(key) == unicode:
-            consoleText+=key
+    elif console.showConsole:
+        console.input(key)

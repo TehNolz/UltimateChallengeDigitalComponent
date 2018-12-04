@@ -1,406 +1,406 @@
 {
     "base": {
-        "card-base-1": {
+        "base-1": {
             "dice": false,
             "timer": false
         },
-        "card-base-10": {
+        "base-10": {
             "dice": false,
             "timer": false
         },
-        "card-base-11": {
+        "base-11": {
             "dice": false,
             "timer": false
         },
-        "card-base-12": {
+        "base-12": {
             "dice": false,
             "timer": false
         },
-        "card-base-13": {
+        "base-13": {
             "dice": false,
             "timer": false
         },
-        "card-base-14": {
+        "base-14": {
             "dice": false,
             "timer": false
         },
-        "card-base-15": {
+        "base-15": {
             "dice": false,
             "timer": false
         },
-        "card-base-16": {
+        "base-16": {
             "dice": false,
             "timer": false
         },
-        "card-base-17": {
+        "base-17": {
             "dice": false,
             "timer": false
         },
-        "card-base-18": {
+        "base-18": {
             "dice": false,
             "timer": false
         },
-        "card-base-19": {
+        "base-19": {
             "dice": false,
             "timer": false
         },
-        "card-base-2": {
+        "base-2": {
             "dice": false,
             "timer": false
         },
-        "card-base-20": {
+        "base-20": {
             "dice": false,
             "timer": false
         },
-        "card-base-21": {
+        "base-21": {
             "dice": false,
             "timer": false
         },
-        "card-base-22": {
+        "base-22": {
             "dice": false,
             "timer": false
         },
-        "card-base-23": {
+        "base-23": {
             "dice": false,
             "timer": false
         },
-        "card-base-24": {
+        "base-24": {
             "dice": false,
             "timer": false
         },
-        "card-base-25": {
+        "base-25": {
             "dice": false,
             "timer": false
         },
-        "card-base-26": {
+        "base-26": {
             "dice": false,
             "timer": false
         },
-        "card-base-27": {
+        "base-27": {
             "dice": false,
             "timer": false
         },
-        "card-base-28": {
+        "base-28": {
             "dice": false,
             "timer": false
         },
-        "card-base-29": {
+        "base-29": {
             "dice": false,
             "timer": false
         },
-        "card-base-3": {
+        "base-3": {
             "dice": false,
             "timer": false
         },
-        "card-base-30": {
+        "base-30": {
             "dice": false,
             "timer": false
         },
-        "card-base-31": {
+        "base-31": {
             "dice": false,
             "timer": false
         },
-        "card-base-32": {
+        "base-32": {
             "dice": false,
             "timer": false
         },
-        "card-base-33": {
+        "base-33": {
             "dice": false,
             "timer": false
         },
-        "card-base-34": {
+        "base-34": {
             "dice": false,
             "timer": false
         },
-        "card-base-35": {
+        "base-35": {
             "dice": false,
             "timer": false
         },
-        "card-base-36": {
+        "base-36": {
             "dice": false,
             "timer": false
         },
-        "card-base-37": {
+        "base-37": {
             "dice": false,
             "timer": false
         },
-        "card-base-38": {
+        "base-38": {
             "dice": false,
             "timer": false
         },
-        "card-base-39": {
+        "base-39": {
             "dice": false,
             "timer": false
         },
-        "card-base-4": {
+        "base-4": {
             "dice": false,
             "timer": false
         },
-        "card-base-40": {
+        "base-40": {
             "dice": false,
             "timer": false
         },
-        "card-base-41": {
+        "base-41": {
             "dice": false,
             "timer": false
         },
-        "card-base-42": {
+        "base-42": {
             "dice": false,
             "timer": false
         },
-        "card-base-43": {
+        "base-43": {
             "dice": false,
             "timer": false
         },
-        "card-base-44": {
+        "base-44": {
             "dice": false,
             "timer": false
         },
-        "card-base-45": {
+        "base-45": {
             "dice": false,
             "timer": false
         },
-        "card-base-46": {
+        "base-46": {
             "dice": false,
             "timer": false
         },
-        "card-base-47": {
+        "base-47": {
             "dice": false,
             "timer": false
         },
-        "card-base-48": {
+        "base-48": {
             "dice": false,
             "timer": false
         },
-        "card-base-49": {
+        "base-49": {
             "dice": false,
             "timer": false
         },
-        "card-base-5": {
+        "base-5": {
             "dice": false,
             "timer": false
         },
-        "card-base-50": {
+        "base-50": {
             "dice": false,
             "timer": false
         },
-        "card-base-6": {
+        "base-6": {
             "dice": false,
             "timer": false
         },
-        "card-base-7": {
+        "base-7": {
             "dice": false,
             "timer": false
         },
-        "card-base-8": {
+        "base-8": {
             "dice": false,
             "timer": false
         },
-        "card-base-9": {
+        "base-9": {
             "dice": false,
             "timer": false
         }
     },
     "expansion1": {
-        "card-expansion1-1": {
+        "expansion1-1": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-10": {
+        "expansion1-10": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-11": {
+        "expansion1-11": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-12": {
+        "expansion1-12": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-13": {
+        "expansion1-13": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-14": {
+        "expansion1-14": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-15": {
+        "expansion1-15": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-16": {
+        "expansion1-16": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-17": {
+        "expansion1-17": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-18": {
+        "expansion1-18": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-19": {
+        "expansion1-19": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-2": {
+        "expansion1-2": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-20": {
+        "expansion1-20": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-21": {
+        "expansion1-21": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-22": {
+        "expansion1-22": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-23": {
+        "expansion1-23": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-24": {
+        "expansion1-24": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-25": {
+        "expansion1-25": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-3": {
+        "expansion1-3": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-4": {
+        "expansion1-4": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-5": {
+        "expansion1-5": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-6": {
+        "expansion1-6": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-7": {
+        "expansion1-7": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-8": {
+        "expansion1-8": {
             "dice": false,
             "timer": false
         },
-        "card-expansion1-9": {
+        "expansion1-9": {
             "dice": false,
             "timer": false
         }
     },
     "expansion2": {
-        "card-expansion2-1": {
+        "expansion2-1": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-10": {
+        "expansion2-10": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-11": {
+        "expansion2-11": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-12": {
+        "expansion2-12": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-13": {
+        "expansion2-13": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-14": {
+        "expansion2-14": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-15": {
+        "expansion2-15": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-16": {
+        "expansion2-16": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-17": {
+        "expansion2-17": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-18": {
+        "expansion2-18": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-19": {
+        "expansion2-19": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-2": {
+        "expansion2-2": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-20": {
+        "expansion2-20": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-21": {
+        "expansion2-21": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-22": {
+        "expansion2-22": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-23": {
+        "expansion2-23": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-24": {
+        "expansion2-24": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-25": {
+        "expansion2-25": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-3": {
+        "expansion2-3": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-4": {
+        "expansion2-4": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-5": {
+        "expansion2-5": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-6": {
+        "expansion2-6": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-7": {
+        "expansion2-7": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-8": {
+        "expansion2-8": {
             "dice": false,
             "timer": false
         },
-        "card-expansion2-9": {
+        "expansion2-9": {
             "dice": false,
             "timer": false
         }
