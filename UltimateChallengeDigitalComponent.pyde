@@ -1,6 +1,7 @@
 import os
 import logging
-import json
+import loaddata
+import globals
 from random import randint
 from random import choice
 
@@ -36,29 +37,26 @@ gameconfig = {
 }
 
 def newCard():
-    global gameconfig
-    global cardconfig
-    global currentCard
+    cardConfig = globals.cardConfig
     
+    global currentCard
     pool = {}
     for deck in gameconfig["useDecks"]:
-        pool.update(cardconfig[deck])
+        pool.update(cardConfig[deck])
     chosenCard = choice(pool.keys())
     
-    deck = chosenCard.split("-")[0]
-    showStart = cardconfig[deck][chosenCard]["dice"] or cardconfig[deck][chosenCard]["timer"]
+    deck = chosenCard.split("-")[1]
+    showStart = cardConfig[deck][chosenCard]["dice"] or cardConfig[deck][chosenCard]["timer"]
     
     currentCard = {
         "id": chosenCard,
-        "back": deck+"-back",
+        "back": "card-"+deck+"-back",
         "showStart": showStart
     }
 
 def setup():
     log.info("Running setup!")
-    global currentImage
-    global backImage
-    global cardconfig
+    global cardConfig
     global imgIndex
     global font
     size(1133, 600, P3D)
@@ -66,37 +64,9 @@ def setup():
     #Load the loading screen (so meta)
     image(loadImage("misc-loadingscreen.png"), 0, 0, 1133, 600)
     
-    #Load game images
-    imgIndex = {}
-    for file in os.listdir("data"):
-        type = file.split("-")[0]
-        if  type != "card" and file.split(".")[1] == "png":
-            name = file.split("-")[1].split(".")[0]
-            imgIndex[name] = requestImage(file)
-        
-    #Load card images
-    log.info("Loading images...")
-    cardconfig = json.loads(open("cardconfig.json").read())
-    for category in cardconfig:
-        for card in cardconfig[category]:
-            imgIndex[card] = requestImage(cardconfig[category][str(card)]["file"])
-        imgIndex[category+"-back"] = requestImage("card-"+category+"-back.png")
-    
-    #Wait for all images to finish loading.
-    while True:
-        var = True
-        for img in imgIndex:
-            imgWidth = imgIndex[img].width
-            if imgWidth == 0:
-                var = False
-            elif imgWidth == -1:
-                log.error("Failed to load image: "+str(img))
-                var = False
-        if var:
-            break
-
-    log.info("Loading fonts.")
-    font = loadFont("OpenSans-48.vlw")
+    log.info("Loading assets.")
+    loaddata.loadData()
+    font = globals.fonts["OpenSans"]
     textFont(font)
         
     #Pick a random card to show.
@@ -110,10 +80,11 @@ def draw():
     global imgPos
     global turnImage
     global retractImage
-    global imgIndex
-    global cardconfig
     global baseScale
     global consoleText
+    
+    imgIndex = globals.imgIndex
+    cardConfig = globals.cardConfig
         
     #Calculate scaling. This assumes the normal screen resolution is 1133x600
     baseScale = (height/6)/100.0
@@ -168,7 +139,7 @@ def draw():
         #Next card button
         pushMatrix()
         translate(0, height*0.90, 0)
-        image(imgIndex["nextcard"], 0, 0, imgWidth, imgWidth/5)
+        image(imgIndex["gamescreen-nextcard"], 0, 0, imgWidth, imgWidth/5)
         popMatrix()
         
         #Floor box thing
@@ -229,12 +200,12 @@ def keyPressed():
             command = consoleText.split(" ")
             if command[0] == "setcard":
                 exists = False
-                for deck in cardconfig:
-                    if command[1] in cardconfig[deck]:
+                for deck in cardConfig:
+                    if command[1] in cardConfig[deck]:
                         exists = True
                 if exists:
                     deck = command[1].split("-")[0]
-                    showStart = cardconfig[deck][command[1]]["dice"] or cardconfig[deck][command[1]]["timer"]
+                    showStart = cardConfig[deck][command[1]]["dice"] or cardConfig[deck][command[1]]["timer"]
                     
                     currentCard = {
                         "id": command[1],

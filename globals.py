@@ -1,0 +1,3 @@
+imgIndex = {}
+cardConfig = {}
+fonts = {}
