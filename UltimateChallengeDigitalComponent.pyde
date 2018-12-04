@@ -4,6 +4,8 @@ import json
 from random import randint
 from random import choice
 
+#"""wauw dit is een comment wtf"""
+
 #Setup logging
 logging.basicConfig(level=logging.NOTSET)
 log = logging.getLogger("LOG")
