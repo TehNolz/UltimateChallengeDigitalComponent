@@ -2,8 +2,7 @@ import os
 import logging
 import loaddata
 import globals
-from random import randint
-from random import choice
+import gamescreen
 
 #Setup logging
 logging.basicConfig(level=logging.NOTSET)
@@ -27,38 +26,12 @@ consoleText = ""
 consoleHistory = []
 consoleHistoryInt = 0
 
-#gameconfig
-gameconfig = {
-    "useDecks": {
-        "base",
-        "expansion1",
-        "expansion2"
-    }
-}
-
-def newCard():
-    cardConfig = globals.cardConfig
-    
-    global currentCard
-    pool = {}
-    for deck in gameconfig["useDecks"]:
-        pool.update(cardConfig[deck])
-    chosenCard = choice(pool.keys())
-    
-    deck = chosenCard.split("-")[1]
-    showStart = cardConfig[deck][chosenCard]["dice"] or cardConfig[deck][chosenCard]["timer"]
-    
-    currentCard = {
-        "id": chosenCard,
-        "back": "card-"+deck+"-back",
-        "showStart": showStart
-    }
-
 def setup():
     log.info("Running setup!")
     global cardConfig
     global imgIndex
     global font
+    global gameScreen
     size(1133, 600, P3D)
     
     #Load the loading screen (so meta)
@@ -69,8 +42,7 @@ def setup():
     font = globals.fonts["OpenSans"]
     textFont(font)
         
-    #Pick a random card to show.
-    newCard()
+    gameScreen = gamescreen.gameScreen()
     
 def draw():
     global currentCard
@@ -87,7 +59,7 @@ def draw():
     cardConfig = globals.cardConfig
         
     #Calculate scaling. This assumes the normal screen resolution is 1133x600
-    baseScale = (height/6)/100.0
+    globals.baseScale = (height/6)/100.0
     
     background(180, 180, 180, 128)
     translate(width/2, 0, 0)
@@ -97,82 +69,16 @@ def draw():
     textAlign(CENTER)
     
     if currentMenu == "gamescreen":
-        #Challenge card flip. When turnImage is true, the card will flip and show a new challenge.
-        if turnImage:
-            imgRot+=10
-            if imgRot == 360:
-                imgRot = 0
-        if turnImage and (imgRot == 0):
-            turnImage = False
-        elif imgRot == 180:
-            newCard()
-            
-        #Challenge card retract. When retractImage is true, the card will move forwards/backwards depending on whether its currently backwards/forwards.
-        if retractImage:
-            if imgPos == "foreground":
-                if imgRet == -200:
-                    retractImage = False
-                    imgPos = "background"
-                else:
-                    imgRet-=5
-            elif imgPos == "background":
-                if imgRet == 0:
-                    retractImage = False
-                    imgPos = "foreground"
-                else:
-                    imgRet+=5
-
-        #Card
-        pushMatrix()
-        base = 400
-        imgHeight = base*baseScale
-        imgWidth = ((base/4)*3)*baseScale
-        translate(0, height/2, imgRet*baseScale)
-        rotateY(radians(imgRot))
-        image(imgIndex[currentCard["back"]], 0, 0, imgWidth, imgHeight)
-        rotateY(radians(180))
-        scale(-1, 1) #Yes, this IS necessary.
-        translate(0, 0, -1)
-        image(imgIndex[currentCard["id"]], 0, 0, imgWidth, imgHeight)
-        popMatrix()
-        
-        #Next card button
-        pushMatrix()
-        translate(0, height*0.90, 0)
-        image(imgIndex["gamescreen-nextcard"], 0, 0, imgWidth, imgWidth/5)
-        popMatrix()
-        
-        #Floor box thing
-        pushMatrix()
-        translate(0, height, 0)
-        fill(255, 255, 255, 255)
-        box(1000*baseScale, 10*baseScale, 1000*baseScale)
-        popMatrix()
-        
-        if showConsole:
-            #Console box
-            pushMatrix()
-            translate(0, height, 0)
-            fill(0, 0, 0, 128)
-            rect(0, 0, 1000*baseScale, 100*baseScale)
-
-            #Console text
-            translate(0, -12*baseScale, 0)
-            textSize(30*baseScale)
-            fill(255, 255, 255, 128)
-            text(consoleText, 0, 0)
-            popMatrix()
+        gameScreen.drawScreen()
             
 def mousePressed():
-    global currentImage
-    global challengeCards
-    global retractImage
-    global turnImage
+    global globalScreen
+    baseScale = globals.baseScale
     
     if mouseButton == LEFT:
         if (416*baseScale <= mouseX <= 716*baseScale) and (510*baseScale <= mouseY <= 570*baseScale):
-            if not retractImage:
-                turnImage = True
+            if not gameScreen.retractImage:
+                gameScreen.turnImage = True
         
             
 def keyPressed():
