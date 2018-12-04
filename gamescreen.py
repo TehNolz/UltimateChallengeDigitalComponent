@@ -10,7 +10,7 @@ class gameScreen:
         self.retractImage = False
         self.newCard()
     
-    def drawScreen(self):
+    def draw(self):
         baseScale = globals.baseScale
         imgIndex = globals.imgIndex
         

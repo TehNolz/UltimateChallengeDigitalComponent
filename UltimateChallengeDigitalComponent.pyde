@@ -3,10 +3,12 @@ import loaddata
 import globals
 log = globals.log
 import gamescreen
+import mainmenu
 import debugconsole
 log.info("Hello world!")
 
 console = debugconsole.Console()
+mainMenu = mainmenu.mainMenu()
 
 def setup():
     log.info("Running setup!")
@@ -41,7 +43,9 @@ def draw():
     textAlign(CENTER)
     
     if globals.currentMenu == "gamescreen":
-        gameScreen.drawScreen()
+        gameScreen.draw()
+    elif globals.currentMenu == "mainmenu":
+        mainMenu.draw()
         
     if console.showConsole:
             console.draw()
