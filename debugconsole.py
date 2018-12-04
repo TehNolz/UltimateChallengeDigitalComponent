@@ -60,7 +60,6 @@ class Console:
     
             else:
                 self.consoleTextColor = color(255, 0, 0, 128)
-                self.consoleText = ""
                 return None
             
             self.consoleHistory.append(self.consoleText)
