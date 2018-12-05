@@ -113,7 +113,7 @@ class Button(Object):
         if self.pressAction != None:
             self.pressAction(self, button)
     def onRelease(self, button):
-        info(str(self) + ' activated. (MB'+str(button)+')')
+        #info(str(self) + ' activated. (MB'+str(button)+')')
         self.disableControls = not self.disableControls
         if self.releaseAction != None:
             self.releaseAction(self, button)
