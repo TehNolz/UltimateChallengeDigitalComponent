@@ -1,4 +1,7 @@
 import globals
+from util import *
+from Button import Button
+from Object import Object
 from random import choice
 
 class gameScreen:
@@ -9,17 +12,28 @@ class gameScreen:
         self.imgRet = 0
         self.retractImage = False
         self.newCard()
-    
+        transition(self, 'turnCard', 5, 0)
+        
+    once = False
     def draw(self):
+        if Object.mousePress:
+            self.imgRot = transition(self, 'turnCard', 500, 360, SQRT)
+        else:
+            self.imgRot = transition(self, 'turnCard', 500, 0, EXP)
+        
         baseScale = globals.baseScale
         imgIndex = globals.imgIndex
         
         #Challenge card flip. When turnImage is true, the card will flip and show a new challenge.
         if self.turnImage:
-            self.imgRot+=10
+            #self.imgRot = transition(self, 'turnCard', 500, 359)+10
+            print(self.imgRot)
+            self.imgRot += 10
             if self.imgRot == 360:
+                transition(self, 'turnCard', 5, 0, EXP)
                 self.imgRot = 0
         if self.turnImage and (self.imgRot == 0):
+            print('dead')
             self.turnImage = False
         elif self.imgRot == 180:
             self.newCard()

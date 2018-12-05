@@ -14,7 +14,7 @@ def getTransition(self, id, default): return transitionCache[id+str(self)] if (i
 transitions = dict()
 def transition(self, id, time, value, mod=LIN, autoReset=True):
     _id = id+str(self)
-    if not _id in transitions or autoReset and not transitions[_id][1] == value:
+    if time == 0 or not _id in transitions or autoReset and not transitions[_id][1] == value:
         transitions[_id] = (millis()+time, value)
         nv = getTransition(self, id+'#MEM', value)
         cacheTransition(self,id,nv)
@@ -131,6 +131,7 @@ class RoundRect(Rectangle):
     def fill(self):
         pushStyle()
         strokeJoin(MITER)
+        rectMode(CORNER)
         arc(self.X+self.radius, self.Y+self.radius, self.radius*2, self.radius*2, PI, PI+HALF_PI)
         arc(self.X+self.radius, self.Y+self.height-self.radius, self.radius*2, self.radius*2, HALF_PI, PI)
         arc(self.X+self.width-self.radius, self.Y+self.radius, self.radius*2, self.radius*2, PI+HALF_PI, TAU)

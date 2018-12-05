@@ -5,6 +5,7 @@ class Object:
     keyCodes = set()
     allObjects = list()
     
+    mousePress = False
     buttons = {'UP': UP,
                'DOWN': DOWN,
                'LEFT': LEFT,
@@ -26,7 +27,7 @@ class Object:
         Object.mouseRelease = False
     
     def __init__(self, x = None, y = None):
-        Object.allObjects.append(self)
+        #Object.allObjects.append(self)
         if Object.groupingObjects: Object._group.append(self)
         if x == None: x = width/2
         if y == None: y = height/2
@@ -94,7 +95,9 @@ class Object:
         ellipse(0, 0, 10, 10)
 
     @property
-    def area(self): return self.shape.move(self.pos+self.localTranslation)
+    def area(self):
+        #return self.shape.move(Vector2(modelX(0,0,0), modelY(0,0,0)))
+        return self.shape.move(self.pos+self.localTranslation)
     def getFPS(self): return frameRate if not Object.LOCK_FPS else Object.DEFAULT_FPS
     
     def setLoadOrder(self, i):

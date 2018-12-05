@@ -43,6 +43,7 @@ class Button(Object):
     
     def setPosition(self, x, y): Object.setPosition(self, x, y)
     def drawImage(self):
+        textAlign(LEFT)
         colorMode(HSB,255,255,255)
         stroke((millis()/float(20))%255, 255,150)
         colorMode(RGB)
@@ -50,15 +51,15 @@ class Button(Object):
         strokeWeight(max(sin(millis()/float(200)) +1, 0)+3)
         
         self.updateCursor()
-        if (mousePressed or self.mouseRelease):
+        if (self.mousePress or self.mouseRelease):
             b = self.clickArea.contains(*self.getAAP(getClickPos(), False))
             if b and not self.clickedInside: self.onClick(mouseButton)
             self.clickedInside = b
         else: self.clickedInside = False
         
         if self.mouseRelease and self.clickedInside and self.mouseEntered: self.onRelease(mouseButton)
-        if mousePressed and self.clickedInside and self.mouseEntered: self.onPress(mouseButton)
-        elif not mousePressed and self.mouseEntered: self.onHover()
+        if self.mousePress and self.clickedInside and self.mouseEntered: self.onPress(mouseButton)
+        elif not self.mousePress and self.mouseEntered: self.onHover()
         else: self.onNothing()
         
         self.shape.fill()
@@ -72,11 +73,11 @@ class Button(Object):
         text(s, -textWidth(s)/2,textDescent()*1.3)
 
     def updateCursor(self):
-        if (mousePressed or self.mouseRelease) and self.clickArea == None:
+        if (self.mousePress or self.mouseRelease) and self.clickArea == None:
             self.clickArea = self.area.copy() * self.localScale
-        elif not (mousePressed or self.mouseRelease): self.clickArea = None
+        elif not (self.mousePress or self.mouseRelease): self.clickArea = None
         if not self.isHighestPriorityClick(): b = False
-        elif (mousePressed or self.mouseRelease): b = self.clickArea.contains(*self.getMousePos(False))
+        elif (self.mousePress or self.mouseRelease): b = self.clickArea.contains(*self.getMousePos(False))
         else:
             b = self.area.contains(*self.getMousePos())
             if b and not self.mouseEntered: self.onEnter()
