@@ -31,8 +31,7 @@ def setup():
     mainMenu = mainmenu.mainMenu()
     gameScreen = gamescreen.gameScreen()
     
-def draw():    
-    if Object.mousePress: setClickPos(Vector2(mouseX,mouseY), mouseButton)
+def draw():
     imgIndex = globals.imgIndex
     cardConfig = globals.cardConfig
         
@@ -46,7 +45,6 @@ def draw():
 
     if globals.currentMenu == "gamescreen":
         globals.baseScale = (height/6)/100.0
-        translate(width/2, 0, 0)
         gameScreen.draw()
     elif globals.currentMenu == "mainmenu":
         mainMenu.draw()
@@ -56,13 +54,10 @@ def draw():
     if not Object.mousePress: setClickPos(Vector2(), -1)
 
 def mousePressed():
+    Object.mouseRelease = False
+    if not Object.mousePress: setClickPos(Vector2(mouseX,mouseY), mouseButton)
     Object.mousePress = True
     baseScale = globals.baseScale
-    
-    if mouseButton == LEFT:
-        if (416*baseScale <= mouseX <= 716*baseScale) and (510*baseScale <= mouseY <= 570*baseScale):
-            if not gameScreen.retractImage:
-                gameScreen.turnImage = True
 
 def mouseReleased():
     Object.mousePress = False

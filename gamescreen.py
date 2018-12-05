@@ -6,23 +6,41 @@ from random import choice
 
 class gameScreen:
     def __init__(self):
+        def startTurn(*args):
+            if args[1] != LEFT: return
+            self.turnImage = True
+            print('yeet')
+            
+        def gay(*args):
+            baseScale = globals.baseScale
+            imgIndex = globals.imgIndex
+            base = 400
+            imgHeight = base*baseScale
+            imgWidth = ((base/4)*3)*baseScale
+            image(imgIndex["gamescreen-nextcard"], 0, 0, imgWidth, imgWidth/5)
+        Object.startGroup()
         self.turnImage = False
         self.imgRot = 0
         self.imgPos = "foreground"
         self.imgRet = 0
         self.retractImage = False
         self.newCard()
+        b = Button(width/2, height*0.90, RoundRect(-570/2,-114/2,570,114)*0.5)
+        b.clickAction = startTurn
+        b.nothingAction = gay
         transition(self, 'turnCard', 5, 0)
-        
+    
     once = False
     def draw(self):
+        pushMatrix()
+        translate(width/2, 0, 0)
         
         baseScale = globals.baseScale
         imgIndex = globals.imgIndex
         
         #Challenge card flip. When turnImage is true, the card will flip and show a new challenge.
         if self.turnImage:
-            transition(self, 'turnCard', 500, 359)+10
+            print(transition(self, 'turnCard', 500, 359)+10)
             print(self.imgRot)
             self.imgRot += 10
             if self.imgRot == 360:
@@ -63,18 +81,22 @@ class gameScreen:
         image(imgIndex["card-"+self.currentCard["id"]], 0, 0, imgWidth, imgHeight)
         popMatrix()
         
-        #Next card button
-        pushMatrix()
-        translate(0, height*0.90, 0)
-        image(imgIndex["gamescreen-nextcard"], 0, 0, imgWidth, imgWidth/5)
-        popMatrix()
-        
         #Floor box thing
         pushMatrix()
         translate(0, height, 0)
         fill(255, 255, 255, 255)
         box(1000*baseScale, 10*baseScale, 1000*baseScale)
         popMatrix()
+        popMatrix()
+        
+        #Next card button
+        pushMatrix()
+        #translate(0, height*0.90, 0)
+        #image(imgIndex["gamescreen-nextcard"], 0, 0, imgWidth, imgWidth/5)
+        popMatrix()
+        
+        
+        for o in Object.endGroup(): o.update()
         
     def newCard(self):
         cardConfig = globals.cardConfig
