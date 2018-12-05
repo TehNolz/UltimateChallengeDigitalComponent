@@ -8,26 +8,31 @@ class Console:
         self.consoleTextColor = color(255, 255, 255, 128)
         
     def draw(self):
+        #Get base scale
         baseScale = globals.baseScale
         
+        #Create console box
         pushMatrix()
         translate(0, height, 0)
         fill(0, 0, 0, 128)
         rect(0, 0, 1000*baseScale, 100*baseScale)
 
-        #Console text
+        #Write console text, if any.
         translate(0, -12*baseScale, 0)
         textSize(30*baseScale)
         fill(self.consoleTextColor)
         text(self.consoleText, 0, 0)
         popMatrix()
     
+    #Toggles the console on/off.
     def toggleConsole(self):
         self.showConsole = not self.showConsole
         
+    #Input a key. Will execute valid commands if the last key is enter ("\n")
     def input(self, input):
         #Backspace
         if input == "" and self.showConsole:
+            #Make text white if it isn't already.
             self.consoleTextColor = color(255, 255, 255, 128)
             self.consoleText = self.consoleText[:-1]
             
@@ -57,7 +62,7 @@ class Console:
                 if not gameScreen.retractImage:
                     gameScreen.turnImage = True
                     
-    
+            #If an invalid command is entered, change the color to red instead of adding it to history and clearing text.
             else:
                 self.consoleTextColor = color(255, 0, 0, 128)
                 return None
