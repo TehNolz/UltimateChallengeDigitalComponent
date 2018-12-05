@@ -28,7 +28,8 @@ class Object:
     
     def __init__(self, x = None, y = None):
         #Object.allObjects.append(self)
-        if Object.groupingObjects: Object._group.append(self)
+        if Object.groupingObjects:
+            Object._group.append(self)
         if x == None: x = width/2
         if y == None: y = height/2
         self.pos = Vector2(x, y)

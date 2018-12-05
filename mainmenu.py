@@ -7,7 +7,8 @@ class mainMenu:
     def __init__(self):
         global playGame
         r = RoundRect(-150, -150, 300, 300, 50)
-        r *= 1
+        r *= 0.5
+        Object.startGroup()
         playGame = Button(width*0.25, height/2, r.copy())
         playGame.releaseAction = gotoGameScreen
         
@@ -16,9 +17,10 @@ class mainMenu:
         
         playGame = Button(width*0.75, height/2, r.copy())
         playGame.releaseAction = gotoManualScreen
+        self.buttons = Object.endGroup()
         
     def draw(self):
-        playGame.update()
+        for o in self.buttons: o.update()
 
 def gotoGameScreen(*args):
     globals.currentMenu = "gamescreen"

@@ -9,6 +9,8 @@ from Object import Object
 from util import *
 log.info("Hello world!")
 
+print('eat my ass')
+
 console = debugconsole.Console()
 
 def setup():

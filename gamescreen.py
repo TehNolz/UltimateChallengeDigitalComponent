@@ -29,6 +29,7 @@ class gameScreen:
         b.clickAction = startTurn
         b.nothingAction = gay
         transition(self, 'turnCard', 5, 0)
+        self.buttons = Object.endGroup()
     
     once = False
     def draw(self):
@@ -95,8 +96,7 @@ class gameScreen:
         #image(imgIndex["gamescreen-nextcard"], 0, 0, imgWidth, imgWidth/5)
         popMatrix()
         
-        
-        for o in Object.endGroup(): o.update()
+        for o in self.buttons: o.update()
         
     def newCard(self):
         cardConfig = globals.cardConfig
