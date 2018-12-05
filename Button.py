@@ -71,8 +71,6 @@ class Button(Object):
         #self.resetRotation()
         rotate(-self.rotation-self.localRotation)
         text(s, -textWidth(s)/2,textDescent()*1.3)
-        if self.nothingAction != None:
-            self.nothingAction(self)
 
     def updateCursor(self):
         if (self.mousePress or self.mouseRelease) and self.clickArea == None:

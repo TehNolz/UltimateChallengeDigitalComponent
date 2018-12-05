@@ -9,8 +9,6 @@ from Object import Object
 from util import *
 log.info("Hello world!")
 
-print('eat my ass')
-
 console = debugconsole.Console()
 
 def setup():
@@ -45,8 +43,8 @@ def draw():
     rectMode(CENTER)
     textAlign(CENTER)
 
+    globals.baseScale = (height/6)/100.0
     if globals.currentMenu == "gamescreen":
-        globals.baseScale = (height/6)/100.0
         gameScreen.draw()
     elif globals.currentMenu == "mainmenu":
         mainMenu.draw()

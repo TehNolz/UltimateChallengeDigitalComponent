@@ -10,14 +10,7 @@ class gameScreen:
             if args[1] != LEFT: return
             self.turnImage = True
             print('yeet')
-            
-        def gay(*args):
-            baseScale = globals.baseScale
-            imgIndex = globals.imgIndex
-            base = 400
-            imgHeight = base*baseScale
-            imgWidth = ((base/4)*3)*baseScale
-            image(imgIndex["gamescreen-nextcard"], 0, 0, imgWidth, imgWidth/5)
+        
         Object.startGroup()
         self.turnImage = False
         self.imgRot = 0
@@ -27,7 +20,6 @@ class gameScreen:
         self.newCard()
         b = Button(width/2, height*0.90, RoundRect(-570/2,-114/2,570,114)*0.5)
         b.clickAction = startTurn
-        b.nothingAction = gay
         transition(self, 'turnCard', 5, 0)
         self.buttons = Object.endGroup()
     
