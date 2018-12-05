@@ -8,13 +8,13 @@ import debugconsole
 log.info("Hello world!")
 
 console = debugconsole.Console()
-mainMenu = mainmenu.mainMenu()
 
 def setup():
     log.info("Running setup!")
     global imgIndex
     global font
     global gameScreen
+    global mainMenu
     size(1133, 600, P3D)
     
     #Load the loading screen (so meta)
@@ -26,6 +26,7 @@ def setup():
     textFont(font)
     
     log.info("Starting!")
+    mainMenu = mainmenu.mainMenu()
     gameScreen = gamescreen.gameScreen()
     
 def draw():    
@@ -48,7 +49,7 @@ def draw():
         mainMenu.draw()
         
     if console.showConsole:
-            console.draw()
+        console.draw()
             
 def mousePressed():
     baseScale = globals.baseScale
