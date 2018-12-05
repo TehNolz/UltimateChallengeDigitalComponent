@@ -80,6 +80,8 @@ class gameScreen:
         fill(255, 255, 255, 255)
         box(1000*baseScale, 10*baseScale, 1000*baseScale)
         popMatrix()
+        
+        # Reset the translate at the top of the draw()
         popMatrix()
         
         #Next card button

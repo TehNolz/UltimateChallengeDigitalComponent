@@ -67,7 +67,7 @@ class Button(Object):
         fill((float(millis())/20)%255, 255,75)
         colorMode(RGB)
         textSize(self.shape.maxRadius()/3)
-        s = 'placeholder'
+        s = 'is going to be changed dipshit'
         #self.resetRotation()
         rotate(-self.rotation-self.localRotation)
         text(s, -textWidth(s)/2,textDescent()*1.3)
