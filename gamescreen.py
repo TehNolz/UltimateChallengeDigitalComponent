@@ -16,17 +16,13 @@ class gameScreen:
         
     once = False
     def draw(self):
-        if Object.mousePress:
-            self.imgRot = transition(self, 'turnCard', 500, 360, SQRT)
-        else:
-            self.imgRot = transition(self, 'turnCard', 500, 0, EXP)
         
         baseScale = globals.baseScale
         imgIndex = globals.imgIndex
         
         #Challenge card flip. When turnImage is true, the card will flip and show a new challenge.
         if self.turnImage:
-            #self.imgRot = transition(self, 'turnCard', 500, 359)+10
+            transition(self, 'turnCard', 500, 359)+10
             print(self.imgRot)
             self.imgRot += 10
             if self.imgRot == 360:
