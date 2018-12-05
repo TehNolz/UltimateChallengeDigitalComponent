@@ -7,7 +7,7 @@ class mainMenu:
     def __init__(self):
         global buttontest
         r = RoundRect(-150, -150, 300, 300, 50)
-        r *= 1
+        r *= 0.5
         buttontest = Button(width/2, height/2, r.copy())
         buttontest.releaseAction = setMenu
     
