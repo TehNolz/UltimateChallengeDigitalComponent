@@ -97,6 +97,7 @@ class Rectangle:
     def placeAtZero(self): return Rectangle(0, 0, self.width, self.height)
     def getCenter(self): return Vector2(self.X+self.width/2, self.Y+self.height/2)
     def getPos(self): return Vector2(self.X, self.Y)
+    def setPos(self, x, y): return Rectangle(x, y, self.width, self.height)
     
 class RoundRect(Rectangle):
     def __init__(self, x=0, y=0, w=0, h=0, r=0):
@@ -109,6 +110,7 @@ class RoundRect(Rectangle):
     def __mul__(self, other): return RoundRect(self.X + (self.width - self.width*other)/2, self.Y + (self.height - self.height*other)/2, self.width * other, self.height * other, self.radius * other)
     def copy(self): return RoundRect(self.X, self.Y, self.width, self.height, self.radius)
     def move(self, pos): return RoundRect(self.X + pos.X, self.Y + pos.Y, self.width, self.height, self.radius)
+    def setPos(self, x, y): return RoundRect(x, y, self.width, self.height, self.radius)
     
     def contains(self, x, y):
         if not Rectangle.contains(self, x, y): return False

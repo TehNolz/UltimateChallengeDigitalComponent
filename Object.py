@@ -51,11 +51,7 @@ class Object:
         self.controls()
         pushMatrix()
         translate(*self.pos)
-        rotate(self.rotation)
-        scale(self.baseScale)
         self.drawImage()
-        #self.resetRotation()
-        self.resetTranslation()
         popMatrix()
         self.setPosition(self.pos.X, self.pos.Y)
     
@@ -97,8 +93,7 @@ class Object:
 
     @property
     def area(self):
-        #return self.shape.move(Vector2(modelX(0,0,0), modelY(0,0,0)))
-        return self.shape.move(self.pos+self.localTranslation)
+        return self.shape.copy()
     def getFPS(self): return frameRate if not Object.LOCK_FPS else Object.DEFAULT_FPS
     
     def setLoadOrder(self, i):
@@ -111,18 +106,12 @@ class Object:
     def lowerItem(self): self.setLoadorder(Object.allObjects.index(self) - 1)
 
     def getMousePos(self, includeScale=True, axisOriented=True):
-        """Only orient it to the axis after all rotation transforms are done"""
-        
-        if not axisOriented: return Vector2(mouseX,mouseY)
-        return self.getAAP(Vector2(mouseX,mouseY),includeScale)
-    def getAAP(self, pos, includeScale=True):
-        """Returns an axis-aligned point. This means it will be rotated with the objects rotation
-        Useful for checking if a point entered an oriented rectangle."""
-        p = pos.rotateAround(self.pos, self.rotation)
-        p = (p - self.pos) / self.baseScale + self.pos
-        p = p.rotateAround(self.pos + self.localTranslation, self.localRotation)
-        if includeScale: return (p - self.pos - self.localTranslation) / self.localScale + self.pos + self.localTranslation
+        v = Vector2(mouseX, mouseY)
+        p = Vector2(screenX(mouseX,mouseY,0), screenY(mouseX,mouseY,0))
         return p
+        #return Vector2(modelX(mouseX, mouseY, 0), modelY(mouseX, mouseY, 0))
+    def getAAP(self, pos, includeScale=True):
+        return pos
     
     groupingObjects = False
     _group = None

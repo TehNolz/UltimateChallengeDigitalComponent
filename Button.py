@@ -14,7 +14,7 @@ class Button(Object):
         self.color = color(255)
         self.hoverColor = color(240)
         self.pressColor = color(220)
-        if False: # Transparent colors for when I am debugging based on visuals
+        if True: # Transparent colors for when I am debugging based on visuals
             self.color = color(255,255,255,100)
             self.hoverColor = color(240,240,240,100)
             self.pressColor = color(220,220,220,100)
@@ -44,6 +44,7 @@ class Button(Object):
     def setPosition(self, x, y): Object.setPosition(self, x, y)
     def drawImage(self):
         textAlign(LEFT)
+        rectMode(CORNER)
         colorMode(HSB,255,255,255)
         stroke((millis()/float(20))%255, 255,150)
         colorMode(RGB)
@@ -62,6 +63,7 @@ class Button(Object):
         elif not self.mousePress and self.mouseEntered: self.onHover()
         else: self.onNothing()
         
+        fill(0,0,0,0)
         self.shape.fill()
         colorMode(HSB,255,255,255)
         fill((float(millis())/20)%255, 255,75)
@@ -90,7 +92,7 @@ class Button(Object):
     def onNothing(self):
         transitionFill(self, 100, self.color, EXP)
         wave = sin(PI * (float(millis()) / 1000))*0.05
-        self.rotateLocal(transition(self, 'rotate', 250, radians(0), SQRT))
+        #self.rotateLocal(transition(self, 'rotate', 250, radians(0), SQRT))
         self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
         self.scaleLocal(transition(self, 'scale', 250, 1+wave, EXP, self.resetWave))
         self.resetWave = False
@@ -98,7 +100,7 @@ class Button(Object):
             self.nothingAction(self)
     def onHover(self):
         transitionFill(self, 100, self.hoverColor, EXP)
-        self.rotateLocal(transition(self, 'rotate', 250, radians(45), SQRT))
+        #self.rotateLocal(transition(self, 'rotate', 250, radians(45), SQRT))
         self.shape.radius = transition(self, 'radius', 150, self.shape.maxRadius()*0.25, SQRT)
         self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
         self.resetWave = True
@@ -106,15 +108,14 @@ class Button(Object):
             self.hoverAction(self)
     def onPress(self, button):
         transitionFill(self, 50, self.pressColor, SQRT)
-        self.rotateLocal(transition(self, 'rotate', 75, radians(0), SQRT))
+        #self.rotateLocal(transition(self, 'rotate', 75, radians(0), SQRT))
         self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
         self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
         self.resetWave = True
         if self.pressAction != None:
             self.pressAction(self, button)
     def onRelease(self, button):
-        #info(str(self) + ' activated. (MB'+str(button)+')')
-        self.disableControls = not self.disableControls
+        info(str(self) + ' activated. (MB'+str(button)+')')
         if self.releaseAction != None:
             self.releaseAction(self, button)
     def onClick(self, button):
