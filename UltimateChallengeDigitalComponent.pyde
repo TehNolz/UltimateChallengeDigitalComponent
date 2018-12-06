@@ -34,7 +34,7 @@ def setup():
     
     gameScreen.init()
     mainMenu.init()
-    test.draw()
+    test.init()
 
 def draw():
     #Change background color            
@@ -45,7 +45,7 @@ def draw():
     rectMode(CENTER)
     
     if keyCode == UP:
-        globals.currentMenu == 'test'
+        globals.currentMenu = 'test'
     
     #Calculate base scale
     globals.baseScale = (height/6)/100.0
