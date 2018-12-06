@@ -100,13 +100,8 @@ def draw():
     # Reset the translate at the top of the draw()
     popMatrix()
     
-    #Next card button
-    pushMatrix()
-    #translate(0, height*0.90, 0)
-    #image(imgIndex["gameScreen-nextcard"], 0, 0, imgWidth, imgWidth/5)
-    popMatrix()
-    
-    for o in buttons: o.update()
+    for o in buttons:
+        o.update()
     
 def newCard():
     cardConfig = globals.cardConfig

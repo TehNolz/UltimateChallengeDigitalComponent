@@ -10,15 +10,17 @@ def init():
     r = RoundRect(-150, -150, 300, 300, 50)
     r *= 0.5
     Object.startGroup()
-    playGame = Button(width*0.25, height/2, r.copy())
-    playGame.releaseAction = gotoGameScreen
-    playGame.text = "Play"
+    settingsButton = Button(width*0.25, height/2, r.copy())
+    settingsButton.releaseAction = gotoSettingsScreen
+    settingsButton.text = "Settings"
     
-    playGame = Button(width*0.50, height/2, r.copy())
-    playGame.releaseAction = gotoSettingsScreen
+    playButton = Button(width*0.50, height/2, r.copy())
+    playButton.releaseAction = gotoGameScreen
+    playButton.text = "Play"
     
-    playGame = Button(width*0.75, height/2, r.copy())
-    playGame.releaseAction = gotoManualScreen
+    manualButton = Button(width*0.75, height/2, r.copy())
+    manualButton.releaseAction = gotoManualScreen
+    manualButton.text = "Manual"
     buttons = Object.endGroup()
     
 def draw():
@@ -30,6 +32,8 @@ def gotoGameScreen(*args):
     if args[1] == LEFT:
         globals.currentMenu = "gameScreen"
 def gotoSettingsScreen(*args):
-    globals.currentMenu = "settings"
+    if args[1] == LEFT:
+        globals.currentMenu = "settings"
 def gotoManualScreen(*args):
-    globals.currentMenu = "manual"
+    if args[1] == LEFT:
+        globals.currentMenu = "manual"

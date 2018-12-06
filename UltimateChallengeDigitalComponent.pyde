@@ -3,15 +3,13 @@ import loaddata
 import globals
 import gameScreen
 import mainMenu
-import debugconsole
+import console
 from Object import Object
 from util import *
 
 #Hello world!
 log = globals.log
 log.info("Hello world!")
-
-console = debugconsole.Console()
 
 def setup():
     log.info("Running setup!")
@@ -43,11 +41,6 @@ def draw():
     #Center ALL THE THINGS!
     imageMode(CENTER)
     rectMode(CENTER)
-    textAlign(CENTER)
-
-    #Calculate base scale, then store it in globals.
-    #This assumes a base resolution of 600x1133. Scale is a float (eg. 1.65).
-    #Multiply values by baseScale to make them scale properly when the window size changes.
     
     #Switch to a different menu.
     if globals.currentMenu == "gameScreen":
@@ -71,7 +64,7 @@ def mouseReleased():
     Object.mousePress = False
     Object.mouseRelease = True
         
-def keyPressed():    
+def keyPressed():
     #Open console
     if key == "`":
         console.toggleConsole()
