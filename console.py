@@ -8,8 +8,6 @@ consoleTextColor = color(255, 255, 255, 128)
 
 def draw():
     #Get base scale
-    
-    
     baseScale = globals.baseScale
     
     #Create console box

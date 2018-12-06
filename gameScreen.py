@@ -13,24 +13,25 @@ def init():
     global b
     global buttons
     
-    def startTurn(*args):
-        if args[1] != LEFT: return
-        turnImage = True
-        print('yeet')
-    
-    Object.startGroup()
     turnImage = False
     imgRot = 0
     imgPos = "foreground"
     imgRet = 0
     retractImage = False
     newCard()
+    
+    Object.startGroup()
     b = Button(width/2, height*0.90, RoundRect(-570/2,-114/2,570,114)*0.5)
     b.clickAction = startTurn
-    transition(None, 'turnCard', 5, 0)
+    #transition(None, 'turnCard', 5, 0)
     buttons = Object.endGroup()
+    
+def startTurn(*args):
+    print("a")
+    global turnImage
+    if args[1] == LEFT:
+        turnImage = True
 
-once = False
 def draw():
     global turnImage
     global imgRot

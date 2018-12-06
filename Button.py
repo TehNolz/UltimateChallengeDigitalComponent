@@ -43,6 +43,7 @@ class Button(Object):
     
     def setPosition(self, x, y): Object.setPosition(self, x, y)
     def drawImage(self):
+        pushStyle()
         textAlign(LEFT)
         colorMode(HSB,255,255,255)
         stroke((millis()/float(20))%255, 255,150)
@@ -71,6 +72,7 @@ class Button(Object):
         # Reset rotation to keep text horizontal
         rotate(-self.rotation-self.localRotation)
         text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
+        popStyle()
 
     def updateCursor(self):
         if (self.mousePress or self.mouseRelease) and self.clickArea == None:
