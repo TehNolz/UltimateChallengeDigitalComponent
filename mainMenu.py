@@ -10,17 +10,22 @@ def init():
     r = RoundRect(-150, -150, 300, 300, 50)
     r *= 0.5
     Object.startGroup()
+    
+    #Settings button
     settingsButton = Button(width*0.25, height/2, r.copy())
     settingsButton.releaseAction = gotoSettingsScreen
     settingsButton.text = "Settings"
     
+    #Play button
     playButton = Button(width*0.50, height/2, r.copy())
-    playButton.releaseAction = gotoGameScreen
+    playButton.releaseAction = gotoGameSetupScreen
     playButton.text = "Play"
     
+    #Manual button
     manualButton = Button(width*0.75, height/2, r.copy())
     manualButton.releaseAction = gotoManualScreen
     manualButton.text = "Manual"
+    
     buttons = Object.endGroup()
     
 def draw():
@@ -28,6 +33,10 @@ def draw():
     for o in buttons:
         o.update()
 
+#Goto menu functions
+def gotoGameSetupScreen(*args):
+    if args[1] == LEFT:
+        globals.currentMenu = "gameSetupScreen"
 def gotoGameScreen(*args):
     if args[1] == LEFT:
         globals.currentMenu = "gameScreen"

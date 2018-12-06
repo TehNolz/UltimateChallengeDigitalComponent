@@ -5,7 +5,18 @@ import globals
 def loadData():
     imgIndex = globals.imgIndex
     fonts = globals.fonts
+    
+    #Load configuration files
+    #Cardconfig
     cardConfig = json.loads(open("cardconfig.json").read())
+    
+    #Userconfig
+    if os.path.isfile("userconfig.json"):
+        userConfig = json.loads(open("userconfig.json").read())
+    else:
+        userConfig = globals.userConfig
+        with open('userconfig.json', 'w') as outfile:
+            json.dump(userConfig, outfile, indent=4)
     
     #Load all assets
     for file in os.listdir("data"):
@@ -34,3 +45,4 @@ def loadData():
         
     globals.imgIndex = imgIndex
     globals.cardConfig = cardConfig
+    globals.userConfig = userConfig
