@@ -10,6 +10,8 @@ class Console:
     def draw(self):
         #Get base scale
         baseScale = globals.baseScale
+        pushMatrix()
+        translate(0, width/2)
         
         #Create console box
         pushMatrix()
@@ -22,6 +24,8 @@ class Console:
         textSize(30*baseScale)
         fill(self.consoleTextColor)
         text(self.consoleText, 0, 0)
+        popMatrix()
+        
         popMatrix()
     
     #Toggles the console on/off.

@@ -18,7 +18,7 @@ gameconfig = {
 }
 
 #Menus
-currentMenu = "mainmenu"
+currentMenu = "mainMenu"
 
 #Misc
 logging.basicConfig(level=logging.NOTSET)

@@ -1,8 +1,8 @@
 import os
 import loaddata
 import globals
-import gamescreen
-import mainmenu
+import gameScreen
+import mainMenu
 import debugconsole
 from Object import Object
 from util import *
@@ -32,8 +32,9 @@ def setup():
     
     #Start the game.
     log.info("Starting!")
-    mainMenu = mainmenu.mainMenu()
-    gameScreen = gamescreen.gameScreen()
+    
+    gameScreen.init()
+    mainMenu.init()
 
 def draw():
     #Change background color            
@@ -49,10 +50,10 @@ def draw():
     #Multiply values by baseScale to make them scale properly when the window size changes.
     
     #Switch to a different menu.
-    if globals.currentMenu == "gamescreen":
+    if globals.currentMenu == "gameScreen":
         globals.baseScale = (height/6)/100.0
         gameScreen.draw()
-    elif globals.currentMenu == "mainmenu":
+    elif globals.currentMenu == "mainMenu":
         mainMenu.draw()
         
     #Show console, when necessary.
