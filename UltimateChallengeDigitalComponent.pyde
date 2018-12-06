@@ -42,9 +42,13 @@ def draw():
     imageMode(CENTER)
     rectMode(CENTER)
     
+    #Calculate base scale
+    globals.baseScale = (height/6)/100.0
+    
     #Switch to a different menu.
-    if globals.currentMenu == "gameScreen":
-        globals.baseScale = (height/6)/100.0
+    if globals.currentMenu == "gameSetupScreen":
+        gameSetupScreen.draw()
+    elif globals.currentMenu == "gameScreen":
         gameScreen.draw()
     elif globals.currentMenu == "mainMenu":
         mainMenu.draw()

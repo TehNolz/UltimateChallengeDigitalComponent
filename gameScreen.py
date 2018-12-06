@@ -27,7 +27,6 @@ def init():
     buttons = Object.endGroup()
     
 def startTurn(*args):
-    print("a")
     global turnImage
     if args[1] == LEFT:
         turnImage = True
