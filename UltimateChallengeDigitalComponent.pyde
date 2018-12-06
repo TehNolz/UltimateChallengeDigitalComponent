@@ -4,7 +4,6 @@ import globals
 import gameScreen
 import mainMenu
 import console
-import test
 from Object import Object
 from util import *
 
@@ -27,17 +26,15 @@ def setup():
     log.info("Loading assets.")
     loaddata.loadData()
     font = globals.fonts["OpenSans"]
-    #textFont(font)
+    textFont(font)
     
     #Start the game.
     log.info("Starting!")
     
     gameScreen.init()
     mainMenu.init()
-    test.init()
 
 def draw():
-    Object.mouseRelease = False
     #Change background color            
     background(180, 180, 180, 255)
     
@@ -45,24 +42,23 @@ def draw():
     imageMode(CENTER)
     rectMode(CENTER)
     
-    if keyCode == UP:
-        globals.currentMenu = "test"
-        
+    #Calculate base scale
+    globals.baseScale = (height/6)/100.0
     
     #Switch to a different menu.
-    if globals.currentMenu == "gameScreen":
-        globals.baseScale = (height/6)/100.0
+    if globals.currentMenu == "gameSetupScreen":
+        gameSetupScreen.draw()
+    elif globals.currentMenu == "gameScreen":
         gameScreen.draw()
     elif globals.currentMenu == "mainMenu":
         mainMenu.draw()
-    elif globals.currentMenu == 'test':
-        test.draw()
         
     #Show console, when necessary.
     if console.showConsole:
         console.draw()
 
 def mousePressed():
+    Object.mouseRelease = False
     if not Object.mousePress: 
         setClickPos(Vector2(mouseX,mouseY), mouseButton)
     Object.mousePress = True

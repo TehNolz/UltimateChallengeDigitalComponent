@@ -4,12 +4,10 @@ import gameScreen
 showConsole = False
 consoleText = ""
 consoleHistory = []
-consoleTextColor = color(255, 255, 255, 128)
+consoleTextColor = color(255, 255, 255)
 
 def draw():
     #Get base scale
-    
-    
     baseScale = globals.baseScale
     
     #Create console box
