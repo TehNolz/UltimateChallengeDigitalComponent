@@ -34,7 +34,7 @@ def setup():
     log.info("Starting!")
     mainMenu = mainmenu.mainMenu()
     gameScreen = gamescreen.gameScreen()
-    
+
 def draw():
     #Change background color            
     background(180, 180, 180, 255)
@@ -47,10 +47,10 @@ def draw():
     #Calculate base scale, then store it in globals.
     #This assumes a base resolution of 600x1133. Scale is a float (eg. 1.65).
     #Multiply values by baseScale to make them scale properly when the window size changes.
-    globals.baseScale = (height/6)/100.0
     
     #Switch to a different menu.
     if globals.currentMenu == "gamescreen":
+        globals.baseScale = (height/6)/100.0
         gameScreen.draw()
     elif globals.currentMenu == "mainmenu":
         mainMenu.draw()
@@ -58,10 +58,6 @@ def draw():
     #Show console, when necessary.
     if console.showConsole:
         console.draw()
-        
-    #TODO
-    if not Object.mousePress:
-        setClickPos(Vector2(), -1)
 
 def mousePressed():
     Object.mouseRelease = False

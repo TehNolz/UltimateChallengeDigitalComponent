@@ -163,6 +163,7 @@ def getClickPos():
 def info(s): print('['+str(millis())+'] '+str(s))
 
 def printAttributes(c, colums, types=False):
+    """The 'types' parameter breaks the code, so don't set it to true lol"""
     import os
     os.chdir('data')
     file = open('attributes.txt', 'w+')
@@ -172,7 +173,7 @@ def printAttributes(c, colums, types=False):
     columns = list()
     n = len(str(c))
     file.write('='+'='*n+'=\n')
-    file.write(str(c)+'|\n')
+    file.write('|'+str(c)+'|\n')
     file.write('='+'='*n+'=\n\n')
     for i in range(colums):
         yee = list()

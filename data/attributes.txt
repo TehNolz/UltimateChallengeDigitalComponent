@@ -1,0 +1,15 @@
+====================================
+|processing.core.PMatrix3D@6f98d139|
+====================================
+
+__class__             __ne__            class           invRotate     m03  m32        print            
+__copy__              __new__           clone           invRotateX    m10  m33        registerNatives  
+__deepcopy__          __reduce__        cos             invRotateY    m11  max        reset            
+__delattr__           __reduce_ex__     determinant     invRotateZ    m12  mult       rotate           
+__doc__               __repr__          determinant3x3  invScale      m13  multW      rotateX          
+__ensure_finalizer__  __setattr__       equals          invTranslate  m20  multX      rotateY          
+__eq__                __str__           finalize        inverseCopy   m21  multY      rotateZ          
+__format__            __subclasshook__  get             invert        m22  multZ      scale            
+__getattribute__      __unicode__       getClass        m00           m23  notify     set              
+__hash__              abs               hashCode        m01           m30  notifyAll  shearX           
+__init__              apply             invApply        m02           m31  preApply   shearY           
