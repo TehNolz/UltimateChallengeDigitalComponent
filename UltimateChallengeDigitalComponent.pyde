@@ -1,6 +1,7 @@
 import os
 import loaddata
 import globals
+import gameSetupScreen
 import gameScreen
 import gameSetupScreen
 import mainMenu
@@ -39,6 +40,9 @@ def setup():
     test.init()
 
 def draw():
+    Object.mousePress = mousePressed
+    if mousePressed:
+        setClickPos(Vector2(mouseX,mouseY), mouseButton)
     #Change background color            
     background(180, 180, 180)
     
@@ -52,6 +56,8 @@ def draw():
         globals.currentMenu = 'gameScreen'
     if keyCode == DOWN:
         globals.currentMenu = 'mainMenu'
+    if keyCode == RIGHT:
+        globals.currentMenu = 'gameSetupScreen'
     
     #Calculate base scale
     globals.baseScale = (height/6)/100.0
@@ -72,18 +78,11 @@ def draw():
     
     if not Object.mousePress:
         setClickPos(Vector2(), -1)
-        Object.mousePress = False
-        Object.mouseRelease = False
-
-def mousePressed():
     Object.mouseRelease = False
-    if not Object.mousePress: 
-        setClickPos(Vector2(mouseX,mouseY), mouseButton)
-    Object.mousePress = True
-    baseScale = globals.baseScale
+
+def mousePressed(): pass
 
 def mouseReleased():
-    Object.mousePress = False
     Object.mouseRelease = True
     
 def keyPressed():
