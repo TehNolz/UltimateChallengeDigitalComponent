@@ -1,4 +1,4 @@
- from Object import Object
+from Object import Object
 from util import *
 import globals
 
