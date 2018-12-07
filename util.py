@@ -69,6 +69,8 @@ class Vector2:
     def __div__(self, other): return Vector2(self.X / other, self.Y / other)
     def __iter__(self): return (self.__dict__[item] for item in sorted(self.__dict__))
 
+    def modelPos(self): return Vector2(modelX(self.X, self.Y, 0), modelY(self.X, self.Y, 0))
+
     def rotateAround(self, axis, rotation):
         p = self - axis
         d = p.size()
@@ -164,8 +166,7 @@ def getClickPos():
 
 def info(s): print('['+str(millis())+'] '+str(s))
 
-def printAttributes(c, colums, types=False):
-    """The 'types' parameter breaks the code, so don't set it to true lol"""
+def printAttributes(c, colums):
     import os
     os.chdir('data')
     file = open('attributes.txt', 'w+')
@@ -180,7 +181,7 @@ def printAttributes(c, colums, types=False):
     for i in range(colums):
         yee = list()
         for j in range(b, int(b+len(d)/colums)):
-            yee.append((str(type(c.__getattribute__(d[j]))) + '  ' if types else '') + d[j])
+            yee.append(d[j])
             b+=1
         columns.append(yee)
     sizes = list()

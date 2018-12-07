@@ -7,6 +7,9 @@ consoleHistory = []
 consoleTextColor = color(255, 255, 255)
 
 def draw():
+    # Ensure rectangles are centered
+    rectMode(CENTER)
+    
     #Get base scale
     baseScale = globals.baseScale
     
