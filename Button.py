@@ -53,7 +53,6 @@ class Button(Object):
         strokeWeight(max(sin(millis()/float(200)) +1, 0)+3)
         
         self.updateCursor()
-        print('Release: ', self.mouseEntered)
         if (self.mousePress or self.mouseRelease):
             b = self.clickArea.contains(*self.getAAP(getClickPos(), False))
             if b and not self.clickedInside: self.onClick(mouseButton)
@@ -80,7 +79,7 @@ class Button(Object):
 
     def updateCursor(self):
         if (self.mousePress or self.mouseRelease) and self.clickArea == None:
-            self.clickArea = self.area.copy()
+            self.clickArea = self.shape.copy()
         elif not (self.mousePress or self.mouseRelease): self.clickArea = None
         if not self.isHighestPriorityClick(): b = False
         elif (self.mousePress or self.mouseRelease): b = self.clickArea.contains(*self.getMousePos(False))
@@ -96,24 +95,24 @@ class Button(Object):
     def onNothing(self):
         transitionFill(self, 100, self.color, EXP)
         wave = sin(PI * (float(millis()) / 1000))*0.05
-        self.rotateLocal(transition(self, 'rotate', 250, radians(0), SQRT))
-        self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
+        #self.rotateLocal(transition(self, 'rotate', 250, radians(0), SQRT))
+        #self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
         #self.scaleLocal(transition(self, 'scale', 250, 1+wave, EXP, self.resetWave))
         self.resetWave = False
         if self.nothingAction != None:
             self.nothingAction(self)
     def onHover(self):
         transitionFill(self, 100, self.hoverColor, EXP)
-        self.rotateLocal(transition(self, 'rotate', 250, radians(45), SQRT))
-        self.shape.radius = transition(self, 'radius', 150, self.shape.maxRadius()*0.25, SQRT)
+        #self.rotateLocal(transition(self, 'rotate', 250, radians(45), SQRT))
+        #self.shape.radius = transition(self, 'radius', 150, self.shape.maxRadius()*0.25, SQRT)
         #self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
         self.resetWave = True
         if self.hoverAction != None:
             self.hoverAction(self)
     def onPress(self, button):
         transitionFill(self, 50, self.pressColor, SQRT)
-        self.rotateLocal(transition(self, 'rotate', 75, radians(0), SQRT))
-        self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
+        #self.rotateLocal(transition(self, 'rotate', 75, radians(0), SQRT))
+        #self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
         #self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
         self.resetWave = True
         if self.pressAction != None:

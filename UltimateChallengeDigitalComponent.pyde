@@ -15,6 +15,7 @@ log = globals.log
 log.info("Hello world!")
 
 def setup():
+    #printAttributes(g.matrix, 6)
     log.info("Running setup!")
     global imgIndex
     global font
