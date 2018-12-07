@@ -34,11 +34,11 @@ def draw():
     pushMatrix()
     mousePos1 = Vector2(mouseX, mouseY)
     scale(1.5)
-    translate(width/2,50)
+    translate(50,50)
     rotate(b.localRotation)
     b.shape.fill()
-    #mousePos2 = Vector2(modelX(mouseX, mouseY, 0), modelY(mouseX, mouseY, 0))
-    mousePos2 = b.getMousePos()
+    mousePos2 = Vector2(screenX(mouseX, mouseY, 0), modelY(mouseX, mouseY, 0))
+    #mousePos2 = b.getMousePos()
     popMatrix()
     strokeWeight(5)
     fill(0)
@@ -53,7 +53,7 @@ def draw():
     
     r = b.area.copy()
     scale(1.5)
-    translate(width/2,50)
+    translate(50,50)
     rotate(b.localRotation)
 
     for o in buttons:

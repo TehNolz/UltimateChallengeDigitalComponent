@@ -1,4 +1,4 @@
-from Object import Object
+ from Object import Object
 from util import *
 import globals
 
@@ -53,6 +53,7 @@ class Button(Object):
         strokeWeight(max(sin(millis()/float(200)) +1, 0)+3)
         
         self.updateCursor()
+        print('Release: ', self.mouseEntered)
         if (self.mousePress or self.mouseRelease):
             b = self.clickArea.contains(*self.getAAP(getClickPos(), False))
             if b and not self.clickedInside: self.onClick(mouseButton)
@@ -60,7 +61,9 @@ class Button(Object):
         else:
             self.clickedInside = False
         
-        if self.mouseRelease and self.clickedInside and self.mouseEntered: self.onRelease(mouseButton)
+        if self.mouseRelease and self.clickedInside and self.mouseEntered:
+            self.onRelease(mouseButton)
+            self.clickedInside = False
         if self.mousePress and self.clickedInside and self.mouseEntered: self.onPress(mouseButton)
         elif not self.mousePress and self.mouseEntered: self.onHover()
         else: self.onNothing()
@@ -77,7 +80,7 @@ class Button(Object):
 
     def updateCursor(self):
         if (self.mousePress or self.mouseRelease) and self.clickArea == None:
-            self.clickArea = self.shape.copy()
+            self.clickArea = self.area.copy()
         elif not (self.mousePress or self.mouseRelease): self.clickArea = None
         if not self.isHighestPriorityClick(): b = False
         elif (self.mousePress or self.mouseRelease): b = self.clickArea.contains(*self.getMousePos(False))
@@ -134,5 +137,5 @@ class Button(Object):
     def isHighestPriorityClick(self):
         """Checks is the cursor isn't inside any buttons above it's priority"""
         for o in self.getButtonsAbove():
-            if o.mouseEntered: return False
+            if o.clickedInside: return False
         return True

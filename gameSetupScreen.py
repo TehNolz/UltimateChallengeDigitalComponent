@@ -1,19 +1,25 @@
+from Object import Object
+from Button import Button
+from util import *
 import globals
 
+buttons = None
 def init():
     global buttons
     
     Object.startGroup()
     
+    r = RoundRect(-150, -150, 300, 300, 50)
+    r *= 0.5
+    
     #Play button
     playButton = Button(width*0.75, height*0.75, r.copy())
-    playButton.releaseAction = gotoGame
+    playButton.releaseAction = gotoGameScreen
     playButton.text = "Play"
     
     buttons = Object.endGroup()
     
 def draw():
-    global buttons
     for o in buttons:
         o.update()
     
