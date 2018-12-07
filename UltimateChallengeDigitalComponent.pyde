@@ -2,6 +2,7 @@ import os
 import loaddata
 import globals
 import gameScreen
+import gameSetupScreen
 import mainMenu
 import console
 import test
@@ -32,6 +33,7 @@ def setup():
     #Start the game.
     log.info("Starting!")
     
+    gameSetupScreen.init()
     gameScreen.init()
     mainMenu.init()
     test.init()

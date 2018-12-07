@@ -117,7 +117,7 @@ class Button(Object):
             self.pressAction(self, button)
     def onRelease(self, button):
         log = globals.log
-        log.info(str(self) + ' activated. (MB'+str(button)+')')
+        log.debug(str(self) + ' activated. (MB'+str(button)+')')
         if self.releaseAction != None:
             self.releaseAction(self, button)
     def onClick(self, button):
