@@ -92,7 +92,7 @@ class Rectangle:
     def contains(self, x, y): return x >= self.X and x <= self.X + self.width and y >= self.Y and y <= self.Y + self.height
     def __repr__(self): return '{X:'+str(round(self.X,1))+',Y:'+str(round(self.Y,1))+',W:'+str(round(self.width,1))+',H:'+str(round(self.height,1))+'}'
 
-    def move(self, x, y): return self.move(Vector2(x,y))
+    def move(self, x, y): return Rectangle(self.X + x, self.Y + y, self.width, self.height)
     def fill(self): rect(self.X, self.Y, self.width, self.height)
     def placeAtZero(self): return Rectangle(0, 0, self.width, self.height)
     def getCenter(self): return Vector2(self.X+self.width/2, self.Y+self.height/2)
@@ -109,7 +109,7 @@ class RoundRect(Rectangle):
     
     def __mul__(self, other): return RoundRect(self.X + (self.width - self.width*other)/2, self.Y + (self.height - self.height*other)/2, self.width * other, self.height * other, self.radius * other)
     def copy(self): return RoundRect(self.X, self.Y, self.width, self.height, self.radius)
-    def move(self, pos): return RoundRect(self.X + pos.X, self.Y + pos.Y, self.width, self.height, self.radius)
+    def move(self, x, y): return RoundRect(self.X + x, self.Y + y, self.width, self.height, self.radius)
     def setPos(self, x, y): return RoundRect(x, y, self.width, self.height, self.radius)
     
     def contains(self, x, y):

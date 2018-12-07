@@ -19,12 +19,9 @@ class Object:
     
     @staticmethod
     def updateAll():
-        pushStyle()
-        pushMatrix()
-        for o in Object.allObjects: o.update()
-        popMatrix()
-        popStyle()
-        Object.mouseRelease = False
+        # This function is basically deprecated since the use of startGroup() and endGroup()
+        for o in Object.allObjects:
+            o.update()
     
     def __init__(self, x = None, y = None):
         #Object.allObjects.append(self)
@@ -49,10 +46,12 @@ class Object:
     def update(self):
         fps = self.getFPS()
         self.controls()
+        pushStyle()
         pushMatrix()
         translate(*self.pos)
         self.drawImage()
         popMatrix()
+        popStyle()
         self.setPosition(self.pos.X, self.pos.Y)
     
     def setRotation(self, angle): self.rotation = angle % TAU
@@ -85,7 +84,7 @@ class Object:
             elif val == c['DOWN']: self.down(self.speed / fps)
             elif val == c['LEFT']: self.left(self.speed / fps)
             elif val == c['RIGHT']: self.right(self.speed / fps)
-
+    
     def drawImage(self):
         fill(255)
         stroke(0,0,0,0)
@@ -93,6 +92,7 @@ class Object:
 
     @property
     def area(self):
+        s = self.shape.copy().move(modelX(modelX(self.pos.X, self.pos.Y, 0), modelY(self.pos.X, self.pos.Y, 0),0), modelY(self.pos.X, self.pos.Y, 0))
         return self.shape.copy()
     def getFPS(self): return frameRate if not Object.LOCK_FPS else Object.DEFAULT_FPS
     
@@ -106,12 +106,15 @@ class Object:
     def lowerItem(self): self.setLoadorder(Object.allObjects.index(self) - 1)
 
     def getMousePos(self, includeScale=True, axisOriented=True):
-        v = Vector2(mouseX, mouseY)
-        p = Vector2(screenX(mouseX,mouseY,0), screenY(mouseX,mouseY,0))
-        return p
-        #return Vector2(modelX(mouseX, mouseY, 0), modelY(mouseX, mouseY, 0))
+        p = Vector2(mouseX, mouseY)
+        #return Vector2(modelX(p.X, p.Y, 0), modelY(p.X, p.Y, 0)) - Vector2(modelX(self.shape.getCenter().X, self.shape.getCenter().Y, 0), modelY(self.shape.getCenter().X, self.shape.getCenter().Y, 0))
+        #return Vector2(modelX(p.X, p.Y, 0), modelY(p.X, p.Y, 0)) - Vector2(modelX(self.pos.X, self.pos.Y, 0), modelY(self.pos.X, self.pos.Y, 0))
+        mousePos = Vector2(mouseX, mouseY)
+        return mousePos - Vector2(modelX(0, 0, 0), modelY(0, 0, 0))
+        #return mousePos - Vector2(modelX(0, 0, 0), modelY(0, 0, 0))
     def getAAP(self, pos, includeScale=True):
-        return pos
+        p = pos - Vector2(modelX(self.shape.getCenter().X, self.shape.getCenter().Y, 0), modelY(self.shape.getCenter().X, self.shape.getCenter().Y, 0))
+        return p
     
     groupingObjects = False
     _group = None
@@ -122,7 +125,7 @@ class Object:
     @staticmethod
     def endGroup():
         Object.groupingObjects = False
-        return Object._group[:]
+        return list(Object._group)
     
     @staticmethod
     def toggleAllControls(b):

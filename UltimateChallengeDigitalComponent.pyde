@@ -26,7 +26,7 @@ def setup():
     #Load assets
     log.info("Loading assets.")
     loaddata.loadData()
-    font = globals.fonts["OpenSans"]
+    font = globals.fonts["OpenSans"] # is that sans from undertale?
     textFont(font)
     
     #Start the game.
@@ -38,7 +38,7 @@ def setup():
 
 def draw():
     #Change background color            
-    background(180, 180, 180, 255)
+    background(180, 180, 180)
     
     #Center ALL THE THINGS!
     imageMode(CENTER)
@@ -46,6 +46,10 @@ def draw():
     
     if keyCode == UP:
         globals.currentMenu = 'test'
+    if keyCode == LEFT:
+        globals.currentMenu = 'gameScreen'
+    if keyCode == DOWN:
+        globals.currentMenu = 'mainMenu'
     
     #Calculate base scale
     globals.baseScale = (height/6)/100.0
@@ -63,6 +67,11 @@ def draw():
     #Show console, when necessary.
     if console.showConsole:
         console.draw()
+    
+    if not Object.mousePress:
+        setClickPos(Vector2(), -1)
+        Object.mousePress = False
+        Object.mouseRelease = False
 
 def mousePressed():
     Object.mouseRelease = False
@@ -74,7 +83,7 @@ def mousePressed():
 def mouseReleased():
     Object.mousePress = False
     Object.mouseRelease = True
-        
+    
 def keyPressed():
     #Open console
     if key == "`":

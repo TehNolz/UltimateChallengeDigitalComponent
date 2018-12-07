@@ -22,8 +22,7 @@ def init():
     
     Object.startGroup()
     b = Button(width/2, height*0.90, RoundRect(-570/2,-114/2,570,114)*0.5)
-    b.clickAction = startTurn
-    #transition(None, 'turnCard', 5, 0)
+    b.releaseAction = startTurn
     buttons = Object.endGroup()
     
 def startTurn(*args):
@@ -49,14 +48,10 @@ def draw():
     
     #Challenge card flip. When turnImage is true, the card will flip and show a new challenge.
     if turnImage:
-        print(transition(None, 'turnCard', 500, 359)+10)
-        print(imgRot)
         imgRot += 10
         if imgRot == 360:
-            transition(None, 'turnCard', 5, 0, EXP)
             imgRot = 0
     if turnImage and (imgRot == 0):
-        print('dead')
         turnImage = False
     elif imgRot == 180:
         newCard()

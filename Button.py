@@ -1,5 +1,6 @@
 from Object import Object
 from util import *
+import globals
 
 class Button(Object):
     allButtons = list()
@@ -14,10 +15,10 @@ class Button(Object):
         self.color = color(255)
         self.hoverColor = color(240)
         self.pressColor = color(220)
-        if True: # Transparent colors for when I am debugging based on visuals
-            self.color = color(255,255,255,100)
-            self.hoverColor = color(240,240,240,100)
-            self.pressColor = color(220,220,220,100)
+        if False: # Transparent colors for when I am debugging based on visuals
+            self.color = color(255,100)
+            self.hoverColor = color(240,100)
+            self.pressColor = color(220,100)
         self.mouseEntered = False
         self.clickedInside = False
         self.clickArea = None
@@ -43,7 +44,6 @@ class Button(Object):
     
     def setPosition(self, x, y): Object.setPosition(self, x, y)
     def drawImage(self):
-        pushStyle()
         textAlign(LEFT)
         rectMode(CORNER)
         colorMode(HSB,255,255,255)
@@ -57,14 +57,14 @@ class Button(Object):
             b = self.clickArea.contains(*self.getAAP(getClickPos(), False))
             if b and not self.clickedInside: self.onClick(mouseButton)
             self.clickedInside = b
-        else: self.clickedInside = False
+        else:
+            self.clickedInside = False
         
         if self.mouseRelease and self.clickedInside and self.mouseEntered: self.onRelease(mouseButton)
         if self.mousePress and self.clickedInside and self.mouseEntered: self.onPress(mouseButton)
         elif not self.mousePress and self.mouseEntered: self.onHover()
         else: self.onNothing()
-        
-        fill(0,0,0,0)
+    
         self.shape.fill()
         colorMode(HSB,255,255,255)
         fill((float(millis())/20)%255, 255,75)
@@ -74,16 +74,15 @@ class Button(Object):
         # Reset rotation to keep text horizontal
         rotate(-self.rotation-self.localRotation)
         text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
-        popStyle()
 
     def updateCursor(self):
         if (self.mousePress or self.mouseRelease) and self.clickArea == None:
-            self.clickArea = self.area.copy() * self.localScale
+            self.clickArea = self.shape.copy()
         elif not (self.mousePress or self.mouseRelease): self.clickArea = None
         if not self.isHighestPriorityClick(): b = False
         elif (self.mousePress or self.mouseRelease): b = self.clickArea.contains(*self.getMousePos(False))
         else:
-            b = self.area.contains(*self.getMousePos())
+            b = self.shape.contains(*self.getMousePos())
             if b and not self.mouseEntered: self.onEnter()
         if self.mouseEntered and not b:
             cursor(0)
@@ -94,30 +93,31 @@ class Button(Object):
     def onNothing(self):
         transitionFill(self, 100, self.color, EXP)
         wave = sin(PI * (float(millis()) / 1000))*0.05
-        #self.rotateLocal(transition(self, 'rotate', 250, radians(0), SQRT))
+        self.rotateLocal(transition(self, 'rotate', 250, radians(0), SQRT))
         self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
-        self.scaleLocal(transition(self, 'scale', 250, 1+wave, EXP, self.resetWave))
+        #self.scaleLocal(transition(self, 'scale', 250, 1+wave, EXP, self.resetWave))
         self.resetWave = False
         if self.nothingAction != None:
             self.nothingAction(self)
     def onHover(self):
         transitionFill(self, 100, self.hoverColor, EXP)
-        #self.rotateLocal(transition(self, 'rotate', 250, radians(45), SQRT))
+        self.rotateLocal(transition(self, 'rotate', 250, radians(45), SQRT))
         self.shape.radius = transition(self, 'radius', 150, self.shape.maxRadius()*0.25, SQRT)
-        self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
+        #self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
         self.resetWave = True
         if self.hoverAction != None:
             self.hoverAction(self)
     def onPress(self, button):
         transitionFill(self, 50, self.pressColor, SQRT)
-        #self.rotateLocal(transition(self, 'rotate', 75, radians(0), SQRT))
+        self.rotateLocal(transition(self, 'rotate', 75, radians(0), SQRT))
         self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
-        self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
+        #self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
         self.resetWave = True
         if self.pressAction != None:
             self.pressAction(self, button)
     def onRelease(self, button):
-        info(str(self) + ' activated. (MB'+str(button)+')')
+        log = globals.log
+        log.info(str(self) + ' activated. (MB'+str(button)+')')
         if self.releaseAction != None:
             self.releaseAction(self, button)
     def onClick(self, button):
