@@ -95,6 +95,8 @@ def draw():
     # Reset the translate at the top of the draw()
     popMatrix()
     
+    # Scale the buttons based on the current base scale
+    scale(*globals.baseScaleXY)
     for o in buttons:
         o.update()
     

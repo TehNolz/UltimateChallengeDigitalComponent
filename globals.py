@@ -1,3 +1,4 @@
+from util import *
 import logging
 
 #Data
@@ -20,6 +21,7 @@ fonts = {}
 
 #Scale
 baseScale = 1.0
+baseScaleXY = Vector2(1,1)
 
 #Settings
 gameconfig = {
@@ -32,6 +34,9 @@ gameconfig = {
 
 #Menus
 currentMenu = "mainMenu"
+
+# Mouse info
+clickPos = Vector2()
 
 #Misc
 logging.basicConfig(level=logging.NOTSET)

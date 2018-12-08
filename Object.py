@@ -3,9 +3,7 @@ from util import *
 class Object:
     activeKeys = set()
     keyCodes = set()
-    allObjects = list()
     
-    mousePress = False
     buttons = {'UP': UP,
                'DOWN': DOWN,
                'LEFT': LEFT,
@@ -15,16 +13,12 @@ class Object:
     LOCK_FPS = False
     BOUNDED_CANVAS = True
     disabledControls = False
-    mouseRelease = False
     
-    @staticmethod
-    def updateAll():
-        # This function is basically deprecated since the use of startGroup() and endGroup()
-        for o in Object.allObjects:
-            o.update()
+    mousePress = False
+    mouseRelease = False
+    clickPos = Vector2()
     
     def __init__(self, x = None, y = None):
-        #Object.allObjects.append(self)
         if Object.groupingObjects:
             Object._group.append(self)
         if x == None: x = width/2
@@ -37,7 +31,7 @@ class Object:
         self.disableControls = False
         self.localTranslation = Vector2()
         self.localRotation = 0
-        self.localScale = float(1)
+        self.localScale = 1
         self.baseScale = 1
     
     def __repr__(self):
@@ -48,7 +42,9 @@ class Object:
         self.controls()
         pushStyle()
         pushMatrix()
-        translate(*self.pos)
+        translate(*self.pos+self.localTranslation)
+        rotate(self.rotation + self.localRotation)
+        scale(self.baseScale * self.localScale)
         self.drawImage()
         popMatrix()
         popStyle()
@@ -90,31 +86,25 @@ class Object:
         stroke(0,0,0,0)
         ellipse(0, 0, 10, 10)
 
-    @property
-    def area(self):
-        s = self.shape.copy().move(modelX(modelX(self.pos.X, self.pos.Y, 0), modelY(self.pos.X, self.pos.Y, 0),0), modelY(self.pos.X, self.pos.Y, 0))
-        return self.shape.copy()
     def getFPS(self): return frameRate if not Object.LOCK_FPS else Object.DEFAULT_FPS
-    
-    def setLoadOrder(self, i):
-        index = Object.allObjects.index(self)
-        Object.allObjects.pop(index)
-        newindex = constrain(i, 0, len(Object.allObjects)-1)
-        Object.allObjects.insert(newindex, self)
-    
-    def raiseItem(self): self.setLoadorder(Object.allObjects.index(self) + 1)
-    def lowerItem(self): self.setLoadorder(Object.allObjects.index(self) - 1)
 
-    def getMousePos(self, includeScale=True, axisOriented=True):
-        p = Vector2(mouseX, mouseY)
-        #return Vector2(modelX(p.X, p.Y, 0), modelY(p.X, p.Y, 0)) - Vector2(modelX(self.shape.getCenter().X, self.shape.getCenter().Y, 0), modelY(self.shape.getCenter().X, self.shape.getCenter().Y, 0))
-        #return Vector2(modelX(p.X, p.Y, 0), modelY(p.X, p.Y, 0)) - Vector2(modelX(self.pos.X, self.pos.Y, 0), modelY(self.pos.X, self.pos.Y, 0))
-        mousePos = Vector2(mouseX, mouseY)
-        return mousePos - Vector2(modelX(0, 0, 0), modelY(0, 0, 0))
-        #return mousePos - Vector2(modelX(0, 0, 0), modelY(0, 0, 0))
-    def getAAP(self, pos, includeScale=True):
-        p = pos - Vector2(modelX(self.shape.getCenter().X, self.shape.getCenter().Y, 0), modelY(self.shape.getCenter().X, self.shape.getCenter().Y, 0))
-        return p
+    def getMousePos(self):
+        """Get the mouse position based on the current transformation matrix"""
+        return self.getOOP(Vector2(mouseX, mouseY))
+    
+    # OOP stands for Object-Oriented-Point
+    def getOOP(self, pos):
+        """Take a coordinate on the screen and transform it to a point relative to this button"""
+        # This is only useful for coordinates positioned on the screen, so to convert from one
+        # relative coordinate to the other requires applying the transformation matrix first
+        # and then passing it through here.
+        
+        # Momentarily use an the inverse of the current transformation matrix and do calculations
+        pushMatrix()
+        g.setMatrix(getCurrentInvMatrix())
+        pos = pos.getModelPos()
+        popMatrix()
+        return pos
     
     groupingObjects = False
     _group = None
@@ -135,22 +125,24 @@ class Object:
             o.disableControls = not b
     
     def translateLocal(self, x, y):
+        translate(*-self.localTranslation)
         self.localTranslation.X += x
         self.localTranslation.Y += y
         translate(x, y)
     def resetTranslation(self):
-        translate(-self.localTranslation.X, -self.localTranslation.Y)
+        translate(*-self.localTranslation)
         self.localTranslation = Vector2()
     def rotateLocal(self, r):
-        #rotate(-self.localRotation)
+        rotate(-self.localRotation)
         self.localRotation = r
         rotate(r)
     def resetRotation(self):
         rotate(-self.localRotation)
         self.localRotation = 0
     def scaleLocal(self, s):
-        scale(s)
+        scale(1/self.localScale)
         self.localScale = s
+        scale(s)
     def resetScale(self):
         scale(1/self.localScale)
         self.localScale = 1

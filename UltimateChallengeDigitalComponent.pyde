@@ -15,7 +15,6 @@ log = globals.log
 log.info("Hello world!")
 
 def setup():
-    #printAttributes(g.matrix, 6)
     log.info("Running setup!")
     global imgIndex
     global font
@@ -29,7 +28,7 @@ def setup():
     #Load assets
     log.info("Loading assets.")
     loaddata.loadData()
-    font = globals.fonts["OpenSans"] # is that sans from undertale?
+    font = globals.fonts["OpenSans"]
     textFont(font)
     
     #Start the game.
@@ -41,27 +40,37 @@ def setup():
     test.init()
 
 def draw():
+    # Update the mousePress value in Object
+    # Necessary because when 'mousePressed()' is used, the field 'mousePressed' for some reason starts raising errors
     Object.mousePress = mousePressed
-    if mousePressed:
-        setClickPos(Vector2(mouseX,mouseY), mouseButton)
+    
+    # Set the cursor to the arrow by default
+    cursor(0)
+    
     #Change background color            
-    background(180, 180, 180)
+    background(180)
     
     #Center ALL THE THINGS!
     imageMode(CENTER)
     rectMode(CENTER)
     
-    if keyCode == UP:
-        globals.currentMenu = 'test'
-    if keyCode == LEFT:
-        globals.currentMenu = 'gameScreen'
-    if keyCode == DOWN:
-        globals.currentMenu = 'mainMenu'
-    if keyCode == RIGHT:
-        globals.currentMenu = 'gameSetupScreen'
-    
     #Calculate base scale
-    globals.baseScale = (height/6)/100.0
+    globals.baseScale = float(height) / 600
+    globals.baseScaleXY.X = float(width) / 1133
+    globals.baseScaleXY.Y = float(height) / 600
+    
+    # We can either do a scale x and y base approach (currently used by the buttons), or
+    # we go for a single baseScale and translate the missing height
+    # downward. That way, things aren't elongated.
+    # BTW, the scaling on gameScreen seems really unnecessary; why not
+    # just use a single scale transformation at the start?
+    
+    ## Example of the translating the missing height
+    # globals.baseScale = float(width) / 1133
+    # heightAdjust = height - 600 * globals.baseScale
+    # translate(0, heightAdjust/2)
+    ## This scales everything to match the width, and centers everything
+    ## vertically with a translate so that nothing is elongated.
     
     #Switch to a different menu.
     if globals.currentMenu == "gameSetupScreen":
@@ -77,9 +86,12 @@ def draw():
     if console.showConsole:
         console.draw()
     
-    if not Object.mousePress:
-        setClickPos(Vector2(), -1)
+    # Reset the mouseRelease value
     Object.mouseRelease = False
+    
+    # Reset the click position if the mouse is not pressed
+    if not Object.mousePress:
+        Object.clickPos = Vector2()
 
 def mousePressed():
     if globals.currentMenu in globals.textBoxDict:
@@ -91,6 +103,7 @@ def mousePressed():
         if not isInsideBox:
             globals.activeTextBox = None
         
+    Object.clickPos = Vector2(mouseX, mouseY)
 
 def mouseReleased():
     Object.mouseRelease = True
@@ -104,7 +117,17 @@ def keyPressed():
     elif console.showConsole:
         console.input(key)
         
-    #Send key to active text bot, if any exist.
+    #Send key to active text box, if any exist.
     elif globals.activeTextBox != None:
         textBox = globals.activeTextBox
         textBox.input(key)
+        
+    # Easy screen switchers
+    if keyCode == UP:
+        globals.currentMenu = 'test'
+    if keyCode == LEFT:
+        globals.currentMenu = 'gameScreen'
+    if keyCode == DOWN:
+        globals.currentMenu = 'mainMenu'
+    if keyCode == RIGHT:
+        globals.currentMenu = 'gameSetupScreen'

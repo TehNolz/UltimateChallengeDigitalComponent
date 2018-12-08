@@ -2,8 +2,6 @@ from Object import Object
 from util import *
 
 class PhysObject(Object):
-    allPhysObjects = list()
-    
     buttons = {'UP': UP,
                'DOWN': DOWN,
                'LEFT': LEFT,
@@ -13,14 +11,8 @@ class PhysObject(Object):
     STOP_AT_EDGE = True
     disabledControls = False
     
-    @staticmethod
-    def updateCollisions():
-        for o in PhysObject.allPhysObjects:
-            o.collisions()
-    
     def __init__(self, x = None, y = None):
         Object.__init__(self, x, y)
-        PhysObject.allPhysObjects.append(self)
         self.vel = Vector2()
         self.accel = 150
         self.decay = 50
