@@ -13,30 +13,22 @@ def init():
     b = Button(150,150,r.copy())
     buttons = Object.endGroup()
 
-m = None
-once = False
 def draw():
-    global m, once
     rectMode(CORNER)
-
-    r = radians(float(millis()) / 100)
     
     pushMatrix()
     scale(globals.baseScale)
     translate(300,300)
     scale(0.5)
     rotate(QUARTER_PI)
-    
-    if not once or True:
-        m = g.getMatrix()
-        m.invert()
-        m.translate(-width/2, -height/2)
-        once = True
+
+    m = g.getMatrix()
+    m.invert()
+    m.translate(-width/2, -height/2)
     g.setMatrix(m)
     
     mousePos1 = Vector2(mouseX, mouseY)
-    mousePos2 = mousePos1.modelPos()
-    print(mousePos1, mousePos2)
+    mousePos2 = mousePos1.getModelPos()
     popMatrix()
     
     strokeWeight(5)

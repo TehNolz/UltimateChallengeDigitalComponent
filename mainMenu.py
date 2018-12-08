@@ -27,8 +27,14 @@ def init():
     manualButton.text = "Manual"
     
     buttons = Object.endGroup()
+    for o in buttons:
+        o.applyStyle('pulsate')
+        o.pulseAmplitude = 0.1
+    
+    playButton.applyStyle('rotate')
     
 def draw():
+    scale(*globals.baseScaleXY)
     global buttons
     for o in buttons:
         o.update()

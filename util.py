@@ -1,7 +1,13 @@
 import time
-import __builtin__
+import globals
 
-__builtin__.VERSION = 'v1.0a'
+def getCurrentInvMatrix():
+    # This function exists because the matrix in the builtin 'g' graphics object
+    # needs special treatment to be properly inverted
+    matrix = g.getMatrix()
+    matrix.invert()
+    matrix.translate(-width/2, -height/2)
+    return matrix
 
 LIN = lambda x:x
 EXP = lambda x:x**2
@@ -69,7 +75,7 @@ class Vector2:
     def __div__(self, other): return Vector2(self.X / other, self.Y / other)
     def __iter__(self): return (self.__dict__[item] for item in sorted(self.__dict__))
 
-    def modelPos(self): return Vector2(modelX(self.X, self.Y, 0), modelY(self.X, self.Y, 0))
+    def getModelPos(self): return Vector2(modelX(self.X, self.Y, 0), modelY(self.X, self.Y, 0))
 
     def rotateAround(self, axis, rotation):
         p = self - axis
@@ -133,6 +139,7 @@ class RoundRect(Rectangle):
         return False
     
     def fill(self):
+        # TODO: Use the builtin function
         pushStyle()
         strokeJoin(MITER)
         rectMode(CORNER)
@@ -152,19 +159,6 @@ class RoundRect(Rectangle):
         line(self.X+self.width, self.Y+self.radius, self.X+self.width, self.Y+self.height-self.radius)
     
     def maxRadius(self): return self.width/2 if self.width < self.height else self.height/2
-
-clickPos = Vector2()
-_clickButton = -1
-def setClickPos(pos, button):
-    global clickPos, _clickButton
-    if _clickButton == button: return
-    _clickButton = button
-    clickPos = pos
-def getClickPos():
-    global clickPos
-    return clickPos
-
-def info(s): print('['+str(millis())+'] '+str(s))
 
 def printAttributes(c, colums):
     import os
@@ -198,6 +192,5 @@ def printAttributes(c, colums):
             i+=1
         file.write('\r\n')
     file.close()
-    print(file.name)
     os.system('cmd /c "' + file.name + '"')
     os.chdir('..')
