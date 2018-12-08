@@ -35,8 +35,8 @@ def setup():
     #Start the game.
     log.info("Starting!")
     
-    gameSetupScreen.init()
     gameScreen.init()
+    gameSetupScreen.init()
     mainMenu.init()
     test.init()
 
@@ -81,7 +81,16 @@ def draw():
         setClickPos(Vector2(), -1)
     Object.mouseRelease = False
 
-def mousePressed(): pass
+def mousePressed():
+    if globals.currentMenu in globals.textBoxDict:
+        isInsideBox = False
+        for textBox in globals.textBoxDict[globals.currentMenu]:
+            if (textBox.x <= mouseX <= textBox.x+textBox.boxWidth) and (textBox.y <= mouseY <= textBox.y+textBox.boxHeight):
+                isInsideBox = True
+                textBox.active()
+        if not isInsideBox:
+            globals.activeTextBox = None
+        
 
 def mouseReleased():
     Object.mouseRelease = True
@@ -94,3 +103,8 @@ def keyPressed():
     #If the console is open, send every key as input.
     elif console.showConsole:
         console.input(key)
+        
+    #Send key to active text bot, if any exist.
+    elif globals.activeTextBox != None:
+        textBox = globals.activeTextBox
+        textBox.input(key)

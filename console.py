@@ -7,7 +7,6 @@ consoleHistory = []
 consoleTextColor = color(255, 255, 255)
 
 def draw():
-    # Ensure rectangles are centered
     rectMode(CENTER)
     
     #Get base scale
@@ -15,7 +14,7 @@ def draw():
     
     #Create console box
     pushMatrix()
-    textAlign(CENTER)
+    textAlign(CENTER, CENTER)
     translate(width/2, width/2, 0)
     fill(0, 0, 0, 128)
     rect(0, 0, 1000*baseScale, 100*baseScale)
@@ -30,7 +29,10 @@ def draw():
 #Toggles the console on/off.
 def toggleConsole():
     global showConsole
+    global consoleText
     showConsole = not showConsole
+    if not showConsole:
+        consoleText = ""
     
 #Input a key. Will execute valid commands if the last key is enter ("\n")
 def input(input):

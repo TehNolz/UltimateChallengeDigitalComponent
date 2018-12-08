@@ -36,3 +36,7 @@ currentMenu = "mainMenu"
 #Misc
 logging.basicConfig(level=logging.NOTSET)
 log = logging.getLogger("LOG")
+
+#Text boxes
+activeTextBox = None
+textBoxDict = {}
