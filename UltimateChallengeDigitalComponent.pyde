@@ -108,7 +108,7 @@ def keyPressed():
     elif console.showConsole:
         console.input(key)
     
-    # Easy sreen switchers
+    # Easy screen switchers
     if keyCode == UP:
         globals.currentMenu = 'test'
     if keyCode == LEFT:

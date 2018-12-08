@@ -97,7 +97,7 @@ class Button(Object):
     def updateCursor(self):
         # Shape caching
         #  - Makes it so that if the button transforms away from the cursor
-        #    after clicking don't matter
+        #    after clicking, the cursor isn't registered as having left the button.
         # TL;DR - Makes buttons respond better
         if (self.mousePress or self.mouseRelease) and self.clickArea == None:
             self.clickArea = self.shape.copy()
@@ -249,12 +249,14 @@ class ButtonStyles:
             self.shape.radius = transition(self, 'radius', 150, self.shape.maxRadius()*0.25, SQRT)
             self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
             self.shape.fill()
+            cursor(HAND)
         
         def press(self, button):
             transitionFill(self, 50, self.pressColor, SQRT)
             self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
             self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
             self.shape.fill()
+            cursor(HAND)
         
         action = action.lower()
         if action == 'idle': return idle
@@ -283,6 +285,7 @@ class ButtonStyles:
             self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
             self.resetWave = True
             self.shape.fill()
+            cursor(HAND)
         
         def press(self, button):
             try: self.resetWave
@@ -292,6 +295,7 @@ class ButtonStyles:
             self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
             self.resetWave = True
             self.shape.fill()
+            cursor(HAND)
         
         action = action.lower()
         if action == 'idle': return idle
@@ -317,6 +321,7 @@ class ButtonStyles:
             self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.25, SQRT)
             self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
             self.shape.fill()
+            cursor(HAND)
         
         def press(self, button):
             try: self.pressRotation
@@ -326,6 +331,7 @@ class ButtonStyles:
             self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
             self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
             self.shape.fill()
+            cursor(HAND)
         
         action = action.lower()
         if action == 'idle': return idle
