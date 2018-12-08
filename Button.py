@@ -88,8 +88,6 @@ class Button(Object):
             # Run onNothing() when the button is idle
             self.onNothing()
         
-        point(0,0)
-        
         fill(0)
         # Reset rotation to keep text horizontal
         rotate(-self.rotation-self.localRotation)
