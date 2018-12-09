@@ -35,9 +35,6 @@ gameconfig = {
 #Menus
 currentMenu = "mainMenu"
 
-# Mouse info
-clickPos = Vector2()
-
 #Misc
 logging.basicConfig(level=logging.NOTSET)
 log = logging.getLogger("LOG")
