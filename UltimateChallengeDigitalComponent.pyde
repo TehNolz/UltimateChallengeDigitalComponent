@@ -1,5 +1,5 @@
 import os
-import loaddata
+import data
 import globals
 import gameSetupScreen
 import gameScreen
@@ -27,15 +27,15 @@ def setup():
     
     #Load assets
     log.info("Loading assets.")
-    loaddata.loadData()
+    data.loadData()
     font = globals.fonts["OpenSans"]
     textFont(font)
     
     #Start the game.
     log.info("Starting!")
     
-    gameSetupScreen.init()
     gameScreen.init()
+    gameSetupScreen.init()
     mainMenu.init()
     test.init()
 
@@ -94,6 +94,17 @@ def draw():
         Object.clickPos = Vector2()
 
 def mousePressed():
+    baseX = globals.baseScaleXY.X
+    baseY = globals.baseScaleXY.Y
+    if globals.currentMenu in globals.textBoxDict:
+        isInsideBox = False
+        for textBox in globals.textBoxDict[globals.currentMenu]:
+            if (textBox.x*baseX <= mouseX <= (textBox.x+textBox.boxWidth)*baseX) and (textBox.y*baseY <= mouseY <= (textBox.y+textBox.boxHeight)*baseY):
+                isInsideBox = True
+                textBox.active()
+        if not isInsideBox:
+            globals.activeTextBox = None
+        
     Object.clickPos = Vector2(mouseX, mouseY)
 
 def mouseReleased():
@@ -107,7 +118,12 @@ def keyPressed():
     #If the console is open, send every key as input.
     elif console.showConsole:
         console.input(key)
-    
+        
+    #Send key to active text box, if any exist.
+    elif globals.activeTextBox != None:
+        textBox = globals.activeTextBox
+        textBox.input(key)
+        
     # Easy screen switchers
     if keyCode == UP:
         globals.currentMenu = 'test'

@@ -14,7 +14,11 @@ userConfig = {
         6: None,
     },
     "settings": {
-
+        "useDecks": [
+            "base",
+            "expansion1",
+            "expansion2"
+        ]
     }
 }
 fonts = {}
@@ -23,18 +27,13 @@ fonts = {}
 baseScale = 1.0
 baseScaleXY = Vector2(1,1)
 
-#Settings
-gameconfig = {
-    "useDecks": {
-        "base",
-        "expansion1",
-        "expansion2"
-    }
-}
-
 #Menus
 currentMenu = "mainMenu"
 
 #Misc
 logging.basicConfig(level=logging.NOTSET)
 log = logging.getLogger("LOG")
+
+#Text boxes
+activeTextBox = None
+textBoxDict = {}

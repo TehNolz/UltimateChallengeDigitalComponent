@@ -104,7 +104,7 @@ def newCard():
     cardConfig = globals.cardConfig
     
     pool = {}
-    for deck in globals.gameconfig["useDecks"]:
+    for deck in globals.userConfig["settings"]["useDecks"]:
         pool.update(cardConfig[deck])
     setCard(choice(pool.keys()))
     
