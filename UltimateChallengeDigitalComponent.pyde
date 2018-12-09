@@ -1,5 +1,5 @@
 import os
-import loaddata
+import data
 import globals
 import gameSetupScreen
 import gameScreen
@@ -27,7 +27,7 @@ def setup():
     
     #Load assets
     log.info("Loading assets.")
-    loaddata.loadData()
+    data.loadData()
     font = globals.fonts["OpenSans"]
     textFont(font)
     
@@ -94,10 +94,12 @@ def draw():
         Object.clickPos = Vector2()
 
 def mousePressed():
+    baseX = globals.baseScaleXY.X
+    baseY = globals.baseScaleXY.Y
     if globals.currentMenu in globals.textBoxDict:
         isInsideBox = False
         for textBox in globals.textBoxDict[globals.currentMenu]:
-            if (textBox.x <= mouseX <= textBox.x+textBox.boxWidth) and (textBox.y <= mouseY <= textBox.y+textBox.boxHeight):
+            if (textBox.x*baseX <= mouseX <= (textBox.x+textBox.boxWidth)*baseX) and (textBox.y*baseY <= mouseY <= (textBox.y+textBox.boxHeight)*baseY):
                 isInsideBox = True
                 textBox.active()
         if not isInsideBox:

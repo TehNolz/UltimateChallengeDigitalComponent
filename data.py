@@ -46,3 +46,10 @@ def loadData():
     globals.imgIndex = imgIndex
     globals.cardConfig = cardConfig
     globals.userConfig = userConfig
+    
+def saveData():
+    userConfig = globals.userConfig
+    print(userConfig)
+    with open('userconfig.json', 'w') as outfile:
+        json.dump(userConfig, outfile, indent=4)
+        

@@ -26,8 +26,6 @@ class textBox:
         self.textColor = kwargs.get("textColor", color(0, 0, 0, 0))
         self.textSize = kwargs.get("textSize", self.boxHeight*0.6)
         self.command = kwargs.get("command", None)
-        self.textLimit = kwargs.get("textLimit", 99999999)
-        print(self.textLimit)
         
         self.text = ""
         self.activeTimer = millis()
@@ -38,30 +36,31 @@ class textBox:
         rectMode(CORNER)
         textAlign(LEFT)
         
+        baseX, baseY = globals.baseScaleXY
+        
         translate(0, self.boxHeight, 0)
         fill(self.boxColor)
-        rect(self.x, self.y, self.boxWidth, 0-self.boxHeight)
+        rect(self.x*baseX, self.y*baseY, self.boxWidth*baseX, 0-self.boxHeight*baseY)
         
         if globals.activeTextBox == self:
-            line(self.x+10, self.y-3, (self.boxWidth+self.x)-10, self.y-3)
+            line((self.x+10)*baseX, (self.y-3)*baseY, ((self.boxWidth+self.x)-10)*baseX, (self.y-3)*baseY)
         
         textSize(self.textSize)
         fill(self.textColor)
-        text(self.text, self.x+10, self.y-self.boxHeight/5)
+        text(self.text, (self.x+10)*baseX, (self.y-self.boxHeight/5)*baseY)
         
         popStyle()
         popMatrix()
         
-    def input(self, inputkey):
-        print(textWidth(self.text))
-        print(self.boxWidth)
-        
-        if inputkey == BACKSPACE:
+    def input(self, inputKey):
+        print(inputKey)
+        if inputKey == BACKSPACE:
             self.text = self.text[:-1]
-        elif (inputkey == ENTER or inputkey == RETURN) and (self.command != None):
-            self.command(self, self.text)
+        elif inputKey == ENTER or inputKey == RETURN:
+            if self.command != None:
+                self.command(self, self.text)
         elif textWidth(self.text) < self.boxWidth+75:
-            self.text+=str(inputkey)
+            self.text+=str(inputKey)
             
     def active(self):
         globals.activeTextBox = self
