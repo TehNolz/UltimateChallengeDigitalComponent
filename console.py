@@ -33,7 +33,7 @@ def command(input):
     
     #setcard <id>
     #Changes the current challenge card to <id>
-    if globals.currentMenu ==n "gameScreen":
+    if globals.currentMenu == "gameScreen":
         if command[0] == "setcard":
             exists = False
             for deck in globals.cardConfig:

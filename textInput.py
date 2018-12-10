@@ -43,6 +43,7 @@ class textBox:
         rect(self.x*baseX, self.y*baseY, self.boxWidth*baseX, 0-self.boxHeight*baseY)
         
         if globals.activeTextBox == self:
+            fill(self.textColor)
             line((self.x+10)*baseX, (self.y-3)*baseY, ((self.boxWidth+self.x)-10)*baseX, (self.y-3)*baseY)
         
         textSize(self.textSize)
