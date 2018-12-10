@@ -36,4 +36,4 @@ log = logging.getLogger("LOG")
 
 #Text boxes
 activeTextBox = None
-textBoxDict = {}
+textBoxDict = {"global": []}

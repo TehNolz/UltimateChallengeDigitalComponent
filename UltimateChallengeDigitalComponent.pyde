@@ -7,6 +7,7 @@ import gameSetupScreen
 import mainMenu
 import console
 import test
+import textInput
 from Object import Object
 from util import *
 
@@ -38,6 +39,7 @@ def setup():
     gameSetupScreen.init()
     mainMenu.init()
     test.init()
+    console.init()
 
 def draw():
     # Update the mousePress value in Object
@@ -94,17 +96,7 @@ def draw():
         Object.clickPos = Vector2()
 
 def mousePressed():
-    baseX = globals.baseScaleXY.X
-    baseY = globals.baseScaleXY.Y
-    if globals.currentMenu in globals.textBoxDict:
-        isInsideBox = False
-        for textBox in globals.textBoxDict[globals.currentMenu]:
-            if (textBox.x*baseX <= mouseX <= (textBox.x+textBox.boxWidth)*baseX) and (textBox.y*baseY <= mouseY <= (textBox.y+textBox.boxHeight)*baseY):
-                isInsideBox = True
-                textBox.active()
-        if not isInsideBox:
-            globals.activeTextBox = None
-        
+    textInput.check()
     Object.clickPos = Vector2(mouseX, mouseY)
 
 def mouseReleased():
@@ -114,11 +106,7 @@ def keyPressed():
     #Open console
     if key == "`":
         console.toggleConsole()
-    
-    #If the console is open, send every key as input.
-    elif console.showConsole:
-        console.input(key)
-        
+
     #Send key to active text box, if any exist.
     elif globals.activeTextBox != None:
         textBox = globals.activeTextBox

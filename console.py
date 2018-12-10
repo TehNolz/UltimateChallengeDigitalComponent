@@ -1,30 +1,19 @@
 import globals
 import gameScreen
+import textInput
 
 showConsole = False
-consoleText = ""
-consoleHistory = []
 consoleTextColor = color(255, 255, 255)
 
-def draw():
-    rectMode(CENTER)
-    
-    #Get base scale
+def init():
+    global consoleTextBox
     baseScale = globals.baseScale
-    
-    #Create console box
-    pushMatrix()
-    textAlign(CENTER, CENTER)
-    translate(width/2, width/2, 0)
-    fill(0, 0, 0, 128)
-    rect(0, 0, 1000*baseScale, 100*baseScale)
+    consoleTextBox = textInput.textBox(height*0.1, 0, 1000*baseScale, 50*baseScale, boxColor=color(0, 0, 0, 128), textColor=color(255, 255, 255), command=command)
+    globals.textBoxDict["global"].append(consoleTextBox)
 
-    #Write console text, if any.
-    translate(0, -12*baseScale, 0)
-    textSize(30*baseScale)
-    fill(consoleTextColor)
-    text(consoleText, 0, 0)
-    popMatrix()
+def draw():
+    global consoleTextBox
+    consoleTextBox.draw()
     
 #Toggles the console on/off.
 def toggleConsole():
@@ -33,24 +22,18 @@ def toggleConsole():
     showConsole = not showConsole
     if not showConsole:
         consoleText = ""
+        globals.activeTextBox = None
     
 #Input a key. Will execute valid commands if the last key is enter ("\n")
-def input(input):
+def command(input):
     global consoleText
     global consoleTextColor
+
+    command = input.split(" ")
     
-    #Backspace
-    if input == "":
-        #Make text white if it isn't already.
-        consoleTextColor = color(255, 255, 255)
-        consoleText = consoleText[:-1]
-        
-    #Execute command
-    elif input == "\n":
-        command = consoleText.split(" ")
-        
-        #setcard <id>
-        #Changes the current challenge card to <id>
+    #setcard <id>
+    #Changes the current challenge card to <id>
+    if globals.currentMenu ==n "gameScreen":
         if command[0] == "setcard":
             exists = False
             for deck in globals.cardConfig:
@@ -70,30 +53,5 @@ def input(input):
         elif command[0] == "flipcard":
             if not gameScreen.retractImage:
                 gameScreen.turnImage = True
-                
-        #If an invalid command is entered, change the color to red instead of adding it to history and clearing text.
-        else:
-            consoleTextColor = color(255, 0, 0)
-            return None
-        
-        consoleHistory.append(consoleText)
-        consoleText = ""
-        
-    #Command history
-    #Up
-    elif input == 38:
-        consoleText = consoleHistory[len(consoleHistory)-consoleHistoryInt-1]
-        if consoleHistoryInt < len(consoleHistory):
-            consoleHistoryInt+=1
     
-    #Down
-    elif input == 40: 
-        consoleText = consoleHistory[len(consoleHistory)-consoleHistoryInt-1]
-        if consoleHistoryInt > 0:
-            consoleHistoryInt-=1
-            if consoleHistory == 0:
-                consoleText = ""
-    
-    #Type a character
-    elif type(input) == unicode:
-        consoleText+=input
+    consoleTextBox.text = ""

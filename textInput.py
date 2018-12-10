@@ -58,9 +58,24 @@ class textBox:
             self.text = self.text[:-1]
         elif inputKey == ENTER or inputKey == RETURN:
             if self.command != None:
-                self.command(self, self.text)
+                self.command(self.text)
         elif textWidth(self.text) < self.boxWidth+75:
             self.text+=str(inputKey)
             
     def active(self):
         globals.activeTextBox = self
+        
+def check():
+    baseX = globals.baseScaleXY.X
+    baseY = globals.baseScaleXY.Y
+    pool = [] + globals.textBoxDict["global"]
+    if globals.currentMenu in globals.textBoxDict:
+        pool+= globals.textBoxDict[globals.currentMenu]
+        
+    isInsideBox = False
+    for textBox in pool:
+        if (textBox.x*baseX <= mouseX <= (textBox.x+textBox.boxWidth)*baseX) and (textBox.y*baseY <= mouseY <= (textBox.y+textBox.boxHeight)*baseY):
+            isInsideBox = True
+            textBox.active()
+    if not isInsideBox:
+        globals.activeTextBox = None
