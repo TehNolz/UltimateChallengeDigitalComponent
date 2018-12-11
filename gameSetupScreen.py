@@ -26,11 +26,12 @@ def init():
     buttons = Object.endGroup()
     
     #Add player
-    r = RoundRect(-100, -75, 200, 150, 25)
+    r = RoundRect(-25, -75, 200, 150, 25)
     r *= 0.5
     addPlayerButton = Button(width*0.1, height*0.2, r.copy())
     addPlayerButton.releaseAction = addPlayer
     addPlayerButton.text = "Add \nplayer."
+    addPlayerButton.textSize = 40
     
     #Remove player
     remPlayerButton = Button(width*0.2, height*0.2, r.copy())
@@ -38,6 +39,9 @@ def init():
     remPlayerButton.text = "Remove \nplayer."
 
     #Create textboxes
+    remPlayerButton.text = "-"
+    remPlayerButton.textSize = 40
+    
     boxHeight = 0.7
     var = 1
     globals.textBoxDict["gameSetupScreen"] = []
