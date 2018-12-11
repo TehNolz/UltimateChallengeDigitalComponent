@@ -22,7 +22,7 @@ class textBox:
         self.boxHeight = boxHeight
         
         #Optional params
-        self.boxColor = kwargs.get("boxColor", color(255, 255, 255, 0))
+        self.boxColor = kwargs.get("boxColor", color(255, 255, 255, 255))
         self.textColor = kwargs.get("textColor", color(0, 0, 0, 0))
         self.textSize = kwargs.get("textSize", self.boxHeight*0.6)
         self.command = kwargs.get("command", None)
@@ -37,7 +37,8 @@ class textBox:
         textAlign(LEFT)
         
         baseX, baseY = globals.baseScaleXY
-        
+        textSize(self.textSize*baseX)
+
         translate(0, self.boxHeight, 0)
         fill(self.boxColor)
         rect(self.x*baseX, self.y*baseY, self.boxWidth*baseX, 0-self.boxHeight*baseY)
@@ -46,7 +47,6 @@ class textBox:
             fill(self.textColor)
             line((self.x+10)*baseX, (self.y-3)*baseY, ((self.boxWidth+self.x)-10)*baseX, (self.y-3)*baseY)
         
-        textSize(self.textSize)
         fill(self.textColor)
         text(self.text, (self.x+10)*baseX, (self.y-self.boxHeight/5)*baseY)
         
