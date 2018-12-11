@@ -40,7 +40,7 @@ class Button(Object):
     
     def setPosition(self, x, y): Object.setPosition(self, x, y)
     def drawImage(self):
-        textAlign(LEFT)
+        textAlign(CENTER)
         rectMode(CORNER)
         colorMode(HSB,255,255,255)
         self.stroke = color((float(millis())/20)%255, 255, 150)
@@ -250,7 +250,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             
         def hover(self, button):
             stroke(self.stroke)
@@ -261,7 +261,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             cursor(HAND)
         
         def press(self, button):
@@ -273,7 +273,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             cursor(HAND)
         
         action = action.lower()
@@ -299,7 +299,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             
         def hover(self, button):
             stroke(self.stroke)
@@ -311,7 +311,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             cursor(HAND)
         
         def press(self, button):
@@ -324,7 +324,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             cursor(HAND)
         
         action = action.lower()
@@ -350,7 +350,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             
         def hover(self, button):
             stroke(self.stroke)
@@ -362,7 +362,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             cursor(HAND)
         
         def press(self, button):
@@ -375,7 +375,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             cursor(HAND)
         
         action = action.lower()
@@ -405,7 +405,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             
         def hover(self, button):
             stroke(self.stroke)
@@ -418,7 +418,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             cursor(HAND)
         
         def press(self, button):
@@ -432,7 +432,7 @@ class ButtonStyles:
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
             textSize(self.textSize)
-            text(self.text, -textWidth(self.text)/2,textAscent()/2-textDescent()/2)
+            text(self.text, 0, textAscent()/2-textDescent()/2)
             cursor(HAND)
         
         action = action.lower()
