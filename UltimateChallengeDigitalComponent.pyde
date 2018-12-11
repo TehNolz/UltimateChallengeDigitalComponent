@@ -1,4 +1,3 @@
-import os
 import data
 import globals
 import gameSetupScreen
