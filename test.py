@@ -14,6 +14,7 @@ def init():
     buttons = Object.endGroup()
 
 def draw():
+    pushStyle()
     rectMode(CORNER)
     
     pushMatrix()
@@ -52,3 +53,5 @@ def draw():
 
     for o in buttons:
         o.update()
+    
+    popStyle()

@@ -23,6 +23,7 @@ def init():
     Object.startGroup()
     b = Button(width/2, height*0.90, RoundRect(-570/2,-114/2,570,114)*0.5)
     b.releaseAction = startTurn
+    b.text = "Pick a new card."
     buttons = Object.endGroup()
     
 def startTurn(*args):
