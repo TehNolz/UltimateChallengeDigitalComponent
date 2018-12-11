@@ -14,6 +14,7 @@ class Button(Object):
         self.color = color(255)
         self.hoverColor = color(240)
         self.pressColor = color(220)
+        self.textColor = color(0)
         if False: # Transparent colors for when I am debugging based on visuals
             self.color = color(255,100)
             self.hoverColor = color(240,100)
@@ -90,9 +91,6 @@ class Button(Object):
         
         fill(0)
         # Reset rotation to keep text horizontal
-        rotate(-self.rotation-self.localRotation)
-        textSize(self.shape.maxRadius()/3)
-        text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
 
     def updateCursor(self):
         # Shape caching
@@ -220,6 +218,7 @@ class ButtonStyles:
         style = ButtonStyles.styles[name]
         
         # Cast all action styles to fields
+        setup   = style('setup')
         idle    = style('idle')
         hover   = style('hover')
         click   = style('click')
@@ -227,6 +226,9 @@ class ButtonStyles:
         release = style('release')
         enter   = style('enter')
         leave   = style('leave')
+        
+        # Run style setup if defined
+        if not setup   == None: setup(button)
         
         # Apply action styles if they are defined in the style
         if not idle    == None: button.idleStyle    = idle
@@ -239,23 +241,35 @@ class ButtonStyles:
 
     def default(action):
         def idle(self, button):
-            transitionFill(self, 100, self.color, EXP)
+            transitionFill(self, 100, self.color)
             self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
             self.scaleLocal(transition(self, 'scale', 250, 1, EXP))
             self.shape.fill()
+            fill(self.textColor)
+            rotate(-self.rotation-self.localRotation)
+            textSize(self.shape.maxRadius()/3)
+            text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
             
         def hover(self, button):
-            transitionFill(self, 100, self.hoverColor, EXP)
+            transitionFill(self, 100, self.hoverColor)
             self.shape.radius = transition(self, 'radius', 150, self.shape.maxRadius()*0.25, SQRT)
             self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
             self.shape.fill()
+            fill(self.textColor)
+            rotate(-self.rotation-self.localRotation)
+            textSize(self.shape.maxRadius()/3)
+            text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
             cursor(HAND)
         
         def press(self, button):
-            transitionFill(self, 50, self.pressColor, SQRT)
+            transitionFill(self, 50, self.pressColor)
             self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
             self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
             self.shape.fill()
+            fill(self.textColor)
+            rotate(-self.rotation-self.localRotation)
+            textSize(self.shape.maxRadius()/3)
+            text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
             cursor(HAND)
         
         action = action.lower()
@@ -265,85 +279,175 @@ class ButtonStyles:
         return None
 
     def default_pulsate(action):
-        def idle(self, button):
+        def setup(self):
             try: self.resetWave
             except: self.resetWave = False
             try: self.pulseAmplitude
             except: self.pulseAmplitude = 0.05
-            transitionFill(self, 100, self.color, EXP)
+        
+        def idle(self, button):
+            transitionFill(self, 100, self.color)
             self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
             wave = sin(PI * (float(millis()) / 1000))*self.pulseAmplitude
             self.scaleLocal(transition(self, 'scale', 250, 1+wave, EXP, self.resetWave))
             self.resetWave = False
             self.shape.fill()
+            fill(self.textColor)
+            rotate(-self.rotation-self.localRotation)
+            textSize(self.shape.maxRadius()/3)
+            text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
             
         def hover(self, button):
-            try: self.resetWave
-            except: self.resetWave = False
-            transitionFill(self, 100, self.hoverColor, EXP)
+            transitionFill(self, 100, self.hoverColor)
             self.shape.radius = transition(self, 'radius', 150, self.shape.maxRadius()*0.25, SQRT)
             self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
             self.resetWave = True
             self.shape.fill()
+            fill(self.textColor)
+            rotate(-self.rotation-self.localRotation)
+            textSize(self.shape.maxRadius()/3)
+            text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
             cursor(HAND)
         
         def press(self, button):
-            try: self.resetWave
-            except: self.resetWave = False
-            transitionFill(self, 50, self.pressColor, SQRT)
+            transitionFill(self, 50, self.pressColor)
             self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
             self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
             self.resetWave = True
             self.shape.fill()
+            fill(self.textColor)
+            rotate(-self.rotation-self.localRotation)
+            textSize(self.shape.maxRadius()/3)
+            text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
             cursor(HAND)
         
         action = action.lower()
+        if action == 'setup': return setup
         if action == 'idle': return idle
         if action == 'hover': return hover
         if action == 'press': return press
         return None
     
     def default_rotate(action):
-        def idle(self, button):
+        def setup(self):
             try: self.idleRotation
             except: self.idleRotation = 0
-            transitionFill(self, 100, self.color, EXP)
+            try: self.hoverRotation
+            except: self.hoverRotation = QUARTER_PI
+            try: self.pressRotation
+            except: self.pressRotation = 0
+        
+        def idle(self, button):
+            transitionFill(self, 100, self.color)
             self.rotateLocal(transition(self, 'rotate', 250, self.idleRotation, SQRT))
             self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
             self.scaleLocal(transition(self, 'scale', 250, 1, EXP))
             self.shape.fill()
+            fill(self.textColor)
+            rotate(-self.rotation-self.localRotation)
+            textSize(self.shape.maxRadius()/3)
+            text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
             
         def hover(self, button):
-            try: self.hoverRotation
-            except: self.hoverRotation = QUARTER_PI
-            transitionFill(self, 100, self.hoverColor, EXP)
+            transitionFill(self, 100, self.hoverColor)
             self.rotateLocal(transition(self, 'rotate', 250, self.hoverRotation, SQRT))
             self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.25, SQRT)
             self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
             self.shape.fill()
+            fill(self.textColor)
+            rotate(-self.rotation-self.localRotation)
+            textSize(self.shape.maxRadius()/3)
+            text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
             cursor(HAND)
         
         def press(self, button):
-            try: self.pressRotation
-            except: self.pressRotation = 0
-            transitionFill(self, 50, self.pressColor, SQRT)
+            transitionFill(self, 50, self.pressColor)
             self.rotateLocal(transition(self, 'rotate', 75, self.pressRotation, SQRT))
             self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
             self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
             self.shape.fill()
+            fill(self.textColor)
+            rotate(-self.rotation-self.localRotation)
+            textSize(self.shape.maxRadius()/3)
+            text(self.text, -textWidth(self.text)/2,textDescent()*1.3)
             cursor(HAND)
         
         action = action.lower()
+        if action == 'setup': return setup
         if action == 'idle': return idle
         if action == 'hover': return hover
         if action == 'press': return press
+        return None
+
+    def default_radio(action):
+        def setup(self):
+            if not self.shape.width == self.shape.height:
+                # Scale height to match width
+                if self.shape.width < self.shape.height:
+                    self.shape.Y += (h - w) / 2
+                    self.shape.height = self.shape.width
+                # Scale width to match height
+                else:
+                    self.shape.X += (w - h) / 2
+                    self.shape.width = self.shape.height
+            try: self.radioGroup
+            except: self.radioGroup = ''
+            try: self.radioColor
+            except: self.radioColor = color(50)
+            try: self.activated
+            except: self.activated = False
+            self.shape.radius = self.shape.maxRadius()
+        
+        def idle(self, button):
+            self.scaleLocal(transition(self, 'scale', 100, 1, EXP))
+            transitionFill(self, 100, self.color)
+            self.shape.fill()
+            if self.activated:
+                transitionFill(str(self) + '#radio', 100, self.radioColor)
+            else:
+                transitionFill(str(self) + '#radio', 100, self.color)
+            noStroke()
+            (self.shape * 0.5).fill()
+        
+        def hover(self, button):
+            self.scaleLocal(transition(self, 'scale', 100, 1.1, SQRT))
+            transitionFill(self, 100, self.hoverColor)
+            self.shape.fill()
+            if self.activated:
+                transitionFill(str(self) + '#radio', 100, self.radioColor)
+            else:
+                transitionFill(str(self) + '#radio', 100, self.hoverColor)
+            noStroke()
+            (self.shape * 0.5).fill()
+        
+        def press(self, button):
+            self.scaleLocal(transition(self, 'scale', 50, 1, SQRT))
+            transitionFill(self, 50, self.pressColor)
+            self.shape.fill()
+            if self.activated:
+                transitionFill(str(self) + '#radio', 50, self.radioColor)
+            else:
+                transitionFill(str(self) + '#radio', 50, self.pressColor)
+            noStroke()
+            (self.shape * 0.5).fill()
+        
+        def release(self, button):
+            self.activated = not self.activated
+        
+        action = action.lower()
+        if action == 'setup': return setup
+        if action == 'idle': return idle
+        if action == 'hover': return hover
+        if action == 'press': return press
+        if action == 'release': return release
         return None
 
     # A dictionary containing all styles and their name
     styles = {
         'default': default,
         'pulsate': default_pulsate,
-        'rotate' : default_rotate
+        'rotate' : default_rotate,
+        'radio': default_radio
     }
     
     class NoSuchStyleException(Exception):

@@ -1,4 +1,3 @@
-import time
 import globals
 
 def getCurrentInvMatrix():
