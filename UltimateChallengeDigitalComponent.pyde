@@ -19,6 +19,7 @@ def setup():
     global font
     global gameScreen
     global mainMenu
+    global font
     size(1133, 600, P3D)
 
     #Load the loading screen (so meta)
@@ -38,6 +39,7 @@ def draw():
     # Update the mousePress value in Object
     # Necessary because when 'mousePressed()' is used, the field 'mousePressed' for some reason starts raising errors
     Object.mousePress = mousePressed
+    #textFont(font)
     
     # Set the cursor to the arrow by default
     cursor(0)

@@ -14,24 +14,27 @@ def init():
     #Settings button
     settingsButton = Button(width*0.25, height/2, r.copy())
     settingsButton.releaseAction = gotoSettingsScreen
+    settingsButton.applyStyle('pulsate')
     settingsButton.text = "Settings"
     
     #Play button
     playButton = Button(width*0.50, height/2, r.copy())
     playButton.releaseAction = gotoGameSetupScreen
+    playButton.applyStyle('rotate_pulsate')
     playButton.text = "Play"
     
     #Manual button
     manualButton = Button(width*0.75, height/2, r.copy())
     manualButton.releaseAction = gotoManualScreen
+    manualButton.applyStyle('pulsate')
     manualButton.text = "Manual"
     
-    buttons = Object.endGroup()
-    for o in buttons:
-        o.applyStyle('pulsate')
-        o.pulseAmplitude = 0.05
+    testButton = Button(width/2, height - 125, RoundRect(-200, -50, 400, 100, 0))
+    testButton.releaseAction = gotoTestScreen
+    testButton.applyStyle('default')
+    testButton.text = 'Test'
     
-    playButton.applyStyle('rotate_pulsate')
+    buttons = Object.endGroup()
     
 def draw():
     scale(*globals.baseScaleXY)
@@ -52,3 +55,5 @@ def gotoSettingsScreen(*args):
 def gotoManualScreen(*args):
     if args[1] == LEFT:
         globals.currentMenu = "manual"
+def gotoTestScreen(*args):
+    globals.currentMenu = 'test'
