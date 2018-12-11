@@ -78,7 +78,7 @@ class Button(Object):
             # other buttons stop responding to input
             self.clickedInside = False
             self.mouseEntered = False
-        if self.mousePress and self.clickedInside and self.mouseEntered:
+        elif self.mousePress and self.clickedInside and self.mouseEntered:
             # If the mouse is pressed while the cursor is inside the button
             self.onPress(mouseButton)
         elif not self.mousePress and self.mouseEntered:
@@ -87,8 +87,7 @@ class Button(Object):
         else:
             # Run onNothing() when the button is idle
             self.onNothing()
-        
-        fill(0)
+    
         # Reset rotation to keep text horizontal
 
     def updateCursor(self):
@@ -445,6 +444,7 @@ class ButtonStyles:
     def default_radio(action):
         def setup(self):
             ButtonStyles.radioButtons.add(self)
+            # Force the button to become round
             if not self.shape.width == self.shape.height:
                 # Scale height to match width
                 if self.shape.width < self.shape.height:
@@ -456,60 +456,66 @@ class ButtonStyles:
                     self.shape.width = self.shape.height
             self.radioGroup = ''
             self.activated = False
-            self.radioColor = color(50)
-            # ResetColorWave tells the transitionFill when it should cache it's color. (Hard to explain, it's important trust me)
-            self.resetColorWave = True
+            self.radioColor = color(0, 75)
+            # ColorTransition tells the transitionFill when it should cache it's color. (Hard to explain, it's important trust me)
+            self.colorTransition = True
             self.shape.radius = self.shape.maxRadius()
+            self.indicatorScale = 0.5
         
         def idle(self, button):
+            # This is the color of the indicator. Part of me still wanted to be able to use the rainbow stroke color.
+            # This scales based on the alpha of the box color: <stroke|0] alpha [255|radio_color>
+            c = lerpColor(self.stroke, removeAlpha(self.radioColor), float(alpha(self.radioColor)) / 255)
             stroke(self.stroke)
             self.scaleLocal(transition(self, 'scale', 100, 1, EXP))
             transitionFill(self, 100, self.color)
             self.shape.fill()
             if self.activated:
-                transitionFill(self, 100, self.radioColor, LIN, self.resetColorWave, 'radio')
-                self.resetColorWave = False
+                transitionFill(self, 100, c, LIN, self.colorTransition, 'radio')
+                self.colorTransition = False
             else:
-                transitionFill(str(self) + '#radio', 100, self.color)
+                transitionFill(self, 100, self.color, LIN, True, 'radio')
                 # This prevents the transitionFill from thinking it needs to reset
-                self.resetColorWave = True
+                self.colorTransition = True
             noStroke()
             pushMatrix()
-            scale(0.5)
+            scale(self.indicatorScale)
             ellipse(0,0,self.shape.width, self.shape.height)
             popMatrix()
         
         def hover(self, button):
+            c = lerpColor(self.stroke, removeAlpha(self.radioColor), float(alpha(self.radioColor)) / 255)
             stroke(self.stroke)
             self.scaleLocal(transition(self, 'scale', 100, 1.1, SQRT))
             transitionFill(self, 100, self.hoverColor)
             self.shape.fill()
             if self.activated:
-                transitionFill(self, 100, lerpColor(self.stroke, self.radioColor, 0.5), LIN, self.resetColorWave, 'radio')
-                self.resetColorWave = False
+                transitionFill(self, 100, c, LIN, self.colorTransition, 'radio')
+                self.colorTransition = False
             else:
-                transitionFill(str(self) + '#radio', 100, self.hoverColor)
-                self.resetColorWave = True
+                transitionFill(self, 100, self.hoverColor, LIN, True, 'radio')
+                self.colorTransition = True
             noStroke()
             pushMatrix()
-            scale(0.5)
+            scale(self.indicatorScale)
             ellipse(0,0,self.shape.width, self.shape.height)
             popMatrix()
         
         def press(self, button):
+            c = lerpColor(self.stroke, removeAlpha(self.radioColor), float(alpha(self.radioColor)) / 255)
             stroke(self.stroke)
-            self.scaleLocal(transition(self, 'scale', 50, 1, SQRT))
+            self.scaleLocal(transition(self, 'scale', 50, 0.9, SQRT))
             transitionFill(self, 50, self.pressColor)
             self.shape.fill()
             if self.activated:
-                transitionFill(self, 50, lerpColor(self.stroke, self.radioColor, 0.5), LIN, self.resetColorWave, 'radio')
-                self.resetColorWave = False
+                transitionFill(self, 50, c, LIN, self.colorTransition, 'radio')
+                self.colorTransition = False
             else:
-                transitionFill(str(self) + '#radio', 50, self.pressColor)
-                self.resetColorWave = True
+                transitionFill(self, 50, self.pressColor, LIN, True, 'radio')
+                self.colorTransition = True
             noStroke()
             pushMatrix()
-            scale(0.5)
+            scale(self.indicatorScale)
             ellipse(0,0,self.shape.width, self.shape.height)
             popMatrix()
         
@@ -527,7 +533,69 @@ class ButtonStyles:
         return None
 
     def default_checkbox(action):
-        pass
+        def setup(self):
+            self.boxColor = color(0, 75)
+            self.activated = False
+            self.colorTransition = True
+            self.indicatorScale = 0.5
+        
+        def idle(self, button):
+            # This is the color of the indicator. Part of me still wanted to be able to use the rainbow stroke color.
+            # This scales based on the alpha of the box color: <stroke|0] alpha [255|box_color>
+            c = lerpColor(self.stroke, removeAlpha(self.boxColor), float(alpha(self.boxColor)) / 255)
+            stroke(self.stroke)
+            self.scaleLocal(transition(self, 'scale', 100, 1, EXP))
+            transitionFill(self, 100, self.color)
+            self.shape.fill()
+            if self.activated:
+                transitionFill(self, 100, c, LIN, self.colorTransition, 'box')
+                self.colorTransition = False
+            else:
+                transitionFill(self, 100, self.color, LIN, True, 'box')
+                self.colorTransition = True
+            stroke(getColor(self, '<fill>box#MEM', self.color))
+            (self.shape * self.indicatorScale).fill()
+            
+        def hover(self, button):
+            c = lerpColor(self.stroke, removeAlpha(self.boxColor), float(alpha(self.boxColor)) / 255)
+            stroke(self.stroke)
+            self.scaleLocal(transition(self, 'scale', 100, 1.1, SQRT))
+            transitionFill(self, 100, self.hoverColor)
+            self.shape.fill()
+            if self.activated:
+                transitionFill(self, 100, c, LIN, self.colorTransition, 'box')
+                self.colorTransition = False
+            else:
+                transitionFill(self, 100, self.hoverColor, LIN, True, 'box')
+                self.colorTransition = True
+            noStroke()
+            (self.shape * self.indicatorScale).fill()
+            
+        def press(self, button):
+            c = lerpColor(self.stroke, removeAlpha(self.boxColor), float(alpha(self.boxColor)) / 255)
+            stroke(self.stroke)
+            self.scaleLocal(transition(self, 'scale', 50, 1, SQRT))
+            transitionFill(self, 50, self.pressColor)
+            self.shape.fill()
+            if self.activated:
+                transitionFill(self, 50, c, LIN, self.colorTransition, 'box')
+                self.colorTransition = False
+            else:
+                transitionFill(self, 50, self.pressColor, LIN, True, 'box')
+                self.colorTransition = True
+            noStroke()
+            (self.shape * self.indicatorScale).fill()
+        
+        def release(self, button):
+            self.activated = not self.activated
+            
+        action = action.lower()
+        if action == 'setup': return setup
+        if action == 'idle': return idle
+        if action == 'hover': return hover
+        if action == 'press': return press
+        if action == 'release': return release
+        return None
 
     # A dictionary containing all styles and their name
     styles = {
@@ -535,7 +603,8 @@ class ButtonStyles:
         'pulsate': default_pulsate,
         'rotate' : default_rotate,
         'rotate_pulsate': default_rotate_pulsate,
-        'radio': default_radio
+        'radio': default_radio,
+        'checkbox': default_checkbox
     }
     
     class NoSuchStyleException(Exception):

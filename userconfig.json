@@ -7,12 +7,6 @@
         ]
     }, 
     "players": {
-        "1": "Player 1", 
-        "2": "Player 2", 
-        "3": "Player 3", 
-        "4": "Player 4", 
-        "5": "Player 5", 
-        "6": "Player 6", 
         "1": null, 
         "2": null, 
         "3": null, 

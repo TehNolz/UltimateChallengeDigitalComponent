@@ -21,6 +21,7 @@ def setup():
     global mainMenu
     global font
     size(1133, 600, P3D)
+    smooth(8)
 
     #Load the loading screen (so meta)
     image(loadImage("misc-loadingscreen.png"), 0, 0, 1133, 600)

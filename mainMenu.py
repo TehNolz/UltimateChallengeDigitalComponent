@@ -21,7 +21,7 @@ def init():
     playButton = Button(width*0.50, height/2, r.copy())
     playButton.releaseAction = gotoGameSetupScreen
     playButton.applyStyle('rotate_pulsate')
-    playButton.text = "Play\nFaggot"
+    playButton.text = "Play"
     
     #Manual button
     manualButton = Button(width*0.75, height/2, r.copy())

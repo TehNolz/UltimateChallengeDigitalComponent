@@ -26,7 +26,7 @@ def init():
     buttons = Object.endGroup()
     
     #Add player
-    r = RoundRect(-25, -75, 200, 150, 25)
+    r = RoundRect(-100, -75, 200, 150, 25)
     r *= 0.5
     addPlayerButton = Button(width*0.1, height*0.2, r.copy())
     addPlayerButton.releaseAction = addPlayer

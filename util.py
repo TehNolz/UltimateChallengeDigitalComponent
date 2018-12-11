@@ -1,5 +1,8 @@
 import globals
 
+def removeAlpha(c):
+    return color(red(c), green(c), blue(c))
+
 def textHeight(txt):
     return textAscent() - textDescent() - (textAscent() + textDescent()) * (txt.count('\n')) - (textDescent() if txt.count('\n') > 0 else 0)
 
@@ -41,7 +44,7 @@ def getColor(self, id, default): return colorCache[id+str(self)] if (id+str(self
 colorTransitions = dict()
 def transitionColor(self, id, time, c, mod=LIN, autoReset=True):
     _id = id+str(self)
-    if not _id in colorTransitions or not colorTransitions[_id][1] == c:
+    if time == 0 or not _id in colorTransitions or autoReset and not colorTransitions[_id][1] == c:
         colorTransitions[_id] = (millis()+time, c)
         nc = getColor(self, id+'#MEM', c)
         cacheColor(self,id,nc)
@@ -147,7 +150,7 @@ class RoundRect(Rectangle):
         # TODO: Use the builtin function
         # Nevermind, the builtin one is weird and doesn't work right
         pushStyle()
-        strokeJoin(MITER)
+        strokeJoin(ROUND)
         rectMode(CORNER)
         arc(self.X+self.radius, self.Y+self.radius, self.radius*2, self.radius*2, PI, PI+HALF_PI)
         arc(self.X+self.radius, self.Y+self.height-self.radius, self.radius*2, self.radius*2, HALF_PI, PI)
