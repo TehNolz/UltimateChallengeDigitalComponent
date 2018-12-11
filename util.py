@@ -1,5 +1,8 @@
 import globals
 
+def textHeight(txt):
+    return textAscent() - textDescent() - (textAscent() + textDescent()) * (txt.count('\n')) - (textDescent() if txt.count('\n') > 0 else 0)
+
 def getCurrentInvMatrix():
     # This function exists because the matrix in the builtin 'g' graphics object
     # needs special treatment to be properly inverted
