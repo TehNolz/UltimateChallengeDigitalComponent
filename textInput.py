@@ -26,6 +26,7 @@ class textBox:
         self.textColor = kwargs.get("textColor", color(0, 0, 0, 0))
         self.textSize = kwargs.get("textSize", self.boxHeight*0.6)
         self.command = kwargs.get("command", None)
+        self.numeric = kwargs.get("numeric", False)
         
         self.text = ""
         self.activeTimer = millis()
@@ -54,14 +55,16 @@ class textBox:
         popMatrix()
         
     def input(self, inputKey):
-        print(inputKey)
-        if inputKey == BACKSPACE:
-            self.text = self.text[:-1]
-        elif inputKey == ENTER or inputKey == RETURN:
-            if self.command != None:
-                self.command(self.text)
-        elif textWidth(self.text) < self.boxWidth+75:
-            self.text+=str(inputKey)
+        inputKey = str(inputKey)
+        if len(inputKey) == 1:
+            if not self.numeric or inputKey in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]: #Probably a really shitty solution but w/e
+                if inputKey == BACKSPACE:
+                    self.text = self.text[:-1]
+                elif inputKey == ENTER or inputKey == RETURN:
+                    if self.command != None:
+                        self.command(self.text)
+                elif textWidth(self.text) < self.boxWidth+75:
+                    self.text+=str(inputKey)
             
     def active(self):
         globals.activeTextBox = self
