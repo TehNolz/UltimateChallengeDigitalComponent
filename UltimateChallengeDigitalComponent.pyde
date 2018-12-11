@@ -1,4 +1,3 @@
-import os
 import data
 import globals
 import gameSetupScreen
@@ -16,25 +15,20 @@ log = globals.log
 log.info("Hello world!")
 
 def setup():
-    log.info("Running setup!")
+    #log.info("Running setup!")
     global imgIndex
     global font
     global gameScreen
     global mainMenu
     size(1133, 600, P3D)
-    
+
     #Load the loading screen (so meta)
     image(loadImage("misc-loadingscreen.png"), 0, 0, 1133, 600)
-    
-    #Load assets
-    log.info("Loading assets.")
-    data.loadData()
-    font = globals.fonts["OpenSans"]
-    textFont(font)
     
     #Start the game.
     log.info("Starting!")
     
+    data.loadData()
     gameScreen.init()
     gameSetupScreen.init()
     mainMenu.init()
