@@ -12,6 +12,7 @@ for file in os.listdir("..\data"):
 			cards[var[1]][id] = {
 				"dice": False,
 				"timer": False,
+				"tictactoe": False,
 			}
 
 with open('cardconfig.json', 'w') as outfile:

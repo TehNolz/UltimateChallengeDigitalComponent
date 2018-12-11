@@ -30,17 +30,17 @@ def init():
     r *= 0.5
     addPlayerButton = Button(width*0.1, height*0.2, r.copy())
     addPlayerButton.releaseAction = addPlayer
-    addPlayerButton.text = "+"
+    addPlayerButton.text = "Add \nplayer."
     addPlayerButton.textSize = 40
     
     #Remove player
     remPlayerButton = Button(width*0.2, height*0.2, r.copy())
     remPlayerButton.releaseAction = remPlayer
+    remPlayerButton.text = "Remove \nplayer."
+
+    #Create textboxes
     remPlayerButton.text = "-"
     remPlayerButton.textSize = 40
-    
-    #Rem player
-    
     
     boxHeight = 0.7
     var = 1
@@ -58,23 +58,25 @@ def draw():
     pushStyle()
     pushMatrix()
     scale(*globals.baseScaleXY)
+    
+    #Update buttons
     for o in buttons:
         o.update()
     if playerCount < 6:
         addPlayerButton.update()
     if playerCount > 4:
         remPlayerButton.update()
-        
-        
     popMatrix()
+    
     baseX, baseY = globals.baseScaleXY
     
+    #Header text
     textSize(40*baseX)
     text("Enter your name!", width*0.01, height*0.1)
-    textSize(30*baseX)
     
+    #Add text boxes + text
+    textSize(30*baseX)
     textHeight = 0.65
-    print(playerCount)
     for player in range(0, playerCount):
         textBox = globals.textBoxDict["gameSetupScreen"][player]
         text("Player "+str(player+1), width*0.01, height*(1-textHeight))
@@ -84,23 +86,36 @@ def draw():
     
 def startGame(*args):
     if args[1] == LEFT:
-        playerCount = 1
-        for textBox in globals.textBoxDict["gameSetupScreen"]:
-            globals.userConfig["players"][playerCount] = textBox.text
-            playerCount +=1
-        data.saveData()
+        if len(globals.userConfig["settings"]["useDecks"]) > 0:
+            for player in range(0, playerCount):
+                textBox = globals.textBoxDict["gameSetupScreen"][player]
+                globals.userConfig["players"][str(player)] = textBox.text
+            
+            data.saveData()
+            globals.currentMenu = "gameScreen"
         
-        globals.currentMenu = "gameScreen"
-        
+#Add/remove players.
 def addPlayer(*args):
-    print("add")
     global playerCount
     if playerCount != 6:
         playerCount+=1
-    print(playerCount)
 def remPlayer(*args):
-    print("rem")
     global playerCount
     if playerCount != 4:
         playerCount-=1
-    print(playerCount)
+
+#Toggle decks
+def toggleBase(*args):
+    toggleDeck("base")
+def toggleExp1(*args):
+    toggleDeck("expansion1")
+def toggleExp2(*args):
+    toggleDeck("expansion2")
+    
+def toggleDeck(deck):
+    useDecks = globals.userConfig["settings"]["useDecks"]
+    if len(useDecks) > 1:
+        if deck in useDecks:
+            useDecks.remove(deck)
+        else:
+            useDecks.append(deck)
