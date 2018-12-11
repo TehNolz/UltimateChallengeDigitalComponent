@@ -2,7 +2,6 @@ import data
 import globals
 import gameSetupScreen
 import gameScreen
-import gameSetupScreen
 import mainMenu
 import console
 import test

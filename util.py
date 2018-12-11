@@ -50,8 +50,9 @@ def transitionColor(self, id, time, c, mod=LIN, autoReset=True):
     cacheColor(self, id+'#MEM', nc)
     return nc
 
-def transitionFill(self, time, c, mod=LIN, autoReset=True): fill(transitionColor(self, '<fill>', time, c, mod, autoReset))
-def transitionStroke(self, time, c, mod=LIN, autoReset=True): stroke(transitionColor(self, '<stroke>', time, c, mod, autoReset))
+# I had to squeeze the id parameter in lol
+def transitionFill(self, time, c, mod=LIN, autoReset=True, id=''): fill(transitionColor(self, '<fill>'+id, time, c, mod, autoReset))
+def transitionStroke(self, time, c, mod=LIN, autoReset=True, id=''): stroke(transitionColor(self, '<stroke>'+id, time, c, mod, autoReset))
 
 def decayVal(val, rate, neutral = 0):
     rate = abs(rate)
@@ -139,6 +140,7 @@ class RoundRect(Rectangle):
     
     def fill(self):
         # TODO: Use the builtin function
+        # Nevermind, the builtin one is weird and doesn't work right
         pushStyle()
         strokeJoin(MITER)
         rectMode(CORNER)
@@ -147,8 +149,6 @@ class RoundRect(Rectangle):
         arc(self.X+self.width-self.radius, self.Y+self.radius, self.radius*2, self.radius*2, PI+HALF_PI, TAU)
         arc(self.X+self.width-self.radius, self.Y+self.height-self.radius, self.radius*2, self.radius*2, 0, HALF_PI)
         noStroke()
-        #rect(self.X, self.Y+self.radius, self.width, self.height-self.radius*2)
-        #rect(self.X+self.radius, self.Y, self.width-self.radius*2, self.height)
         rect(self.X-1, self.Y+self.radius-1, self.width+2, self.height-self.radius*2+2)
         rect(self.X+self.radius-1, self.Y-1, self.width-self.radius*2+2, self.height+2)
         popStyle()

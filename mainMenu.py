@@ -17,8 +17,8 @@ def init():
     settingsButton.text = "Settings"
     
     #Play button
-    playButton = Button(width*0.50, height/2, r.copy()*0.25)
-    #playButton.releaseAction = gotoGameSetupScreen
+    playButton = Button(width*0.50, height/2, r.copy())
+    playButton.releaseAction = gotoGameSetupScreen
     playButton.text = "Play"
     
     #Manual button
@@ -29,9 +29,9 @@ def init():
     buttons = Object.endGroup()
     for o in buttons:
         o.applyStyle('pulsate')
-        o.pulseAmplitude = 0.1
+        o.pulseAmplitude = 0.05
     
-    playButton.applyStyle('radio')
+    playButton.applyStyle('rotate_pulsate')
     
 def draw():
     scale(*globals.baseScaleXY)
