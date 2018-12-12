@@ -4,6 +4,7 @@ from util import *
 import globals
 import textInput
 import data
+import gameScreen
 
 buttons = None
 def init():
@@ -126,6 +127,7 @@ def startGame(*args):
             
             data.saveData()
             globals.currentMenu = "gameScreen"
+            gameScreen.newCard()
         else:
             pass
         
