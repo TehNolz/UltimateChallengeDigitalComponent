@@ -93,7 +93,7 @@ def keyPressed():
     #Send key to active text box, if any exist.
     elif globals.activeTextBox != None:
         textBox = globals.activeTextBox
-        textBox.input(key)
+        textBox.input(key, keyCode)
         
     # Easy screen switchers
     if keyCode == UP:

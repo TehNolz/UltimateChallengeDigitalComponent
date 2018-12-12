@@ -1,7 +1,8 @@
 {
     "settings": {
         "useDecks": [
-            "base"
+            "base", 
+            "expansion1"
         ]
     }, 
     "players": {
