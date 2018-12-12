@@ -4,6 +4,7 @@ from util import *
 import globals
 import textInput
 import data
+import gameScreen
 
 buttons = None
 def init():
@@ -126,6 +127,7 @@ def startGame(*args):
             
             data.saveData()
             globals.currentMenu = "gameScreen"
+            gameScreen.newCard()
         else:
             pass
         
@@ -149,7 +151,6 @@ def toggleExp2(*args):
     
 def toggleDeck(deck):
     useDecks = globals.userConfig["settings"]["useDecks"]
-    print(useDecks)
     if deck in useDecks:
         print("rem")
         useDecks.remove(deck)

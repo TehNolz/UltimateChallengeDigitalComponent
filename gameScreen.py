@@ -18,7 +18,6 @@ def init():
     imgPos = "foreground"
     imgRet = 0
     retractImage = False
-    newCard()
     
     Object.startGroup()
     b = Button(width/2, height*0.90, RoundRect(-570/2,-114/2,570,114)*0.5)
