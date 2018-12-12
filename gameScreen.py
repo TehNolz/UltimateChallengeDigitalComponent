@@ -20,9 +20,18 @@ def init():
     retractImage = False
     
     Object.startGroup()
+    #New card
     b = Button(width/2, height*0.90, RoundRect(-570/2,-114/2,570,114)*0.5)
     b.releaseAction = startTurn
     b.text = "Pick a new card."
+    
+    #Back button
+    r = RoundRect(-150, -150, 300, 300, 50)
+    r *= 0.5
+    backButton = Button(width*0.95, height*0.1, r.copy()*0.5)
+    backButton.releaseAction = gotoMainMenu
+    backButton.text = "Quit"
+    
     buttons = Object.endGroup()
     
 def startTurn(*args):
@@ -120,3 +129,7 @@ def setCard(card):
         "back": "card-"+deck+"-back",
         "showStart": showStart
     }
+    
+def gotoMainMenu(*args):
+    if args[1] == LEFT:
+        globals.currentMenu = "mainMenu"
