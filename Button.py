@@ -602,6 +602,105 @@ class ButtonStyles:
         if action == 'release': return release
         return None
 
+    def custom_dice(action):
+        def setup(self):
+            self.throwdice = False
+            self.rolled = 0
+            self.Rolldice = 2
+        
+        def throw(self):
+            Width = self.shape.width
+            Height = self.shape.height
+            
+            # Calculate the size of the dots  (smallest dimension * (2/15))
+            if Width > Height:
+                dotSize = Height * (float(2)/15)
+            else:
+                dotSize = Width * (float(2)/15)
+            
+            import random
+            if self.throwdice:
+                self.Rolldice = random.randint(1,6)
+                self.rolled+=1
+                if self.rolled == 25:
+                    self.throwdice = False
+                    self.rolled = 0
+            
+            if self.Rolldice==1:
+                ellipse(0, 0, dotSize, dotSize)
+                        
+            elif self.Rolldice==2:
+                ellipse(0, 0, dotSize, dotSize)
+                ellipse(Width/6, 0, dotSize, dotSize)
+                ellipse(-Width/6, 0, dotSize, dotSize)
+                    
+            elif self.Rolldice==3:
+                ellipse(0, 0, dotSize, dotSize)
+                ellipse(Width/6, Height/6, dotSize, dotSize)
+                ellipse(-Width/6, -Height/6, dotSize, dotSize)
+                        
+            elif self.Rolldice==4:
+                ellipse(-Width/6, Width/6, dotSize, dotSize)
+                ellipse(Width/6, -Width/6, dotSize, dotSize)
+                
+                ellipse(Width/6, Width/6, dotSize, dotSize)
+                ellipse(-Width/6, -Width/6, dotSize, dotSize)
+                        
+            elif self.Rolldice==5:
+                ellipse(0, 0, dotSize, dotSize)
+                ellipse(-Width/6, Width/6, dotSize, dotSize)
+                ellipse(Width/6, -Width/6, dotSize, dotSize)
+                
+                ellipse(Width/6, Width/6, dotSize, dotSize)
+                ellipse(-Width/6, -Width/6, dotSize, dotSize)
+                    
+            elif self.Rolldice==6:
+                ellipse(-Width/6, Width/6, dotSize, dotSize)
+                ellipse(Width/6, -Width/6, dotSize, dotSize)
+                
+                ellipse(Width/6, 0, dotSize, dotSize)
+                ellipse(-Width/6, 0, dotSize, dotSize)
+                
+                ellipse(Width/6, Width/6, dotSize, dotSize)
+                ellipse(-Width/6, -Width/6, dotSize, dotSize)
+            
+        def idle(self, button):
+            stroke(self.stroke)
+            transitionFill(self, 100, self.color)
+            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
+            self.scaleLocal(transition(self, 'scale', 250, 1, EXP))
+            self.shape.fill()
+            throw(self)
+        
+        def hover(self, button):
+            stroke(self.stroke)
+            transitionFill(self, 100, self.hoverColor)
+            self.shape.radius = transition(self, 'radius', 150, self.shape.maxRadius()*0.25, SQRT)
+            self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
+            self.shape.fill()
+            cursor(HAND)
+            throw(self)
+        
+        def press(self, button):
+            stroke(self.stroke)
+            transitionFill(self, 50, self.pressColor)
+            self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
+            self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
+            self.shape.fill()
+            cursor(HAND)
+            throw(self)
+        
+        def release(self, button):
+            self.throwdice = True
+        
+        action = action.lower()
+        if action == 'setup': return setup
+        if action == 'idle': return idle
+        if action == 'hover': return hover
+        if action == 'press': return press
+        if action == 'release': return release
+        return None
+
     # A dictionary containing all styles and their name
     styles = {
         'default': default,
@@ -609,7 +708,8 @@ class ButtonStyles:
         'rotate' : default_rotate,
         'rotate_pulsate': default_rotate_pulsate,
         'radio': default_radio,
-        'checkbox': default_checkbox
+        'checkbox': default_checkbox,
+        'dice': custom_dice
     }
     
     class NoSuchStyleException(Exception):

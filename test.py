@@ -15,6 +15,7 @@ def init():
     
     r = RoundRect(-150, -150, 300, 300, 50)
     b = Button(150,150,r.copy())
+    b.applyStyle('dice')
     
     buttons = Object.endGroup()
     
@@ -80,7 +81,6 @@ def draw():
     scale(globals.baseScale)
     translate(300,300)
     scale(0.5)
-    rotate(QUARTER_PI)
 
     m = g.getMatrix()
     m.invert()
@@ -112,6 +112,7 @@ def draw():
         text(s, 1133/2+20, o.pos.Y + textHeight(s)/2)
     popMatrix()
         
+    fill(255,0,0)
     pushMatrix()
     translate(*b.pos)
     b.shape.fill()
@@ -120,7 +121,6 @@ def draw():
     scale(globals.baseScale)
     translate(300,300)
     scale(0.5)
-    rotate(QUARTER_PI)
 
     for o in buttons:
         o.update()
