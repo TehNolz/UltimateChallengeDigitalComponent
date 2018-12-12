@@ -57,19 +57,6 @@ def draw():
     globals.baseScaleXY.X = float(width) / 1133
     globals.baseScaleXY.Y = float(height) / 600
     
-    # We can either do a scale x and y base approach (currently used by the buttons), or
-    # we go for a single baseScale and translate the missing height
-    # downward. That way, things aren't elongated.
-    # BTW, the scaling on gameScreen seems really unnecessary; why not
-    # just use a single scale transformation at the start?
-    
-    ## Example of the translating the missing height
-    # globals.baseScale = float(width) / 1133
-    # heightAdjust = height - 600 * globals.baseScale
-    # translate(0, heightAdjust/2)
-    ## This scales everything to match the width, and centers everything
-    ## vertically with a translate so that nothing is elongated.
-    
     #Switch to a different menu.
     if globals.currentMenu == "gameSetupScreen":
         gameSetupScreen.draw()

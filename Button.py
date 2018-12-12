@@ -553,6 +553,7 @@ class ButtonStyles:
             else:
                 transitionFill(self, 100, self.color, LIN, True, 'box')
                 self.colorTransition = True
+            # Apply the cached fill color to stroke because otherwise the borders are missing
             stroke(getColor(self, '<fill>box#MEM', self.color))
             (self.shape * self.indicatorScale).fill()
             
@@ -568,7 +569,7 @@ class ButtonStyles:
             else:
                 transitionFill(self, 100, self.hoverColor, LIN, True, 'box')
                 self.colorTransition = True
-            noStroke()
+            stroke(getColor(self, '<fill>box#MEM', self.color))
             (self.shape * self.indicatorScale).fill()
             
         def press(self, button):
@@ -583,7 +584,7 @@ class ButtonStyles:
             else:
                 transitionFill(self, 50, self.pressColor, LIN, True, 'box')
                 self.colorTransition = True
-            noStroke()
+            stroke(getColor(self, '<fill>box#MEM', self.color))
             (self.shape * self.indicatorScale).fill()
         
         def release(self, button):
