@@ -122,8 +122,9 @@ def setCard(card):
     global currentCard
     
     deck = card.split("-")[0]
-    showStart = globals.cardConfig[deck][card]["dice"] or globals.cardConfig[deck][card]["timer"]
-    
+    showStart = True
+    if globals.cardConfig[deck][card] == None:
+        showStart = False
     currentCard = {
         "id": card,
         "back": "card-"+deck+"-back",
