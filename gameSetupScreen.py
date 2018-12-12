@@ -29,21 +29,21 @@ def init():
     
     baseToggle = Button(width*0.8, height*0.18, r.copy()*0.2)
     baseToggle.applyStyle('checkbox')
-    baseToggle.boxColor = color(0,0,0, 255)
+    baseToggle.boxColor = color(0,0,0, 128)
     baseToggle.releaseAction = toggleBase
     if "base" in globals.userConfig["settings"]["useDecks"]:
         baseToggle.activated = True
     
     exp1Toggle = Button(width*0.8, height*0.28, r.copy()*0.2)
     exp1Toggle.applyStyle('checkbox')
-    exp1Toggle.boxColor = color(0,0,0, 255)
+    exp1Toggle.boxColor = color(0,0,0, 128)
     exp1Toggle.releaseAction = toggleExp1
     if "expansion1" in globals.userConfig["settings"]["useDecks"]:
         exp1Toggle.activated = True
     
     exp2Toggle = Button(width*0.8, height*0.38, r.copy()*0.2)
     exp2Toggle.applyStyle('checkbox')
-    exp2Toggle.boxColor = color(0,0,0, 255)
+    exp2Toggle.boxColor = color(0,0,0, 128)
     exp2Toggle.releaseAction = toggleExp2
     if "expansion2" in globals.userConfig["settings"]["useDecks"]:
         exp2Toggle.activated = True
