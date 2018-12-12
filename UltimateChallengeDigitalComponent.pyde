@@ -35,6 +35,7 @@ def setup():
     mainMenu.init()
     test.init()
     console.init()
+    manual.init()
 
 def draw():
     # Update the mousePress value in Object
@@ -64,8 +65,8 @@ def draw():
         gameScreen.draw()
     elif globals.currentMenu == "mainMenu":
         mainMenu.draw()
-    elif globals.currentMenu == 'test':
-        test.draw()
+    elif globals.currentMenu == "manual":
+        manual.draw()
         
     #Show console, when necessary.
     if console.showConsole:

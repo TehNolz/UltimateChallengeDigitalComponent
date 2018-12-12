@@ -29,11 +29,6 @@ def init():
     manualButton.applyStyle('pulsate')
     manualButton.text = "Manual"
     
-    testButton = Button(width/2, height - 125, RoundRect(-200, -50, 400, 100, 0))
-    testButton.releaseAction = gotoTestScreen
-    testButton.applyStyle('default')
-    testButton.text = 'Test'
-    
     buttons = Object.endGroup()
     
 def draw():
@@ -55,5 +50,3 @@ def gotoSettingsScreen(*args):
 def gotoManualScreen(*args):
     if args[1] == LEFT:
         globals.currentMenu = "manual"
-def gotoTestScreen(*args):
-    globals.currentMenu = 'test'
