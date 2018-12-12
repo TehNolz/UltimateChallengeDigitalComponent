@@ -4,7 +4,6 @@ from util import *
 import globals
 import textInput
 import data
-import gameScreen
 
 buttons = None
 def init():
@@ -79,8 +78,9 @@ def init():
 def draw():
     global playerCount
     
+    screenSize = globals.baseScreenSize
+    
     pushStyle()
-    pushMatrix()
     scale(*globals.baseScaleXY)
     
     #Update buttons
@@ -90,27 +90,26 @@ def draw():
         addPlayerButton.update()
     if playerCount > 4:
         remPlayerButton.update()
-    popMatrix()
     
     baseX, baseY = globals.baseScaleXY
     
     #Header text
-    textSize(40*baseX)
-    text("Enter your name!", width*0.01, height*0.1)
-    text("Use which decks?", width*0.5, height*0.1)
+    textSize(40)
+    text("Enter your name!", screenSize.X*0.01, screenSize.Y*0.1)
+    text("Use which decks?", screenSize.X*0.5, screenSize.Y*0.1)
     
     #Add text boxes + text
-    textSize(30*baseX)
+    textSize(30)
     textHeight = 0.65
     for player in range(0, playerCount):
         textBox = globals.textBoxDict["gameSetupScreen"][player]
-        text("Player "+str(player+1), width*0.01, height*(1-textHeight))
+        text("Player "+str(player+1), screenSize.X*0.01, screenSize.Y*(1-textHeight))
         textHeight-=0.1
         textBox.draw()
     
-    text("Base Deck", width*0.5, height*0.2)
-    text("Expansion Deck 1", width*0.5, height*0.3)
-    text("Expansion Deck 2", width*0.5, height*0.4)
+    text("Base Deck", screenSize.X*0.5, screenSize.Y*0.2)
+    text("Expansion Deck 1", screenSize.X*0.5, screenSize.Y*0.3)
+    text("Expansion Deck 2", screenSize.X*0.5, screenSize.Y*0.4)
     
     popStyle()
     
@@ -127,7 +126,6 @@ def startGame(*args):
             
             data.saveData()
             globals.currentMenu = "gameScreen"
-            gameScreen.newCard()
         else:
             pass
         
@@ -151,6 +149,7 @@ def toggleExp2(*args):
     
 def toggleDeck(deck):
     useDecks = globals.userConfig["settings"]["useDecks"]
+    print(useDecks)
     if deck in useDecks:
         print("rem")
         useDecks.remove(deck)

@@ -27,6 +27,10 @@ fonts = {}
 baseScale = 1.0
 baseScaleXY = Vector2(1,1)
 
+# Base screen size
+# Probably not implemented everywhere, but not my problem >:(
+baseScreenSize = Vector2(1133, 600)
+
 #Menus
 currentMenu = "mainMenu"
 

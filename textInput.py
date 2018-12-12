@@ -36,30 +36,32 @@ class textBox:
         pushMatrix()
         rectMode(CORNER)
         textAlign(LEFT)
-        
-        baseX, baseY = globals.baseScaleXY
-        textSize(self.textSize*baseX)
+    
+        textSize(self.textSize)
 
         translate(0, self.boxHeight, 0)
         fill(self.boxColor)
-        rect(self.x*baseX, self.y*baseY, self.boxWidth*baseX, 0-self.boxHeight*baseY)
+        rect(self.x, self.y, self.boxWidth, 0-self.boxHeight)
         
         if globals.activeTextBox == self:
             fill(self.textColor)
-            line((self.x+10)*baseX, (self.y-3)*baseY, ((self.boxWidth+self.x)-10)*baseX, (self.y-3)*baseY)
+            line((self.x+10), (self.y-3), ((self.boxWidth+self.x)-10), (self.y-3))
         
         fill(self.textColor)
-        text(self.text, (self.x+10)*baseX, (self.y-self.boxHeight/5)*baseY)
+        text(self.text, (self.x+10), (self.y-self.boxHeight/5))
         
         popStyle()
         popMatrix()
         
-    def input(self, inputKey):
+    def input(self, inputKey, inputCode):
         inputKey = str(inputKey)
         if len(inputKey) == 1:
-            if not self.numeric or inputKey in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]: #Probably a really shitty solution but w/e
+            if not inputKey == CODED:
                 if inputKey == BACKSPACE:
                     self.text = self.text[:-1]
+                    if inputCode == CONTROL:
+                        while not self.text.endswith(' '):
+                            self.text = self.text[:-1]
                 elif inputKey == ENTER or inputKey == RETURN:
                     if self.command != None:
                         self.command(self.text)
