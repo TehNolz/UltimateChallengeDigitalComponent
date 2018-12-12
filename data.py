@@ -49,7 +49,6 @@ def loadData():
     
 def saveData():
     userConfig = globals.userConfig
-    print(userConfig)
     with open('userconfig.json', 'w') as outfile:
         json.dump(userConfig, outfile, indent=4)
         

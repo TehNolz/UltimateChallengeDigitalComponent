@@ -28,6 +28,11 @@ def init():
     playButton.releaseAction = startGame
     playButton.text = "Play"
     
+    backButton = Button(width*0.95, height*0.1, r.copy()*0.5)
+    backButton.releaseAction = gotoMainMenu
+    backButton.text = "Back"
+    
+    #Toggle base deck
     baseToggle = Button(width*0.8, height*0.18, r.copy()*0.2)
     baseToggle.applyStyle('checkbox')
     baseToggle.boxColor = color(0,0,0, 128)
@@ -35,6 +40,7 @@ def init():
     if "base" in globals.userConfig["settings"]["useDecks"]:
         baseToggle.activated = True
     
+    #Toggle expansion deck 1
     exp1Toggle = Button(width*0.8, height*0.28, r.copy()*0.2)
     exp1Toggle.applyStyle('checkbox')
     exp1Toggle.boxColor = color(0,0,0, 128)
@@ -42,6 +48,7 @@ def init():
     if "expansion1" in globals.userConfig["settings"]["useDecks"]:
         exp1Toggle.activated = True
     
+    #Toggle expansion deck 2
     exp2Toggle = Button(width*0.8, height*0.38, r.copy()*0.2)
     exp2Toggle.applyStyle('checkbox')
     exp2Toggle.boxColor = color(0,0,0, 128)
@@ -123,7 +130,7 @@ def startGame(*args):
         if len(globals.userConfig["settings"]["useDecks"]) > 0:
             for player in range(0, playerCount):
                 textBox = globals.textBoxDict["gameSetupScreen"][player]
-                globals.userConfig["players"][str(player)] = textBox.text
+                globals.userConfig["players"][str(player+1)] = textBox.text
             
             data.saveData()
             globals.currentMenu = "gameScreen"
@@ -151,12 +158,12 @@ def toggleExp2(*args):
     
 def toggleDeck(deck):
     useDecks = globals.userConfig["settings"]["useDecks"]
-    print(useDecks)
     if deck in useDecks:
-        print("rem")
         useDecks.remove(deck)
     else:
-        print("add")
         useDecks.append(deck)
-    print(useDecks)
     globals.userConfig["settings"]["useDecks"] = useDecks
+    
+def gotoMainMenu(*args):
+    if args[1] == LEFT:
+        globals.currentMenu = "mainMenu"

@@ -9,11 +9,7 @@ for file in os.listdir("..\data"):
 		if not var[1] in cards:
 			cards[id.split("-")[0]] = {}
 		if id.split("-")[1] != "back":
-			cards[var[1]][id] = {
-				"dice": False,
-				"timer": False,
-				"tictactoe": False,
-			}
+			cards[var[1]][id] = None
 
 with open('cardconfig.json', 'w') as outfile:
     json.dump(cards, outfile, indent=4)
