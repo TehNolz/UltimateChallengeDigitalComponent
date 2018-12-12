@@ -67,7 +67,7 @@ def draw():
     elif globals.currentMenu == "mainMenu":
         mainMenu.draw()
     elif globals.currentMenu == "manual":
-        manual.draw()
+        manual.draw(mousePressed)
         
     #Show console, when necessary.
     if console.showConsole:

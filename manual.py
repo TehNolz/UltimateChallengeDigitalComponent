@@ -6,9 +6,9 @@ from Object import Object
 def init():
     global manual1, manual2
     
-    manual1 = loadImage("manual-1.png")
-    manual2 = loadImage("manual-2.png")
-    
+    imgIndex = globals.imgIndex
+    manual1 = imgIndex["manual-1"]
+    manual2 = imgIndex["manual-2"]
 
 button_x = 165
 button_y = 525
@@ -20,7 +20,8 @@ button_h = 50
 
 
 
-def draw():
+def draw(mousePressed):
+    
     global manual1, manual2, button_x, button_y, button_w, button_h
     
     
