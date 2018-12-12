@@ -34,6 +34,9 @@ baseScreenSize = Vector2(1133, 600)
 #Menus
 currentMenu = "mainMenu"
 
+# Colors
+backgroundColor = color(180)
+
 #Misc
 logging.basicConfig(level=logging.NOTSET)
 log = logging.getLogger("LOG")

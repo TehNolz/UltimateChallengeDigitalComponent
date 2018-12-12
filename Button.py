@@ -500,6 +500,7 @@ class ButtonStyles:
             scale(self.indicatorScale)
             ellipse(0,0,self.shape.width, self.shape.height)
             popMatrix()
+            cursor(HAND)
         
         def press(self, button):
             c = lerpColor(self.stroke, removeAlpha(self.radioColor), float(alpha(self.radioColor)) / 255)
@@ -518,6 +519,7 @@ class ButtonStyles:
             scale(self.indicatorScale)
             ellipse(0,0,self.shape.width, self.shape.height)
             popMatrix()
+            cursor(HAND)
         
         def release(self, button):
             otherButtons = [x for x in ButtonStyles.radioButtons if x.radioGroup == self.radioGroup and not x == self]
@@ -571,6 +573,7 @@ class ButtonStyles:
                 self.colorTransition = True
             stroke(getColor(self, '<fill>box#MEM', self.color))
             (self.shape * self.indicatorScale).fill()
+            cursor(HAND)
             
         def press(self, button):
             c = lerpColor(self.stroke, removeAlpha(self.boxColor), float(alpha(self.boxColor)) / 255)
@@ -586,6 +589,7 @@ class ButtonStyles:
                 self.colorTransition = True
             stroke(getColor(self, '<fill>box#MEM', self.color))
             (self.shape * self.indicatorScale).fill()
+            cursor(HAND)
         
         def release(self, button):
             self.activated = not self.activated

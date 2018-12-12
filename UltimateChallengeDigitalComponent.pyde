@@ -48,7 +48,7 @@ def draw():
     cursor(0)
     
     #Change background color            
-    background(180)
+    background(globals.backgroundColor)
     
     #Center ALL THE THINGS!
     imageMode(CENTER)
