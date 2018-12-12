@@ -3,6 +3,7 @@ import globals
 import gameSetupScreen
 import gameScreen
 import mainMenu
+import manual
 import console
 import test
 import textInput
