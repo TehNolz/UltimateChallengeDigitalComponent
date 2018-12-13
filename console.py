@@ -17,12 +17,15 @@ def draw():
     
 #Toggles the console on/off.
 def toggleConsole():
+    global consoleTextBox
     global showConsole
     global consoleText
     showConsole = not showConsole
     if not showConsole:
         consoleText = ""
         globals.activeTextBox = None
+    else:
+        globals.activeTextBox = consoleTextBox
     
 #Input a key. Will execute valid commands if the last key is enter ("\n")
 def command(input):

@@ -11,6 +11,8 @@ def init():
     global imgRet
     global retractImage
     global b
+    global challengeNextCard
+    global startChallenge
     global buttons
     
     turnImage = False
@@ -21,9 +23,18 @@ def init():
     
     Object.startGroup()
     #New card
-    b = Button(width/2, height*0.90, RoundRect(-570/2,-114/2,570,114)*0.5)
+    b = Button(width*0.5, height*0.90, RoundRect(-285,-57,570,114)*0.5)
     b.releaseAction = startTurn
     b.text = "Pick a new card."
+    
+    r = RoundRect(-140,-57,280,114)
+    challengeNextCard = Button(width*0.57, height*0.9, r.copy()*0.5)
+    challengeNextCard.releaseAction = startTurn
+    challengeNextCard.text = "Pick a new card."
+    
+    startChallenge = Button(width*0.43, height*0.9, r.copy()*0.5)
+    startChallenge.releaseAction = startChallenge
+    startChallenge.text = "Start challenge."
     
     #Back button
     r = RoundRect(-150, -150, 300, 300, 50)
@@ -46,6 +57,8 @@ def draw():
     global imgRet
     global retractImage
     global b
+    global startChallenge
+    global challengeNextCard
     global buttons
     global currentCard
     
@@ -106,8 +119,12 @@ def draw():
     
     # Scale the buttons based on the current base scale
     scale(*globals.baseScaleXY)
-    for o in buttons:
-        o.update()
+
+    if currentCard["showStart"]:
+        startChallenge.update()
+        challengeNextCard.update()
+    else:
+        b.update()
     
 def newCard():
     cardConfig = globals.cardConfig
@@ -128,7 +145,8 @@ def setCard(card):
     currentCard = {
         "id": card,
         "back": "card-"+deck+"-back",
-        "showStart": showStart
+        "showStart": showStart,
+        "minigame": globals.cardConfig[deck][card]
     }
     
 def gotoMainMenu(*args):
