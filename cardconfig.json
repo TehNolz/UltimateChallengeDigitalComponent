@@ -3,9 +3,15 @@
         "base-1": null,
         "base-10": null,
         "base-11": null,
-        "base-12": null,
-        "base-13": ["primeNumber"],
-        "base-14": null,
+        "base-12":  {
+			"timer": 60,
+		},
+        "base-13": {
+			"primeNumber": {},
+		},
+        "base-14": {
+			"timer": 60,
+		},
         "base-15": null,
         "base-16": null,
         "base-17": null,
@@ -13,21 +19,36 @@
         "base-19": null,
         "base-2": null,
         "base-20": null,
-        "base-21": null,
-        "base-22": ["timer"],
+        "base-21": null.
+        "base-22": {
+			"timer": 30,
+		},
         "base-23": null,
         "base-24": null,
         "base-25": null,
-        "base-26": ["dice"],
+        "base-26": {
+			"dice": {
+				"players": 6,
+				"target": 6,
+			},
+		},
         "base-27": null,
         "base-28": null,
-        "base-29": ["dice", "timer"],
+        "base-29": {
+			"dice": {
+				"players": 1,
+				"target": 6,
+			},
+			"timer": 15,
+		},
         "base-3": null,
-        "base-30": ["dice"],
+        "base-30": null,
         "base-31": null,
         "base-32": null,
         "base-33": null,
-        "base-34": ["timer"],
+        "base-34": {
+			"timer": 60,
+		},
         "base-35": null,
         "base-36": null,
         "base-37": null,
@@ -35,12 +56,22 @@
         "base-39": null,
         "base-4": null,
         "base-40": null,
-        "base-41": ["dice", "timer"],
-        "base-42": ["timer"],
-        "base-43": ["timer"],
+        "base-41": {
+			"dice": {
+				"players": 1,
+				"target": 1,
+			},
+			"timer": 15,
+		},
+        "base-42": {
+			"timer": 30,
+		},
+        "base-43": {
+			"timer": 10,
+		},
         "base-44": null,
         "base-45": null,
-        "base-46": ["timer"],
+        "base-46": null,
         "base-47": null,
         "base-48": null,
         "base-49": null,
@@ -52,7 +83,9 @@
         "base-9": null
     },
     "expansion1": {
-        "expansion1-1": ["ticTacToe"],
+        "expansion1-1": {
+			"ticTacToe": 1
+		},
         "expansion1-10": null,
         "expansion1-11": null,
         "expansion1-12": null,
@@ -60,20 +93,36 @@
         "expansion1-14": null,
         "expansion1-15": null,
         "expansion1-16": null,
-        "expansion1-17": ["timer"],
+        "expansion1-17": {
+			"timer": 30,
+		},
         "expansion1-18": null,
         "expansion1-19": null,
         "expansion1-2": null,
-        "expansion1-20": ["ticTacToe"],
+        "expansion1-20": {
+			"ticTacToe": 6,
+		},
         "expansion1-21": null,
         "expansion1-22": null,
         "expansion1-23": null,
         "expansion1-24": null,
-        "expansion1-25": ["dice"],
-        "expansion1-3": ["timer"],
+        "expansion1-25": {
+			"dice": {
+				"players": 6,
+				"target": "HIGHEST",
+			},
+		},
+        "expansion1-3": {
+			"timer": 300,
+		},
         "expansion1-4": null,
         "expansion1-5": null,
-        "expansion1-6": ["dice"],
+        "expansion1-6": {
+			"dice": {
+				"players": 6,
+				"target": "LOWEST",
+			},
+		},
         "expansion1-7": null,
         "expansion1-8": null,
         "expansion1-9": null
