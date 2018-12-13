@@ -106,6 +106,7 @@ def keyPressed():
     if keyCode == UP:
         globals.currentMenu = 'test'
     if keyCode == LEFT:
+        gameScreen.newCard()
         globals.currentMenu = 'gameScreen'
     if keyCode == DOWN:
         globals.currentMenu = 'mainMenu'
