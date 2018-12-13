@@ -7,8 +7,8 @@ def init():
     global manual1, manual2
     
     imgIndex = globals.imgIndex
-    manual1 = imgIndex["manual-1"]
-    manual2 = imgIndex["manual-2"]
+    #manual1 = imgIndex["manual-1"]
+    #manual2 = imgIndex["manual-2"]
 
 button_x = 165
 button_y = 525

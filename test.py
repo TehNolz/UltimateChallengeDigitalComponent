@@ -17,6 +17,7 @@ def init():
     b = Button(150,150,r.copy())
     b.applyStyle('dice')
     
+    
     buttons = Object.endGroup()
     
     Object.startGroup()

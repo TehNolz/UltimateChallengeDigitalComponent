@@ -113,7 +113,9 @@ class Rectangle:
     def placeAtZero(self): return Rectangle(0, 0, self.width, self.height)
     def getCenter(self): return Vector2(self.X+self.width/2, self.Y+self.height/2)
     def getPos(self): return Vector2(self.X, self.Y)
-    def setPos(self, x, y): return Rectangle(x, y, self.width, self.height)
+    def setPos(self, x, y):
+        self.X = x
+        self.Y = y
     
 class RoundRect(Rectangle):
     def __init__(self, x=0, y=0, w=0, h=0, r=0):
@@ -126,7 +128,6 @@ class RoundRect(Rectangle):
     def __mul__(self, other): return RoundRect(self.X + (self.width - self.width*other)/2, self.Y + (self.height - self.height*other)/2, self.width * other, self.height * other, self.radius * other)
     def copy(self): return RoundRect(self.X, self.Y, self.width, self.height, self.radius)
     def move(self, x, y): return RoundRect(self.X + x, self.Y + y, self.width, self.height, self.radius)
-    def setPos(self, x, y): return RoundRect(x, y, self.width, self.height, self.radius)
     
     def contains(self, x, y):
         if not Rectangle.contains(self, x, y): return False
@@ -160,10 +161,10 @@ class RoundRect(Rectangle):
         rect(self.X-1, self.Y+self.radius-1, self.width+2, self.height-self.radius*2+2)
         rect(self.X+self.radius-1, self.Y-1, self.width-self.radius*2+2, self.height+2)
         popStyle()
-        line(self.X+self.radius, self.Y, self.X+self.width-self.radius, self.Y)
-        line(self.X+self.radius, self.Y+self.height, self.X+self.width-self.radius, self.Y+self.height)
-        line(self.X, self.Y+self.radius, self.X, self.Y+self.height-self.radius)
-        line(self.X+self.width, self.Y+self.radius, self.X+self.width, self.Y+self.height-self.radius)
+        line(self.X+self.radius-1, self.Y, self.X+self.width-self.radius+1, self.Y)
+        line(self.X+self.radius-1, self.Y+self.height, self.X+self.width-self.radius+1, self.Y+self.height)
+        line(self.X, self.Y+self.radius-1, self.X, self.Y+self.height-self.radius+1)
+        line(self.X+self.width, self.Y+self.radius-1, self.X+self.width, self.Y+self.height-self.radius+1)
     
     def maxRadius(self): return self.width/2 if self.width < self.height else self.height/2
 

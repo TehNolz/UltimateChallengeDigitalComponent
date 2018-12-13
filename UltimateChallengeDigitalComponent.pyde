@@ -37,6 +37,8 @@ def setup():
     test.init()
     console.init()
     manual.init()
+    
+    hint(DISABLE_OPTIMIZED_STROKE)
 
 def draw():
     # Update the mousePress value in Object
@@ -68,6 +70,9 @@ def draw():
         mainMenu.draw()
     elif globals.currentMenu == "manual":
         manual.draw(mousePressed)
+    elif globals.currentMenu == "test":
+        test.draw()
+    
         
     #Show console, when necessary.
     if console.showConsole:
