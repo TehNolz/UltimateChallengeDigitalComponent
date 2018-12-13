@@ -630,7 +630,6 @@ class ButtonStyles:
                 ellipse(0, 0, dotSize, dotSize)
                         
             elif self.Rolldice==2:
-                ellipse(0, 0, dotSize, dotSize)
                 ellipse(Width/6, 0, dotSize, dotSize)
                 ellipse(-Width/6, 0, dotSize, dotSize)
                     
@@ -700,22 +699,27 @@ class ButtonStyles:
     def default_compact(action):
         def setup(self):
             self.description = ''
+            self.descriptionBoxRadius = self.shape.radius
+            self.descriptionBoxColor = self.color
         
         def idle(self, button):
             stroke(self.stroke)
-            transitionFill(self, 100, self.color)
-            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
-            self.scaleLocal(transition(self, 'scale', 250, 1, EXP))
-            self.shape.fill()
             
+            fill(self.descriptionBoxColor)
             rotate(-self.rotation-self.localRotation)
             descBox = self.shape.copy()
             descBox.setPos(0, -self.shape.height*0.8/2)
             descBox.height *= 0.8
-            descBox.width = transition(self, 'resize_desc', 250, 0, SQRT)
+            descBox.width = transition(self, 'resize_desc', 250, 0, EXP)
             descBox.radius = descBox.maxRadius()
-            descBox.radius = constrain(descBox.radius, 0, self.shape.radius)
+            descBox.radius = constrain(descBox.radius, 0, self.descriptionBoxRadius)
             descBox.fill()
+            rotate(self.rotation+self.localRotation)
+            
+            transitionFill(self, 100, self.color)
+            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
+            self.scaleLocal(transition(self, 'scale', 250, 1, EXP))
+            self.shape.fill()
             
             fill(self.textColor)
             textSize(self.textSize)
@@ -723,19 +727,22 @@ class ButtonStyles:
         
         def hover(self, button):
             stroke(self.stroke)
-            transitionFill(self, 100, self.hoverColor)
-            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
-            self.scaleLocal(transition(self, 'scale', 250, 1, EXP))
-            self.shape.fill()
             
+            fill(self.descriptionBoxColor)
             rotate(-self.rotation-self.localRotation)
             descBox = self.shape.copy()
             descBox.setPos(0, -self.shape.height*0.8/2)
             descBox.height *= 0.8
             descBox.width = transition(self, 'resize_desc', 250, 250, SQRT)
             descBox.radius = descBox.maxRadius()
-            descBox.radius = constrain(descBox.radius, 0, self.shape.radius)
+            descBox.radius = constrain(descBox.radius, 0, self.descriptionBoxRadius)
             descBox.fill()
+            rotate(self.rotation+self.localRotation)
+            
+            transitionFill(self, 100, self.hoverColor)
+            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, SQRT)
+            self.scaleLocal(transition(self, 'scale', 250, 1, SQRT))
+            self.shape.fill()
             
             fill(self.textColor)
             textSize(self.textSize)
