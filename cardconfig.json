@@ -3,14 +3,14 @@
         "base-1": null,
         "base-10": null,
         "base-11": null,
-        "base-12":  {
-			"timer": 60,
+        "base-12": {
+			"timer": 60
 		},
         "base-13": {
-			"primeNumber": {},
+			"primeNumber": {}
 		},
         "base-14": {
-			"timer": 60,
+			"timer": 60
 		},
         "base-15": null,
         "base-16": null,
@@ -19,9 +19,9 @@
         "base-19": null,
         "base-2": null,
         "base-20": null,
-        "base-21": null.
+        "base-21": null,
         "base-22": {
-			"timer": 30,
+			"timer": 30
 		},
         "base-23": null,
         "base-24": null,
@@ -29,17 +29,17 @@
         "base-26": {
 			"dice": {
 				"players": 6,
-				"target": 6,
-			},
+				"target": 6
+			}
 		},
         "base-27": null,
         "base-28": null,
         "base-29": {
 			"dice": {
 				"players": 1,
-				"target": 6,
+				"target": 6
 			},
-			"timer": 15,
+			"timer": 15
 		},
         "base-3": null,
         "base-30": null,
@@ -47,7 +47,7 @@
         "base-32": null,
         "base-33": null,
         "base-34": {
-			"timer": 60,
+			"timer": 60
 		},
         "base-35": null,
         "base-36": null,
@@ -59,15 +59,15 @@
         "base-41": {
 			"dice": {
 				"players": 1,
-				"target": 1,
+				"target": 1
 			},
-			"timer": 15,
+			"timer": 15
 		},
         "base-42": {
-			"timer": 30,
+			"timer": 30
 		},
         "base-43": {
-			"timer": 10,
+			"timer": 10
 		},
         "base-44": null,
         "base-45": null,
@@ -94,13 +94,13 @@
         "expansion1-15": null,
         "expansion1-16": null,
         "expansion1-17": {
-			"timer": 30,
+			"timer": 30
 		},
         "expansion1-18": null,
         "expansion1-19": null,
         "expansion1-2": null,
         "expansion1-20": {
-			"ticTacToe": 6,
+			"ticTacToe": 6
 		},
         "expansion1-21": null,
         "expansion1-22": null,
@@ -109,19 +109,19 @@
         "expansion1-25": {
 			"dice": {
 				"players": 6,
-				"target": "HIGHEST",
-			},
+				"target": "HIGHEST"
+			}
 		},
         "expansion1-3": {
-			"timer": 300,
+			"timer": 300
 		},
         "expansion1-4": null,
         "expansion1-5": null,
         "expansion1-6": {
 			"dice": {
 				"players": 6,
-				"target": "LOWEST",
-			},
+				"target": "LOWEST"
+			}
 		},
         "expansion1-7": null,
         "expansion1-8": null,
