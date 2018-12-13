@@ -17,6 +17,10 @@ def init():
     b = Button(150,150,r.copy())
     b.applyStyle('dice')
     
+    b = Button(600, 150, r.copy() * 0.5)
+    b.applyStyle('compact')
+    b.description = 'Placeholder'
+    
     buttons = Object.endGroup()
     
     Object.startGroup()

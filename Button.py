@@ -285,7 +285,7 @@ class ButtonStyles:
         # Setup initializes style-specific fields
         def setup(self):
             self.resetWave = False
-            self.pulseAmplitude = 0.05
+            self.pulseAmplitude = 0.025
         
         def idle(self, button):
             stroke(self.stroke)
@@ -389,7 +389,7 @@ class ButtonStyles:
             self.idleRotation = 0
             self.hoverRotation = QUARTER_PI
             self.pressRotation = 0
-            self.pulseAmplitude = 0.05
+            self.pulseAmplitude = 0.025
             self.resetWave = True
         
         def idle(self, button):
@@ -642,7 +642,6 @@ class ButtonStyles:
             elif self.Rolldice==4:
                 ellipse(-Width/6, Width/6, dotSize, dotSize)
                 ellipse(Width/6, -Width/6, dotSize, dotSize)
-                
                 ellipse(Width/6, Width/6, dotSize, dotSize)
                 ellipse(-Width/6, -Width/6, dotSize, dotSize)
                         
@@ -650,17 +649,14 @@ class ButtonStyles:
                 ellipse(0, 0, dotSize, dotSize)
                 ellipse(-Width/6, Width/6, dotSize, dotSize)
                 ellipse(Width/6, -Width/6, dotSize, dotSize)
-                
                 ellipse(Width/6, Width/6, dotSize, dotSize)
                 ellipse(-Width/6, -Width/6, dotSize, dotSize)
                     
             elif self.Rolldice==6:
                 ellipse(-Width/6, Width/6, dotSize, dotSize)
                 ellipse(Width/6, -Width/6, dotSize, dotSize)
-                
                 ellipse(Width/6, 0, dotSize, dotSize)
                 ellipse(-Width/6, 0, dotSize, dotSize)
-                
                 ellipse(Width/6, Width/6, dotSize, dotSize)
                 ellipse(-Width/6, -Width/6, dotSize, dotSize)
             
@@ -701,6 +697,56 @@ class ButtonStyles:
         if action == 'release': return release
         return None
 
+    def default_compact(action):
+        def setup(self):
+            self.description = ''
+        
+        def idle(self, button):
+            stroke(self.stroke)
+            transitionFill(self, 100, self.color)
+            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
+            self.scaleLocal(transition(self, 'scale', 250, 1, EXP))
+            self.shape.fill()
+            
+            rotate(-self.rotation-self.localRotation)
+            descBox = self.shape.copy()
+            descBox.setPos(0, -self.shape.height*0.8/2)
+            descBox.height *= 0.8
+            descBox.width = transition(self, 'resize_desc', 250, 0, SQRT)
+            descBox.radius = descBox.maxRadius()
+            descBox.radius = constrain(descBox.radius, 0, self.shape.radius)
+            descBox.fill()
+            
+            fill(self.textColor)
+            textSize(self.textSize)
+            text(self.text, 0, textHeight(self.text) / 2)
+        
+        def hover(self, button):
+            stroke(self.stroke)
+            transitionFill(self, 100, self.hoverColor)
+            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
+            self.scaleLocal(transition(self, 'scale', 250, 1, EXP))
+            self.shape.fill()
+            
+            rotate(-self.rotation-self.localRotation)
+            descBox = self.shape.copy()
+            descBox.setPos(0, -self.shape.height*0.8/2)
+            descBox.height *= 0.8
+            descBox.width = transition(self, 'resize_desc', 250, 250, SQRT)
+            descBox.radius = descBox.maxRadius()
+            descBox.radius = constrain(descBox.radius, 0, self.shape.radius)
+            descBox.fill()
+            
+            fill(self.textColor)
+            textSize(self.textSize)
+            text(self.text, 0, textHeight(self.text) / 2)
+        
+        action = action.lower()
+        if action == 'setup': return setup
+        if action == 'idle': return idle
+        if action == 'hover': return hover
+        return None
+
     # A dictionary containing all styles and their name
     styles = {
         'default': default,
@@ -709,7 +755,8 @@ class ButtonStyles:
         'rotate_pulsate': default_rotate_pulsate,
         'radio': default_radio,
         'checkbox': default_checkbox,
-        'dice': custom_dice
+        'dice': custom_dice,
+        'compact': default_compact
     }
     
     class NoSuchStyleException(Exception):
