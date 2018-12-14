@@ -1,4 +1,5 @@
 import globals
+import minigame
 from util import *
 from Button import Button
 from Object import Object
@@ -33,7 +34,7 @@ def init():
     challengeNextCard.text = "Pick a new card."
     
     startChallenge = Button(width*0.43, height*0.9, r.copy()*0.5)
-    startChallenge.releaseAction = startChallenge
+    startChallenge.releaseAction = gotoMinigame
     startChallenge.text = "Start challenge."
     
     #Back button
@@ -152,3 +153,8 @@ def setCard(card):
 def gotoMainMenu(*args):
     if args[1] == LEFT:
         globals.currentMenu = "mainMenu"
+def gotoMinigame(*args):
+    global currentCard
+    if args[1] == LEFT:
+        minigame.currentCard = currentCard
+        globals.currentMenu = "minigame"

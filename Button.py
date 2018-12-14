@@ -34,6 +34,8 @@ class Button(Object):
         self.disableControls = True
         self.text = ''
         
+        self.name = "" #You see dis? I need dis.
+        
         # A set containing the mouseButton values that this button will respond to.
         self.activators = {LEFT}
 

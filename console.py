@@ -15,6 +15,8 @@ def draw():
     global consoleTextBox
     consoleTextBox.draw()
     
+    text(frameRate, width*0.9, height*0.9)
+    
 #Toggles the console on/off.
 def toggleConsole():
     global consoleTextBox

@@ -7,6 +7,7 @@ import manual
 import console
 import test
 import textInput
+import minigame
 from Object import Object
 from util import *
 
@@ -37,6 +38,7 @@ def setup():
     test.init()
     console.init()
     manual.init()
+    minigame.init()
     
     hint(DISABLE_OPTIMIZED_STROKE)
 
@@ -70,6 +72,8 @@ def draw():
         mainMenu.draw()
     elif globals.currentMenu == "manual":
         manual.draw(mousePressed)
+    elif globals.currentMenu == "minigame":
+        minigame.draw()
     elif globals.currentMenu == "test":
         test.draw()
     
@@ -109,6 +113,6 @@ def keyPressed():
         gameScreen.newCard()
         globals.currentMenu = 'gameScreen'
     if keyCode == DOWN:
-        globals.currentMenu = 'mainMenu'
+        globals.currentMenu = 'minigame'
     if keyCode == RIGHT:
         globals.currentMenu = 'gameSetupScreen'

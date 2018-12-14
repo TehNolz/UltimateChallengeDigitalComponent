@@ -5,6 +5,7 @@ import globals
 import textInput
 import data
 import gameScreen
+import minigame
 
 buttons = None
 def init():
@@ -133,8 +134,9 @@ def startGame(*args):
                 globals.userConfig["players"][str(player+1)] = textBox.text
             
             data.saveData()
-            globals.currentMenu = "gameScreen"
+            globals.playerCount = playerCount
             gameScreen.newCard()
+            globals.currentMenu = "gameScreen"
         else:
             pass
         

@@ -12,6 +12,7 @@ import globals
 # textColor - Color of the text, made using color(). Default is black.
 # textSize  - Size of the text. Default is boxHeight*0.6
 # command   - The function to execute after the user presses Enter/Return. Defaults to None.
+# writable  - Whether to allow players to type in this box. Default is true.
 
 class textBox:
     def __init__(self, x, y, boxWidth, boxHeight, **kwargs):
@@ -27,6 +28,7 @@ class textBox:
         self.textSize = kwargs.get("textSize", self.boxHeight*0.6)
         self.command = kwargs.get("command", None)
         self.numeric = kwargs.get("numeric", False)
+        self.writable = kwargs.get("writable", True)
         
         self.text = ""
         self.activeTimer = millis()
@@ -69,7 +71,8 @@ class textBox:
                     self.text+=str(inputKey)
             
     def active(self):
-        globals.activeTextBox = self
+        if self.writable:
+            globals.activeTextBox = self
         
 def check():
     baseX = globals.baseScaleXY.X
