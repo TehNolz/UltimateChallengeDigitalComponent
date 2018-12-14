@@ -14,9 +14,10 @@ def init():
     globals.bgColor = color(204)
     
     r = RoundRect(-150, -150, 300, 300, 50)
-    b = Button(150,150,r.copy())
-    b.applyStyle('dice')
-    
+    b = Button(150,300,r.copy()*0.5)
+    b.applyStyle('compact')
+    b.text = 'test\nbutton'
+    b.description = 'placeholder\ntext'
     
     buttons = Object.endGroup()
     
@@ -73,36 +74,12 @@ def init():
     bGroup2 = Object.endGroup()
 
 def draw():
+    scale(globals.baseScale)
     background(globals.bgColor)
     pushStyle()
     rectMode(CORNER)
     textMode(LEFT)
     
-    pushMatrix()
-    scale(globals.baseScale)
-    translate(300,300)
-    scale(0.5)
-
-    m = g.getMatrix()
-    m.invert()
-    m.translate(-width/2, -height/2)
-    g.setMatrix(m)
-    
-    mousePos1 = Vector2(mouseX, mouseY)
-    mousePos2 = mousePos1.getModelPos()
-    popMatrix()
-    
-    strokeWeight(5)
-    fill(0)
-    stroke(0)
-    
-    point(*mousePos1)
-    point(*mousePos2)
-    
-    fill(255,0,0)
-    pushMatrix()
-    
-    scale(globals.baseScale)
     for o in bGroup2:
         o.update()
     
@@ -111,19 +88,6 @@ def draw():
     for o in bGroup2:
         s = "This button is: " + str(o.activated)
         text(s, 1133/2+20, o.pos.Y + textHeight(s)/2)
-    popMatrix()
-        
-    fill(255,0,0)
-    pushMatrix()
-    translate(*b.pos)
-    b.shape.fill()
-    popMatrix()
-
-    scale(globals.baseScale)
-    translate(300,300)
-    scale(0.5)
 
     for o in buttons:
         o.update()
-    
-    popStyle()
