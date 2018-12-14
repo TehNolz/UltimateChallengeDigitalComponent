@@ -17,6 +17,7 @@ def loadData():
         userConfig = globals.userConfig
         with open('userconfig.json', 'w') as outfile:
             json.dump(userConfig, outfile, indent=4)
+    globals.log.info("Loaded configs.")
     
     #Load all assets
     for file in os.listdir("data"):
