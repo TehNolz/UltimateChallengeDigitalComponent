@@ -19,6 +19,7 @@ class Button(Object):
         self.idleStroke = color(0, 255)
         self.hoverStroke = color(0, 0)
         self.pressStroke = color(0, 128)
+        self.strokeSize = 3
         
         self.textColor = color(0)
         self.textSize = self.shape.getMaxTextSize() / 5
@@ -51,7 +52,7 @@ class Button(Object):
         self.stroke = color((float(millis())/20)%255, 255, 150)
         colorMode(RGB)
         strokeJoin(ROUND)
-        strokeWeight(3)
+        strokeWeight(self.strokeSize)
         textFont(self.font)
         
         self.updateCursor()
@@ -292,7 +293,6 @@ class ButtonStyles:
     def default_pulsate(action):
         # Setup initializes style-specific fields
         def setup(self):
-            self.resetWave = False
             self.pulseAmplitude = 0.025
         
         def idle(self, button):
@@ -300,7 +300,7 @@ class ButtonStyles:
             transitionFill(self, 100, self.color)
             self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
             wave = sin(PI * (float(millis()) / 1000))*self.pulseAmplitude
-            self.scaleLocal(transition(self, 'scale', 250, 1+wave, EXP, self.resetWave))
+            self.scaleLocal(transition(self, 'scale', 250, 1+wave, EXP, 0))
             self.resetWave = False
             self.shape.fill()
             fill(self.textColor)
@@ -312,8 +312,7 @@ class ButtonStyles:
             transitionStroke(self, 100, self.stroke, LIN, 1)
             transitionFill(self, 100, self.hoverColor)
             self.shape.radius = transition(self, 'radius', 150, self.shape.maxRadius()*0.25, SQRT)
-            #self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
-            self.resetWave = True
+            self.scaleLocal(transition(self, 'scale', 250, 1.1, SQRT))
             self.shape.fill()
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
@@ -326,7 +325,6 @@ class ButtonStyles:
             transitionFill(self, 50, self.pressColor)
             self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
             self.scaleLocal(transition(self, 'scale', 75, 0.8, SQRT))
-            self.resetWave = True
             self.shape.fill()
             fill(self.textColor)
             rotate(-self.rotation-self.localRotation)
@@ -464,9 +462,7 @@ class ButtonStyles:
                     self.shape.width = self.shape.height
             self.radioGroup = ''
             self.activated = False
-            self.radioColor = color(0, 75)
-            # ColorTransition tells the transitionFill when it should cache it's color. (Hard to explain, it's important trust me)
-            self.colorTransition = True
+            self.radioColor = color(0, 50)
             self.shape.radius = self.shape.maxRadius()
             self.indicatorScale = 0.5
         
@@ -477,12 +473,9 @@ class ButtonStyles:
             self.scaleLocal(transition(self, 'scale', 100, 1, EXP))
             self.shape.fill()
             if self.activated:
-                transitionFill(self, 100, c, LIN, self.colorTransition, 'radio')
-                self.colorTransition = False
+                transitionFill(self, 100, c, LIN, 0, 'radio')
             else:
-                transitionFill(self, 100, self.color, LIN, True, 'radio')
-                # This prevents the transitionFill from thinking it needs to reset
-                self.colorTransition = True
+                transitionFill(self, 100, self.color, LIN, -1, 'radio')
             noStroke()
             pushMatrix()
             scale(self.indicatorScale)
@@ -493,14 +486,12 @@ class ButtonStyles:
             c = lerpColor(self.stroke, removeAlpha(self.radioColor), float(alpha(self.radioColor)) / 255)
             transitionStroke(self, 100, self.stroke, LIN, 1)
             transitionFill(self, 100, self.hoverColor)
-            self.scaleLocal(transition(self, 'scale', 100, 1.1, SQRT))
+            self.scaleLocal(transition(self, 'scale', 100, 1, SQRT))
             self.shape.fill()
             if self.activated:
-                transitionFill(self, 100, c, LIN, self.colorTransition, 'radio')
-                self.colorTransition = False
+                transitionFill(self, 100, c, LIN, 1, 'radio')
             else:
-                transitionFill(self, 100, self.hoverColor, LIN, True, 'radio')
-                self.colorTransition = True
+                transitionFill(self, 100, self.hoverColor, LIN, -1, 'radio')
             noStroke()
             pushMatrix()
             scale(self.indicatorScale)
@@ -515,11 +506,9 @@ class ButtonStyles:
             self.scaleLocal(transition(self, 'scale', 50, 0.9, SQRT))
             self.shape.fill()
             if self.activated:
-                transitionFill(self, 50, c, LIN, self.colorTransition, 'radio')
-                self.colorTransition = False
+                transitionFill(self, 50, c, LIN, 2, 'radio')
             else:
-                transitionFill(self, 50, self.pressColor, LIN, True, 'radio')
-                self.colorTransition = True
+                transitionFill(self, 50, self.pressColor, LIN, -1, 'radio')
             noStroke()
             pushMatrix()
             scale(self.indicatorScale)
@@ -542,9 +531,8 @@ class ButtonStyles:
 
     def default_checkbox(action):
         def setup(self):
-            self.boxColor = color(0, 75)
+            self.boxColor = color(0, 50)
             self.activated = False
-            self.colorTransition = True
             self.indicatorScale = 0.5
         
         def idle(self, button):
@@ -556,11 +544,9 @@ class ButtonStyles:
             self.scaleLocal(transition(self, 'scale', 100, 1, EXP))
             self.shape.fill()
             if self.activated:
-                transitionFill(self, 100, c, LIN, self.colorTransition, 'box')
-                self.colorTransition = False
+                transitionFill(self, 100, c, LIN, 0, 'box')
             else:
-                transitionFill(self, 100, self.color, LIN, True, 'box')
-                self.colorTransition = True
+                transitionFill(self, 100, self.color, LIN, -1, 'box')
             # Apply the cached fill color to stroke because otherwise the borders are missing
             stroke(getColor(self, '<fill>box#MEM', self.color))
             (self.shape * self.indicatorScale).fill()
@@ -569,14 +555,12 @@ class ButtonStyles:
             c = lerpColor(self.stroke, removeAlpha(self.boxColor), float(alpha(self.boxColor)) / 255)
             transitionStroke(self, 100, self.stroke, LIN, 1)
             transitionFill(self, 100, self.hoverColor)
-            self.scaleLocal(transition(self, 'scale', 100, 1.1, SQRT))
+            self.scaleLocal(transition(self, 'scale', 100, 1, SQRT))
             self.shape.fill()
             if self.activated:
-                transitionFill(self, 100, c, LIN, self.colorTransition, 'box')
-                self.colorTransition = False
+                transitionFill(self, 100, c, LIN, 1, 'box')
             else:
-                transitionFill(self, 100, self.hoverColor, LIN, True, 'box')
-                self.colorTransition = True
+                transitionFill(self, 100, self.hoverColor, LIN, -1, 'box')
             stroke(getColor(self, '<fill>box#MEM', self.color))
             (self.shape * self.indicatorScale).fill()
             cursor(HAND)
@@ -585,14 +569,12 @@ class ButtonStyles:
             c = lerpColor(self.stroke, removeAlpha(self.boxColor), float(alpha(self.boxColor)) / 255)
             transitionStroke(self, 50, self.stroke, LIN, 2)
             transitionFill(self, 50, self.pressColor)
-            self.scaleLocal(transition(self, 'scale', 50, 1, SQRT))
+            self.scaleLocal(transition(self, 'scale', 50, 0.9, SQRT))
             self.shape.fill()
             if self.activated:
-                transitionFill(self, 50, c, LIN, self.colorTransition, 'box')
-                self.colorTransition = False
+                transitionFill(self, 50, c, LIN, 2, 'box')
             else:
-                transitionFill(self, 50, self.pressColor, LIN, True, 'box')
-                self.colorTransition = True
+                transitionFill(self, 50, self.pressColor, LIN, -1, 'box')
             stroke(getColor(self, '<fill>box#MEM', self.color))
             (self.shape * self.indicatorScale).fill()
             cursor(HAND)
@@ -612,7 +594,9 @@ class ButtonStyles:
         def setup(self):
             self.throwdice = False
             self.rolled = 0
-            self.Rolldice = 2
+            self.Rolldice = 1
+            self.useStroke = True
+            self.dotColor = color(0, 0)
         
         def throw(self):
             Width = self.shape.width
@@ -623,6 +607,10 @@ class ButtonStyles:
                 dotSize = Height * (float(2)/15)
             else:
                 dotSize = Width * (float(2)/15)
+            
+            if self.useStroke: stroke(self.stroke)
+            else: noStroke()
+            fill(red(self.dotColor), green(self.dotColor), blue(self.dotColor), alpha(self.dotColor))
             
             import random
             if self.throwdice:
@@ -707,24 +695,33 @@ class ButtonStyles:
             self.description = ''
             self.descriptionBoxRadius = self.shape.radius
             self.descriptionBoxColor = self.color
+            self.descBoxScale = 0.7
         
         def idle(self, button):
+            textSize(self.textSize)
             transitionStroke(self, 100, self.stroke, LIN, 0)
+            self.scaleLocal(transition(self, 'scale', 100, 1, EXP))
             
             fill(self.descriptionBoxColor)
             rotate(-self.rotation-self.localRotation)
             descBox = self.shape.copy()
-            descBox.setPos(0, -self.shape.height*0.8/2)
-            descBox.height *= 0.8
-            descBox.width = transition(self, 'resize_desc', 250, 0, EXP)
-            descBox.radius = descBox.maxRadius()
-            descBox.radius = constrain(descBox.radius, 0, self.descriptionBoxRadius)
+            descBox.setPos(0, -self.shape.height * self.descBoxScale /2)
+            descBox.height *= self.descBoxScale
+            descBox.radius *= self.descBoxScale
+            descBox.width = transition(self, 'resize_desc', 150, 0, EXP)
             descBox.fill()
             rotate(self.rotation+self.localRotation)
             
+            fill(self.textColor)
+            x = descBox.width - textWidth(self.description) / 2 - textAscent()/2
+            pushMatrix()
+            if x - textWidth(self.description) < 0:
+                scale(min((x + self.shape.width - textAscent()/2) / self.shape.width, 1))
+            text(self.description, x, textHeight(self.description)/2-textDescent()/4)
+            popMatrix()
+            
             transitionFill(self, 100, self.color)
-            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, EXP)
-            self.scaleLocal(transition(self, 'scale', 250, 1, EXP))
+            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, SQRT)
             self.shape.fill()
             
             fill(self.textColor)
@@ -732,22 +729,61 @@ class ButtonStyles:
             text(self.text, 0, textHeight(self.text) / 2)
         
         def hover(self, button):
+            textSize(self.textSize)
             transitionStroke(self, 100, self.stroke, LIN, 1)
+            self.scaleLocal(transition(self, 'scale', 100, 1, SQRT))
             
             fill(self.descriptionBoxColor)
             rotate(-self.rotation-self.localRotation)
             descBox = self.shape.copy()
-            descBox.setPos(0, -self.shape.height*0.8/2)
-            descBox.height *= 0.8
-            descBox.width = transition(self, 'resize_desc', 250, 250, SQRT)
-            descBox.radius = descBox.maxRadius()
-            descBox.radius = constrain(descBox.radius, 0, self.descriptionBoxRadius)
+            descBox.setPos(0, -self.shape.height * self.descBoxScale /2)
+            descBox.height *= self.descBoxScale
+            descBox.radius *= self.descBoxScale
+            descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + textAscent(), SQRT)
             descBox.fill()
             rotate(self.rotation+self.localRotation)
             
+            fill(self.textColor)
+            x = descBox.width - textWidth(self.description) / 2 - textAscent()/2
+            pushMatrix()
+            if x - textWidth(self.description) < 0:
+                scale(min((x + self.shape.width - textAscent()/2) / self.shape.width, 1))
+            text(self.description, x, textHeight(self.description)/2-textDescent()/4)
+            popMatrix()
+            
             transitionFill(self, 100, self.hoverColor)
-            self.shape.radius = transition(self, 'radius', 250, self.shape.maxRadius()*0.5, SQRT)
-            self.scaleLocal(transition(self, 'scale', 250, 1, SQRT))
+            self.shape.radius = transition(self, 'radius', 100, self.shape.maxRadius()*0.25, SQRT)
+            self.shape.fill()
+            
+            fill(self.textColor)
+            textSize(self.textSize)
+            text(self.text, 0, textHeight(self.text) / 2)
+            
+        def press(self, button):
+            textSize(self.textSize)
+            transitionStroke(self, 75, self.stroke, LIN, 2)
+            self.scaleLocal(transition(self, 'scale', 75, 0.9, SQRT))
+            
+            fill(self.descriptionBoxColor)
+            rotate(-self.rotation-self.localRotation)
+            descBox = self.shape.copy()
+            descBox.setPos(0, -self.shape.height * self.descBoxScale /2)
+            descBox.height *= self.descBoxScale
+            descBox.radius *= self.descBoxScale
+            descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + textAscent(), SQRT)
+            descBox.fill()
+            rotate(self.rotation+self.localRotation)
+            
+            fill(self.textColor)
+            x = descBox.width - textWidth(self.description) / 2 - textAscent()/2
+            pushMatrix()
+            if x - textWidth(self.description) < 0:
+                scale(min((x + self.shape.width - textAscent()/2) / self.shape.width, 1))
+            text(self.description, x, textHeight(self.description)/2-textDescent()/4)
+            popMatrix()
+            
+            transitionFill(self, 75, self.pressColor)
+            self.shape.radius = transition(self, 'radius', 75, self.shape.maxRadius()*0.75, SQRT)
             self.shape.fill()
             
             fill(self.textColor)
@@ -758,6 +794,7 @@ class ButtonStyles:
         if action == 'setup': return setup
         if action == 'idle': return idle
         if action == 'hover': return hover
+        if action == 'press': return press
         return None
 
     # A dictionary containing all styles and their name
