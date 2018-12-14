@@ -23,10 +23,15 @@ def cacheTransition(self, id, value): transitionCache[id+str(self)] = value
 def getTransition(self, id, default): return transitionCache[id+str(self)] if (id+str(self)) in transitionCache else default
 
 transitions = dict()
-def transition(self, id, time, value, mod=LIN, autoReset=True):
+def transition(self, id, time, value, mod=LIN, stage=-1):
     _id = id+str(self)
-    if time == 0 or not _id in transitions or autoReset and not transitions[_id][1] == value:
-        transitions[_id] = (millis()+time, value)
+    reset = False
+    if stage >= 0 and (time == 0 or not _id in transitions or not transitions[_id][2] == stage):
+        reset = True
+    elif stage < 0 and (time == 0 or not _id in transitions or not transitions[_id][1] == value):
+        reset = True
+    if reset:
+        transitions[_id] = (millis()+time, value, stage)
         nv = getTransition(self, id+'#MEM', value)
         cacheTransition(self,id,nv)
         return nv
@@ -42,10 +47,15 @@ def cacheColor(self, id, c): colorCache[id+str(self)] = c
 def getColor(self, id, default): return colorCache[id+str(self)] if (id+str(self)) in colorCache else default
 
 colorTransitions = dict()
-def transitionColor(self, id, time, c, mod=LIN, autoReset=True):
+def transitionColor(self, id, time, c, mod=LIN, stage=-1):
     _id = id+str(self)
-    if time == 0 or not _id in colorTransitions or autoReset and not colorTransitions[_id][1] == c:
-        colorTransitions[_id] = (millis()+time, c)
+    reset = False
+    if stage >= 0 and (time == 0 or not _id in colorTransitions or not colorTransitions[_id][2] == stage):
+        reset = True
+    elif stage < 0 and (time == 0 or not _id in colorTransitions or not colorTransitions[_id][1] == c):
+        reset = True
+    if reset:
+        colorTransitions[_id] = (millis()+time, c, stage)
         nc = getColor(self, id+'#MEM', c)
         cacheColor(self,id,nc)
         return nc
@@ -56,9 +66,8 @@ def transitionColor(self, id, time, c, mod=LIN, autoReset=True):
     cacheColor(self, id+'#MEM', nc)
     return nc
 
-# I had to squeeze the id parameter in lol
-def transitionFill(self, time, c, mod=LIN, autoReset=True, id=''): fill(transitionColor(self, '<fill>'+id, time, c, mod, autoReset))
-def transitionStroke(self, time, c, mod=LIN, autoReset=True, id=''): stroke(transitionColor(self, '<stroke>'+id, time, c, mod, autoReset))
+def transitionFill(self, time, c, mod=LIN, stage=-1, id=''): fill(transitionColor(self, '<fill>'+id, time, c, mod, stage))
+def transitionStroke(self, time, c, mod=LIN, stage=-1, id=''): stroke(transitionColor(self, '<stroke>'+id, time, c, mod, stage))
 
 def decayVal(val, rate, neutral = 0):
     rate = abs(rate)
