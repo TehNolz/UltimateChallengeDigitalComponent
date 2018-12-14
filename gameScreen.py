@@ -9,19 +9,17 @@ def init():
     global imgRot
     global imgPos
     global imgRet
-    global toggleChallengeField
+    global retractImage
     global b
     global challengeNextCard
-    global startChallengeButton
+    global startChallenge
     global buttons
-    global challengeFieldPos
     
     turnImage = False
     imgRot = 0
     imgPos = "foreground"
     imgRet = 0
-    toggleChallengeField = False
-    challengeFieldPos = 0
+    retractImage = False
     
     Object.startGroup()
     #New card
@@ -34,9 +32,9 @@ def init():
     challengeNextCard.releaseAction = startTurn
     challengeNextCard.text = "Pick a new card."
     
-    startChallengeButton = Button(width*0.43, height*0.9, r.copy()*0.5)
-    startChallengeButton.releaseAction = startChallenge
-    startChallengeButton.text = "Start challenge."
+    startChallenge = Button(width*0.43, height*0.9, r.copy()*0.5)
+    startChallenge.releaseAction = startChallenge
+    startChallenge.text = "Start challenge."
     
     #Back button
     r = RoundRect(-150, -150, 300, 300, 50)
@@ -57,13 +55,12 @@ def draw():
     global imgRot
     global imgPos
     global imgRet
-    global toggleChallengeField
+    global retractImage
     global b
-    global startChallengeButton
+    global startChallenge
     global challengeNextCard
     global buttons
     global currentCard
-    global challengeFieldPos
     
     pushMatrix()
     translate(width/2, 0, 0)
@@ -82,30 +79,19 @@ def draw():
         newCard()
         
     #Challenge card retract. When retractImage is true, the card will move forwards/backwards depending on whether its currently backwards/forwards.
-    if toggleChallengeField:
+    if retractImage:
         if imgPos == "foreground":
-            if imgRet == -100:
-                toggleChallengeField = False
+            if imgRet == -200:
+                retractImage = False
                 imgPos = "background"
             else:
                 imgRet-=5
-                challengeFieldPos-=1
         elif imgPos == "background":
             if imgRet == 0:
-                toggleChallengeField = False
+                retractImage = False
                 imgPos = "foreground"
             else:
                 imgRet+=5
-                challengeFieldPos+=1
-                
-                
-    pushMatrix()
-    fill(255, 255, 255)
-    print(challengeFieldPos/100.0)
-    translate(0, 0-height*(challengeFieldPos/100), 0)
-    rect(0, 0, width+100, height+100)
-    
-    popMatrix()
 
     #Card
     pushMatrix()
@@ -135,7 +121,7 @@ def draw():
     scale(*globals.baseScaleXY)
 
     if currentCard["showStart"]:
-        startChallengeButton.update()
+        startChallenge.update()
         challengeNextCard.update()
     else:
         b.update()
@@ -166,12 +152,3 @@ def setCard(card):
 def gotoMainMenu(*args):
     if args[1] == LEFT:
         globals.currentMenu = "mainMenu"
-        
-def startChallenge(*args):
-    if args[1] == LEFT:
-        global toggleChallengeField
-        global challengeActive
-        
-        toggleChallengeField = True
-        challengeActive = True
-    
