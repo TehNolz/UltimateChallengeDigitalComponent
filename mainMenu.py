@@ -41,9 +41,6 @@ def draw():
 def gotoGameSetupScreen(*args):
     if args[1] == LEFT:
         globals.currentMenu = "gameSetupScreen"
-def gotoGameScreen(*args):
-    if args[1] == LEFT:
-        globals.currentMenu = "gameScreen"
 def gotoSettingsScreen(*args):
     if args[1] == LEFT:
         globals.currentMenu = "settings"
