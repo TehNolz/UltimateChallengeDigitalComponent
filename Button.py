@@ -696,7 +696,7 @@ class ButtonStyles:
             self.descriptionBoxRadius = self.shape.radius
             self.descriptionBoxColor = self.color
             self.descBoxScale = 0.7
-            self.descBoxSide = 'LEFT'
+            self.descBoxSide = 'RIGHT'
         
         def idle(self, button):
             textSize(self.textSize)
