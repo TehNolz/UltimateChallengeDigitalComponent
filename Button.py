@@ -698,6 +698,7 @@ class ButtonStyles:
             self.descriptionBoxRadius = self.shape.radius
             self.descriptionBoxColor = self.color
             self.descBoxScale = 0.7
+            self.descBoxSide = 'RIGHT'
         
         def idle(self, button):
             textSize(self.textSize)
@@ -711,15 +712,19 @@ class ButtonStyles:
             descBox.height *= self.descBoxScale
             descBox.radius *= self.descBoxScale
             descBox.width = transition(self, 'resize_desc', 150, 0, EXP)
+            if self.descBoxSide.upper() == 'LEFT':
+                descBox.X -= descBox.width
             descBox.fill()
             rotate(self.rotation+self.localRotation)
             
             fill(self.textColor)
-            x = descBox.width - textWidth(self.description) / 2 - textAscent()/2
             pushMatrix()
-            if x - textWidth(self.description) < 0:
-                scale(min((x + self.shape.width - textAscent()/2) / self.shape.width, 1))
-            text(self.description, x, textHeight(self.description)/2-textDescent()/4)
+            # The 'w' variable is the current width
+            w = max(self.shape.width, self.shape.width / 2 + descBox.width - textAscent()/2)
+            translate((w - self.shape.width/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
+            scale(constrain(w / textWidth(self.description), 0, 1))
+            translate((-textWidth(self.description)/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
+            text(self.description, 0, textHeight(self.description)/2-textDescent()/4)
             popMatrix()
             
             transitionFill(self, 100, self.color)
@@ -742,15 +747,19 @@ class ButtonStyles:
             descBox.height *= self.descBoxScale
             descBox.radius *= self.descBoxScale
             descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + textAscent(), SQRT)
+            if self.descBoxSide.upper() == 'LEFT':
+                descBox.X -= descBox.width
             descBox.fill()
             rotate(self.rotation+self.localRotation)
             
             fill(self.textColor)
-            x = descBox.width - textWidth(self.description) / 2 - textAscent()/2
             pushMatrix()
-            if x - textWidth(self.description) < 0:
-                scale(min((x + self.shape.width - textAscent()/2) / self.shape.width, 1))
-            text(self.description, x, textHeight(self.description)/2-textDescent()/4)
+            # The 'w' variable is the current width
+            w = max(self.shape.width, self.shape.width / 2 + descBox.width - textAscent()/2)
+            translate((w - self.shape.width/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
+            scale(constrain(w / textWidth(self.description), 0, 1))
+            translate((-textWidth(self.description)/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
+            text(self.description, 0, textHeight(self.description)/2-textDescent()/4)
             popMatrix()
             
             transitionFill(self, 100, self.hoverColor)
@@ -773,15 +782,19 @@ class ButtonStyles:
             descBox.height *= self.descBoxScale
             descBox.radius *= self.descBoxScale
             descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + textAscent(), SQRT)
+            if self.descBoxSide.upper() == 'LEFT':
+                descBox.X -= descBox.width
             descBox.fill()
             rotate(self.rotation+self.localRotation)
             
             fill(self.textColor)
-            x = descBox.width - textWidth(self.description) / 2 - textAscent()/2
             pushMatrix()
-            if x - textWidth(self.description) < 0:
-                scale(min((x + self.shape.width - textAscent()/2) / self.shape.width, 1))
-            text(self.description, x, textHeight(self.description)/2-textDescent()/4)
+            # The 'w' variable is the current width
+            w = max(self.shape.width, self.shape.width / 2 + descBox.width - textAscent()/2)
+            translate((w - self.shape.width/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
+            scale(constrain(w / textWidth(self.description), 0, 1))
+            translate((-textWidth(self.description)/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
+            text(self.description, 0, textHeight(self.description)/2-textDescent()/4)
             popMatrix()
             
             transitionFill(self, 75, self.pressColor)
