@@ -39,7 +39,7 @@ def command(input):
     #setcard <id>
     #Changes the current challenge card to <id>
     if globals.currentMenu == "gameScreen":
-        if command[0] == "setcard":
+        if command[0] == "setcard" or command[0] == "sc":
             exists = False
             for deck in globals.cardConfig:
                 if command[1] in globals.cardConfig[deck]:
@@ -55,8 +55,11 @@ def command(input):
                 
         #flipcard
         #Flips the card
-        elif command[0] == "flipcard":
+        elif command[0] == "flipcard" or command[0] == "fc":
             if not gameScreen.retractImage:
                 gameScreen.turnImage = True
+    
+    if command == "changemenu" or command[0] == "cm":
+        globals.currentMenu = str(command[1])
     
     consoleTextBox.text = ""

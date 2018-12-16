@@ -58,7 +58,7 @@ class textBox:
     def input(self, inputKey, inputCode):
         inputKey = str(inputKey)
         if len(inputKey) == 1:
-            if not inputKey == CODED:
+            if not self.numeric or inputKey in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]: #Probably a really shitty solution but w/e
                 if inputKey == BACKSPACE:
                     self.text = self.text[:-1]
                     if inputCode == CONTROL:
