@@ -704,9 +704,11 @@ class ButtonStyles:
             self.descriptionBoxColor = self.color
             self.descBoxScale = 0.7
             self.descBoxSide = 'RIGHT'
+            self.descBoxTextSize = self.textSize * 0.75
+            self.permanentDesc = False
         
         def idle(self, button):
-            textSize(self.textSize)
+            textSize(self.descBoxTextSize)
             transitionStroke(self, 100, self.stroke, LIN, 0)
             self.scaleLocal(transition(self, 'scale', 100, 1, EXP))
             
@@ -716,7 +718,10 @@ class ButtonStyles:
             descBox.setPos(0, -self.shape.height * self.descBoxScale /2)
             descBox.height *= self.descBoxScale
             descBox.radius *= self.descBoxScale
-            descBox.width = transition(self, 'resize_desc', 150, 0, EXP)
+            if self.permanentDesc:
+                 descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + textAscent(), EXP)
+            else:
+                descBox.width = transition(self, 'resize_desc', 150, 0, EXP)
             if self.descBoxSide.upper() == 'LEFT':
                 descBox.X -= descBox.width
             descBox.fill()
@@ -741,7 +746,7 @@ class ButtonStyles:
             text(self.text, 0, textHeight(self.text) / 2)
         
         def hover(self, button):
-            textSize(self.textSize)
+            textSize(self.descBoxTextSize)
             transitionStroke(self, 100, self.stroke, LIN, 1)
             self.scaleLocal(transition(self, 'scale', 100, 1, SQRT))
             
@@ -776,7 +781,7 @@ class ButtonStyles:
             text(self.text, 0, textHeight(self.text) / 2)
             
         def press(self, button):
-            textSize(self.textSize)
+            textSize(self.descBoxTextSize)
             transitionStroke(self, 75, self.stroke, LIN, 2)
             self.scaleLocal(transition(self, 'scale', 75, 0.9, SQRT))
             
