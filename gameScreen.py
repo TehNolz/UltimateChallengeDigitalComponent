@@ -157,4 +157,5 @@ def gotoMinigame(*args):
     global currentCard
     if args[1] == LEFT:
         minigame.currentCard = currentCard
+        minigame.init()
         globals.currentMenu = "minigame"

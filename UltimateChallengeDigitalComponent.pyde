@@ -38,7 +38,6 @@ def setup():
     test.init()
     console.init()
     manual.init()
-    minigame.init()
     
     hint(DISABLE_OPTIMIZED_STROKE)
 

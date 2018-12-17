@@ -31,7 +31,6 @@ class textBox:
         self.writable = kwargs.get("writable", True)
         
         self.text = ""
-        self.activeTimer = millis()
         
     def draw(self):
         pushStyle()

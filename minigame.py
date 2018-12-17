@@ -4,23 +4,22 @@ from util import *
 import globals
 import textInput
 from random import choice
+currentCard = None
 
 def init():
+    # ######################
+    # Misc stuff
+    ######################
     global challengeActive
+    challengeActive = False
     global playerButtonCheckboxes
     global playButton
     global players
-    global currentCard
-    global resultBoxes
-    global dice
-    global rolling
-    global minigameComplete
-    global exitButton
-    minigameComplete = False
-    rolling = False
-    currentCard = None
-    challengeActive = False
     players = []
+    global currentCard
+    global minigameComplete
+    minigameComplete = False
+    global exitButton
     
     #Create checkboxes
     r = RoundRect(-150, -150, 300, 300, 50)
@@ -35,6 +34,14 @@ def init():
         buttonHeight += 0.1
         button.releaseAction = checkPlayerCount
     playerButtonCheckboxes = Object.endGroup()
+    
+    ######################
+    # Dice stuff
+    ######################
+    global resultBoxes
+    global dice
+    global rolling
+    rolling = False
     
     #Create dice result boxes
     resultBoxes = []
@@ -64,23 +71,72 @@ def init():
     playButton.releaseAction = playMinigame
     playButton.text = "Play"
     
+    ######################
+    # Timer stuff
+    ######################
+    global startSec
+    startSec=0
+    global startMins
+    startMins=0
+    global scrnMins
+    scrnMins=0
+    global scrnSecs
+    scrnSecs=0
+    global restartSecs
+    restartSecs=0
+    global restartMins
+    restartMins=0
+    global stopTimer
+    stopTimer = True
+    global timeOffset
+    timeOffset = 0
+    global timeMemory
+    timeMemory = 0
+    
+    offset = 0
+    if "dice" in currentCard["minigame"]:
+        offset+=0.25
+    
+    global startTimerButton
+    r*=0.5
+    startTimerButton = Button(width*(0.4+offset), height*0.8, r.copy())
+    startTimerButton.releaseAction = startTimer
+    startTimerButton.text = "Start"
+    
+    global pauseTimerButton
+    pauseTimerButton = Button(width*(0.6+offset), height*0.8, r.copy())
+    pauseTimerButton.releaseAction = pauseTimer
+    pauseTimerButton.text = "Pause"
+    
 def draw():
     pushStyle()
     pushMatrix()
+    #Misc
     global currentCard
     global challengeActive
     global playerButtonCheckboxes
     global playButton
     global players
     global playerCount
-    global resultBoxes
-    global dice
     global currentPlayer
-    global rolling
-    global toRoll
     global minigameComplete
     global winner
     global exitButton
+    
+    #Dice
+    global resultBoxes
+    global dice
+    global rolling
+    global toRoll
+    
+    #Timer
+    global restartSecs
+    global restartMins
+    global stopTimer
+    global timeOffset
+    global timeMemory
+    global actualSecs
+    global actualMins
     
     if not challengeActive:
         playerCount = None
@@ -111,6 +167,7 @@ def draw():
             toRoll = players[:]
 
     else:
+        print(currentCard)
         #Code for dice rolls
         if "dice" in currentCard["minigame"]:
             boxHeight = 0.2
@@ -127,7 +184,6 @@ def draw():
             else:
                 text("Roll the dice, "+globals.userConfig["players"][str(currentPlayer)]+"!", width*0.35, height*0.1)
                 dice.activators = {LEFT}
-            exitButton.update()
             dice.update()
             
             if rolling and not minigameComplete:
@@ -144,17 +200,103 @@ def draw():
                         minigameComplete = True
                         winner = checkWinner()
                     else:
-                        currentPlayer = choice(toRoll)
+                        currentPlayer = choice(toRoll)    
 
         elif "ticTacToe" in currentCard["minigame"]:
             pass
         elif "primeNumber" in currentCard["minigame"]:
             pass
+        
+        if "timer" in currentCard["minigame"]:
+            pushMatrix()
+            if "dice" in currentCard["minigame"]:
+                translate(0, width, 0)
             
+            actualSecs=(millis()-timeOffset)/1000
+            print(actualSecs)
+            actualMins=(millis()-timeOffset)/1000/60
+            scrnSecs = actualSecs - restartSecs
+            scrnMins = actualMins - restartMins
+            
+            if(actualSecs%60==0):
+                restartSecs=actualSecs
+                scrnSec=startSec
+                
+            textAlign(CENTER)
+            fill(255)
+            textSize(86)
+            if stopTimer:
+                # show memorized time
+                stopTimeSec = timeMemory/1000
+                stopTimeMin = timeMemory/1000/60
+                
+                text(nf(stopTimeMin, 2) + " : " + nf(stopTimeSec, 2), width/2, height/2)
+            else:
+                text(nf(scrnMins, 2) + " : " + nf(scrnSecs, 2), width/2, height/2)
+            #restartButton
+            startTimerButton.update()
+            #pauseButton
+            pauseTimerButton.update()
+
+            if stopTimer == True:
+                timeOffset = millis()
+            popMatrix()
+                    
+        exitButton.update()
             
     popStyle()
     popMatrix()
+
+######################
+# TIMER
+######################
+def pauseTimer(*args):
+    global timeMemory
+    global stopTimer
+    global timeOffset
+    global pauseTimerButton
+    global scrnSecs
+    global scrnMins
+    
+    if stopTimer == False:
+        timeMemory = millis()-timeOffset
+        stopTimer = True
+        pauseTimerButton.text = "Resume"
+    else:
+        scrnSecs = timeMemory/1000
+        scrnMins = timeMemory/1000/60
+        stopTimer = False
+        pauseTimerButton.text = "Pause"
         
+    
+    
+def startTimer(*args):
+    global stopTimer
+    global restartSecs
+    global scrnSec
+    global restartMins
+    global scrnMins
+    global actualSecs
+    global actualMins
+    global startTimerButton
+    
+    stopTimer = False
+    restartSecs = actualSecs
+    scrnSec = startSec
+    restartMins = actualMins
+    scrnMins = startMins
+    startTimerButton.text = "Restart\nTimer"
+
+######################
+# DICE
+######################
+def roll(*args):
+    global rolling
+    rolling = True
+
+######################
+# MISC
+######################
 def checkWinner():
     global currentCard
     global resultBoxes
@@ -195,7 +337,7 @@ def checkWinner():
         return None
     else:
         return winners[0]
-    
+
 def playMinigame(*args):
     global challengeActive
     global playerCount
@@ -205,10 +347,6 @@ def playMinigame(*args):
         currentPlayer = choice(players)
         challengeActive = True
         toRoll = players[:]
-        
-def roll(*args):
-    global rolling
-    rolling = True
     
 def checkPlayerCount(*args):
     global players
