@@ -141,12 +141,16 @@ def draw():
     global actualMins
     global showTimeIsUpMsg
     
+    print(challengeActive)
     if not challengeActive:
         playerCount = None
         if "dice" in currentCard["minigame"]:
             playerCount = currentCard["minigame"]["dice"]["players"]
         elif "ticTacToe" in currentCard["minigame"]:
             playerCount = currentCard["minigame"]["ticTacToe"]
+        elif "timer" in currentCard["minigame"] and not "dice" in currentCard["minigame"]:
+            playerCount = 1
+            
         if 6 > playerCount > 1:
             textheight = 0.2
             var = playerCount-len(players)
@@ -211,6 +215,7 @@ def draw():
         elif "primeNumber" in currentCard["minigame"]:
             pass
         
+        print(currentCard["minigame"])
         if "timer" in currentCard["minigame"]:
             print("timer")
             pushMatrix()
