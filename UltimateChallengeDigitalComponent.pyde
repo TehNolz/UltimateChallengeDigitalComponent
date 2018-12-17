@@ -49,8 +49,22 @@ def draw():
     # Set the cursor to the arrow by default
     cursor(0)
     
-    #Change background color            
-    background(globals.backgroundColor)
+    # Load background from globals
+    backgroundImg = globals.backgroundImg
+    # In case it is None, use a white background instead and load a new image
+    if backgroundImg == None:
+        background(255)
+        globals.backgroundImg = globals.imgIndex['background'].copy()
+    else:
+        # Reload and resize the background image if the dimensions don't match the screen
+        # All this reloading nonsense is to prevent heapspace errors. Basically we're trying
+        # to reload the image as little as possible.
+        if not backgroundImg.width == width and not backgroundImg.height == height:
+            del globals.backgroundImg
+            globals.backgroundImg = globals.imgIndex['background'].copy()
+            globals.backgroundImg.resize(width, height)
+            backgroundImg = globals.backgroundImg
+        background(backgroundImg)
     
     #Center ALL THE THINGS!
     imageMode(CENTER)
