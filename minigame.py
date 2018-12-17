@@ -92,6 +92,8 @@ def init():
     timeOffset = 0
     global timeMemory
     timeMemory = 0
+    global showTimeIsUpMsg
+    showTimeIsUpMsg = False
     
     offset = 0
     if "dice" in currentCard["minigame"]:
@@ -137,6 +139,7 @@ def draw():
     global timeMemory
     global actualSecs
     global actualMins
+    global showTimeIsUpMsg
     
     if not challengeActive:
         playerCount = None
@@ -148,6 +151,7 @@ def draw():
         if 6 > playerCount > 1:
             textheight = 0.2
             var = playerCount-len(players)
+            fill(0, 0, 0, 255)
             if var == 1:
                 text("Who will play? Pick "+str(var)+" player.",  width*0.16, height*0.1)
             elif var == 0:
@@ -167,7 +171,7 @@ def draw():
             toRoll = players[:]
 
     else:
-        print(currentCard)
+        fill(0, 0, 0, 255)
         #Code for dice rolls
         if "dice" in currentCard["minigame"]:
             boxHeight = 0.2
@@ -213,19 +217,30 @@ def draw():
                 translate(0, width, 0)
             
             actualSecs=(millis()-timeOffset)/1000
-            print(actualSecs)
             actualMins=(millis()-timeOffset)/1000/60
             scrnSecs = actualSecs - restartSecs
             scrnMins = actualMins - restartMins
+            print(scrnMins, actualMins, restartMins)
+            print(scrnSecs, actualSecs, restartSecs)
+            print("---")
             
             if(actualSecs%60==0):
                 restartSecs=actualSecs
                 scrnSec=startSec
                 
             textAlign(CENTER)
-            fill(255)
-            textSize(86)
+            fill(0, 0, 0)
+            textSize(100)
+            
+            if currentCard["minigame"]["timer"] == actualSecs:
+                showTimeIsUpMsg = True
+                timeMemory = millis()-timeOffset
+                stopTimer = True
+                pauseTimerButton.text = "Pause"
+            
             if stopTimer:
+                if showTimeIsUpMsg:
+                    text("Time's up!", width/2, height*0.2)
                 # show memorized time
                 stopTimeSec = timeMemory/1000
                 stopTimeMin = timeMemory/1000/60
