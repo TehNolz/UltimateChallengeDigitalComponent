@@ -39,7 +39,7 @@
 			"dice": {
 				"players": 1,
 				"target": 6,
-				"mode": null
+				"mode": "WITHINTIME"
 			},
 			"timer": 15
 		},
@@ -62,7 +62,7 @@
 			"dice": {
 				"players": 1,
 				"target": 1,
-				"mode": null
+				"mode": "WITHINTIME"
 			},
 			"timer": 15
 		},
@@ -112,8 +112,8 @@
         "expansion1-25": {
 			"dice": {
 				"players": 6,
-				"target": "HIGHEST",
-				"mode": null
+				"target": null,
+				"mode": "HIGHEST"
 			}
 		},
         "expansion1-3": {
@@ -124,8 +124,8 @@
         "expansion1-6": {
 			"dice": {
 				"players": 6,
-				"target": "LOWEST",
-				"mode": null
+				"target": null,
+				"mode": "LOWEST"
 			}
 		},
         "expansion1-7": null,
