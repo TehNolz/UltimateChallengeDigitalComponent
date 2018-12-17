@@ -26,12 +26,27 @@ def init():
     r = RoundRect(-25, -25, 50, 50)
     manualBack = Button(button_x, button_y, r.copy())
     manualBack.releaseAction = pageBack
+    manualBack.applyStyle('simple')
+    manualBack.hoverStroke = color(128, 64, 0)
+    # This is the unicode character for an arrow pointing to the left (ALT+27)
+    manualBack.text = u'\u2190'
+    manualBack.textSize *= 2
+    
     manualForward = Button(button_x1, button_y1, r.copy())
     manualForward.releaseAction = pageForward
+    manualForward.applyStyle('simple')
+    manualForward.hoverStroke = color(128, 64, 0)
+    # This is the unicode character for an arrow pointing to the right (ALT+26)
+    manualForward.text = u'\u2192'
+    manualForward.textSize *= 2
 
     buttons = Object.endGroup()
 
 def draw(mousePressed):
+    width = 1133
+    height = 600
+    
+    scale(*globals.baseScaleXY)
     
     global manual1, manual2, manual3, manual4, manual5, manual6, button_x, button_y, button_w, button_h, forward, backward
     
