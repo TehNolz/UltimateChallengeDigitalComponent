@@ -20,6 +20,8 @@ def init():
     manual4 = imgIndex["manual-4"]
     manual5 = imgIndex["manual-5"]
     manual6 = imgIndex["manual-6"]
+    
+    
 
     Object.startGroup()
     
@@ -39,6 +41,10 @@ def init():
     # This is the unicode character for an arrow pointing to the right (ALT+26)
     manualForward.text = u'\u2192'
     manualForward.textSize *= 2
+    
+    backButton = Button(width*0.95, height*0.1, r.copy())
+    backButton.releaseAction = gotoMainMenu
+    backButton.text = "Back"
 
     buttons = Object.endGroup()
 
@@ -50,6 +56,7 @@ def draw(mousePressed):
     
     global manual1, manual2, manual3, manual4, manual5, manual6, button_x, button_y, button_w, button_h, forward, backward
     
+   
     
     textSize(50)
     fill(0)
@@ -112,7 +119,9 @@ def pageBack(*args):
     elif backward == 1:
         pass
        
-
+def gotoMainMenu(*args):
+    if args[1] == LEFT:
+        globals.currentMenu = "mainMenu"
     
         
     
