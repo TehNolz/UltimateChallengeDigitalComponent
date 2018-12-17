@@ -29,7 +29,8 @@
         "base-26": {
 			"dice": {
 				"players": 6,
-				"target": 6
+				"target": 6,
+				"mode": "FIRST"
 			}
 		},
         "base-27": null,
@@ -37,7 +38,8 @@
         "base-29": {
 			"dice": {
 				"players": 1,
-				"target": 6
+				"target": 6,
+				"mode": null
 			},
 			"timer": 15
 		},
@@ -59,7 +61,8 @@
         "base-41": {
 			"dice": {
 				"players": 1,
-				"target": 1
+				"target": 1,
+				"mode": null
 			},
 			"timer": 15
 		},
@@ -84,7 +87,7 @@
     },
     "expansion1": {
         "expansion1-1": {
-			"ticTacToe": 1
+			"ticTacToe": 2
 		},
         "expansion1-10": null,
         "expansion1-11": null,
@@ -109,7 +112,8 @@
         "expansion1-25": {
 			"dice": {
 				"players": 6,
-				"target": "HIGHEST"
+				"target": "HIGHEST",
+				"mode": null
 			}
 		},
         "expansion1-3": {
@@ -120,7 +124,8 @@
         "expansion1-6": {
 			"dice": {
 				"players": 6,
-				"target": "LOWEST"
+				"target": "LOWEST",
+				"mode": null
 			}
 		},
         "expansion1-7": null,

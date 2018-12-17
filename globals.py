@@ -40,6 +40,7 @@ backgroundImg = None
 #Misc
 logging.basicConfig(level=logging.NOTSET)
 log = logging.getLogger("LOG")
+playerCount = 0
 
 #Text boxes
 activeTextBox = None
