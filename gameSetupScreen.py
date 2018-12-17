@@ -96,6 +96,7 @@ def draw():
     
     pushStyle()
     scale(*globals.baseScaleXY)
+    fill(0, 0, 0, 255)
     
     #Update buttons
     for o in buttons:
