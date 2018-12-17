@@ -60,18 +60,23 @@ def init():
     buttons = Object.endGroup()
     
     #Add player
-    r = RoundRect(-100, -65, 200, 130, 25)
-    r *= 0.5
-    addPlayerButton = Button(width*0.1, height*0.2, r.copy())
+    r = RoundRect(-65, -65, 130, 130, 25)
+    r *= 0.25
+    addPlayerButton = Button(width/6 + 76, height*0.25, r.copy())
     addPlayerButton.releaseAction = addPlayer
-    addPlayerButton.text = "Add \nplayer."
+    addPlayerButton.text = "+"
     addPlayerButton.textSize = 20
+    addPlayerButton.applyStyle('compact')
+    addPlayerButton.descBoxSide = 'LEFT'
+    addPlayerButton.description = 'Add player'
     
     #Remove player
-    remPlayerButton = Button(width*0.2, height*0.2, r.copy())
+    remPlayerButton = Button(width/6 + 124, height*0.25, r.copy())
     remPlayerButton.releaseAction = remPlayer
-    remPlayerButton.text = "Remove \nplayer."
+    remPlayerButton.text = "-"
     remPlayerButton.textSize = 20
+    remPlayerButton.applyStyle('compact')
+    remPlayerButton.description = 'Remove player'
 
     #Create textboxes
     boxHeight = 0.7
