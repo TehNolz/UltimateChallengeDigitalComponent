@@ -328,10 +328,7 @@ def checkWinner():
     
     winners = []
     if currentCard["minigame"]["dice"]["mode"] == "HIGHEST":
-        print(currentPlayer)
-        print("toRoll", toRoll)
         toRoll.remove(currentPlayer)
-        print("toRoll", toRoll)
         if toRoll == []:
             var = 0
             for box in resultBoxes:
@@ -343,10 +340,7 @@ def checkWinner():
                     if int(box.text) == var:
                         winners.append(resultBoxes.index(box)+1)
     elif currentCard["minigame"]["dice"]["mode"] == "LOWEST":
-        print(currentPlayer)
-        print("toRoll", toRoll)
         toRoll.remove(currentPlayer)
-        print("toRoll", toRoll)
         if toRoll == []:
             var = 999999999999
             for box in resultBoxes:
@@ -359,6 +353,7 @@ def checkWinner():
                         winners.append(resultBoxes.index(box)+1)
             
     elif currentCard["minigame"]["dice"]["mode"] == "FIRST":
+        toRoll.remove(currentPlayer)
         for box in resultBoxes:
             if box.text != "":
                 if int(box.text) == int(currentCard["minigame"]["dice"]["target"]):
@@ -392,6 +387,8 @@ def checkWinner():
             timeMemory = millis()-timeOffset
             showTimeIsUpMsg = False
             toRoll = players[:]
+            for box in resultBoxes:
+                box.text = ""
             return None
         else:
             currentPlayer = choice(toRoll)
