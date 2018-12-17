@@ -166,6 +166,7 @@ def draw():
         elif playerCount == 1 or playerCount == 6:
             challengeActive = True
             players = [1]
+            toRoll = players[:]
             currentPlayer = choice(players)
         if playerCount == 6:
             players = list(range(1, globals.playerCount+1))
@@ -191,7 +192,10 @@ def draw():
                     text("You win the game!", width*0.35, height*0.1)
                 dice.activators = {}
             else:
-                text("Roll the dice, "+globals.userConfig["players"][str(currentPlayer)]+"!", width*0.35, height*0.1)
+                if len(players) > 1:
+                    text("Roll the dice, "+globals.userConfig["players"][str(currentPlayer)]+"!", width*0.35, height*0.1)
+                else:
+                    text("Roll the dice!", width*0.35, height*0.1)
                 dice.activators = {LEFT}
             dice.update()
             
@@ -208,6 +212,7 @@ def draw():
             pass
         
         if "timer" in currentCard["minigame"]:
+            print("timer")
             pushMatrix()
             if "dice" in currentCard["minigame"]:
                 translate(0, 0, 0)
@@ -377,7 +382,6 @@ def checkWinner():
             box.text = ""
             
         pauseTimer()
-        minigameComplete = True
         
         return "RESTART"
     if len(winners) == 0:
@@ -395,6 +399,7 @@ def checkWinner():
     
     elif len(winners) == 1:
         timeMemory = millis()-timeOffset
+        pauseTimer()
         minigameComplete = True
         showTimeIsUpMsg = False
         return winners[0]
