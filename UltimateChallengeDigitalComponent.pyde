@@ -47,9 +47,6 @@ def draw():
     Object.mousePress = mousePressed
     #textFont(font)
     
-    # Set the cursor to the arrow by default
-    cursor(0)
-    
     # Load background from globals
     backgroundImg = globals.backgroundImg
     # In case it is None, use a white background instead and load a new image

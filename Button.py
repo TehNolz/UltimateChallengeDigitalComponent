@@ -158,12 +158,14 @@ class Button(Object):
         log.debug(str(self) + ' activated. (MB'+str(button)+')')
         self.releaseStyle(self, button)
         self.releaseAction(self, button)
+        cursor(0)
     def onEnter(self):
         self.enterStyle(self, -1)
         self.enterAction(self, -1)
     def onLeave(self):
         self.leaveStyle(self, -1)
         self.leaveAction(self, -1)
+        cursor(0)
     
     # Placeholders for styles
     @staticmethod
