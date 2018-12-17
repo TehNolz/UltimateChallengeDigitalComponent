@@ -52,6 +52,7 @@ def draw(mousePressed):
     
     
     textSize(50)
+    fill(0)
     text("The Ultimate Challenge manual", width/6, 40)
     
     
