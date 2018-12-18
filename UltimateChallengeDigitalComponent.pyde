@@ -183,7 +183,5 @@ def keyPressed():
     if keyCode == LEFT:
         gameScreen.newCard()
         globals.currentMenu = 'gameScreen'
-    if keyCode == DOWN:
-        globals.currentMenu = 'minigame'
     if keyCode == RIGHT:
         globals.currentMenu = 'gameSetupScreen'

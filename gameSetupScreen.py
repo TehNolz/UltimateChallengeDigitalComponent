@@ -147,8 +147,12 @@ def startGame(*args):
             
             data.saveData()
             globals.playerCount = playerCount
+        
+            gameScreen.setCard("expansion1-25")
+            minigame.currentCard = gameScreen.currentCard
             gameScreen.newCard()
-            globals.currentMenu = "gameScreen"
+            minigame.init()
+            globals.currentMenu = "minigame"
         else:
             pass
         

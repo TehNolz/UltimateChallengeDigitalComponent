@@ -14,6 +14,7 @@ def init():
     global minigameButtons
     global defaultButtons
     global miscButtons
+    global b
     
     turnImage = False
     imgRot = 0
@@ -76,6 +77,7 @@ def draw():
     
     #Challenge card flip. When turnImage is true, the card will flip and show a new challenge.
     if turnImage:
+        b.text = "Pick a new card."
         imgRot += 10
         if imgRot == 360:
             imgRot = 0
@@ -83,6 +85,14 @@ def draw():
         turnImage = False
     elif imgRot == 180:
         newCard()
+        if currentCard["deck"] == "expansion2":
+            turnImage = False
+            fill(0, 0, 0, 255)
+            textAlign(CENTER)
+            textSize(30*baseScale)
+            text("Current player, please look away from the screen!", 0, height*0.1)
+            b.text = "Continue"
+            
         
     #Challenge card retract. When retractImage is true, the card will move forwards/backwards depending on whether its currently backwards/forwards.
     if retractImage:
@@ -101,10 +111,10 @@ def draw():
 
     #Card
     pushMatrix()
+    translate(0, height/2, imgRet*baseScale)
     base = 400
     imgHeight = base*baseScale
     imgWidth = ((base/4)*3)*baseScale
-    translate(0, height/2, imgRet*baseScale)
     rotateY(radians(imgRot))
     image(imgIndex[currentCard["back"]], 0, 0, imgWidth, imgHeight)
     rotateY(radians(180))
@@ -153,6 +163,7 @@ def setCard(card):
         showStart = False
     currentCard = {
         "id": card,
+        "deck": deck,
         "back": "card-"+deck+"-back",
         "showStart": showStart,
         "minigame": globals.cardConfig[deck][card]

@@ -171,9 +171,8 @@ def draw(mousePressed):
             else:
                 playerCount = currentCard["minigame"]["ticTacToe"]["players"]
         elif "timer" in currentCard["minigame"] and not "dice" in currentCard["minigame"]:
-            playerCount = 1te
+            playerCount = 1
             
-        print(playerCount)
         if 6 > playerCount > 1 or "ticTacToe" in currentCard["minigame"]:
             textheight = 0.2
             var = playerCount-len(players)
@@ -315,9 +314,7 @@ def draw(mousePressed):
             pass
         
         ######################
-        print(currentCard)
         if "timer" in currentCard["minigame"]:
-            print("success")
             pushMatrix()
             #if "dice" in currentCard["minigame"]:
             #    translate(0, 0, 0)
