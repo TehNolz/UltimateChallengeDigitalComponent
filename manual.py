@@ -31,20 +31,23 @@ def init():
     manualBack.applyStyle('simple')
     manualBack.hoverStroke = color(128, 64, 0)
     # This is the unicode character for an arrow pointing to the left (ALT+27)
-    manualBack.text = u'\u2190'
+    manualBack.text = '<'
     manualBack.textSize *= 2
     
     manualForward = Button(button_x1, button_y1, r.copy())
     manualForward.releaseAction = pageForward
     manualForward.applyStyle('simple')
     manualForward.hoverStroke = color(128, 64, 0)
-    # This is the unicode character for an arrow pointing to the right (ALT+26)
-    manualForward.text = u'\u2192'
+    manualForward.text = '>'
     manualForward.textSize *= 2
     
-    backButton = Button(width*0.95, height*0.1, r.copy())
+    # >>Superior<< Back button
+    backButton = Button(37, 37, RoundRect(-25, -25, 50, 50) * 0.75)
     backButton.releaseAction = gotoMainMenu
-    backButton.text = "Back"
+    backButton.text = u"\u2190"
+    backButton.textSize *= 3
+    backButton.applyStyle('compact')
+    backButton.description = 'Main menu'
 
     buttons = Object.endGroup()
 
