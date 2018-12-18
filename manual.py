@@ -25,18 +25,20 @@ def init():
 
     Object.startGroup()
     
-    r = RoundRect(-25, -25, 50, 50)
+    r = RoundRect(-25, -25, 50, 50, 2.5)
     manualBack = Button(button_x, button_y, r.copy())
     manualBack.releaseAction = pageBack
     manualBack.applyStyle('simple')
     manualBack.hoverStroke = color(128, 64, 0)
-    manualBack.text = '<'
-    manualBack.textSize *= 2
+    manualBack.icon = globals.imgIndex['back'].copy()
+    manualBack.iconScale = 0.5
     
     manualForward = Button(button_x1, button_y1, r.copy())
     manualForward.releaseAction = pageForward
     manualForward.applyStyle('simple')
     manualForward.hoverStroke = color(128, 64, 0)
+    manualForward.icon = globals.imgIndex['forward'].copy()
+    manualForward.iconScale = 0.5
     
     # Back button
     backButton = Button(37, 37, RoundRect(-25, -25, 50, 50) * 0.75)

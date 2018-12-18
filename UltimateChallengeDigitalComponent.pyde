@@ -168,6 +168,8 @@ def mouseReleased():
     Object.mouseRelease = True
     
 def keyPressed():
+    if key == '\\':
+        textFont(createFont('Open Sans', 48))
     #Open console
     if key == "`":
         console.toggleConsole()

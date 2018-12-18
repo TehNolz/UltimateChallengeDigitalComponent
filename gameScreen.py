@@ -48,11 +48,12 @@ def init():
     #Back button
     backButton = Button(37, 37, RoundRect(-25, -25, 50, 50) * 0.75)
     backButton.releaseAction = gotoMainMenu
-    backButton.text = u"\xd7"
-    backButton.textSize *= 5
+    backButton.textSize *= 3
     backButton.applyStyle('compact')
-    backButton.descBoxTextSize *= 2.0/3
-    backButton.description = 'Quit'
+    backButton.description = 'End game'
+    backButton.icon = globals.imgIndex['tictactoe-cross'].copy()
+    backButton.iconScale = 0.5
+    backButton.iconColor = color(0,0)
     
     miscButtons = Object.endGroup()
     
