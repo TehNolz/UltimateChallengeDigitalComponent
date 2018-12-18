@@ -397,13 +397,11 @@ def Boardfull():
     global boarddict, icons, moves
     print("aaa")
     
-    textSize(16)
     strokeWeight(2)
     stroke(255,0,0)
     moves = True
     
-    if keyPressed:
-        resetTicTacToe()
+    text("It's a draw!", 0,200)
 
 def field():
     global brackets
@@ -437,7 +435,6 @@ def winConditions():
     global currentPlayer
     global nextMatchButton
     global currentCard
-    textSize(16)
     strokeWeight(2)
     stroke(255,0,0)
     moves = True
