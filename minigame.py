@@ -171,7 +171,7 @@ def draw(mousePressed):
             else:
                 playerCount = currentCard["minigame"]["ticTacToe"]["players"]
         elif "timer" in currentCard["minigame"] and not "dice" in currentCard["minigame"]:
-            playerCount = 1te
+            playerCount = 1
             
         print(playerCount)
         if 6 > playerCount > 1 or "ticTacToe" in currentCard["minigame"]:
