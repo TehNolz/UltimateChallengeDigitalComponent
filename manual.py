@@ -30,7 +30,6 @@ def init():
     manualBack.releaseAction = pageBack
     manualBack.applyStyle('simple')
     manualBack.hoverStroke = color(128, 64, 0)
-    # This is the unicode character for an arrow pointing to the left (ALT+27)
     manualBack.text = '<'
     manualBack.textSize *= 2
     
@@ -38,16 +37,16 @@ def init():
     manualForward.releaseAction = pageForward
     manualForward.applyStyle('simple')
     manualForward.hoverStroke = color(128, 64, 0)
-    manualForward.text = '>'
-    manualForward.textSize *= 2
     
-    # >>Superior<< Back button
+    # Back button
     backButton = Button(37, 37, RoundRect(-25, -25, 50, 50) * 0.75)
     backButton.releaseAction = gotoMainMenu
-    backButton.text = u"\u2190"
     backButton.textSize *= 3
     backButton.applyStyle('compact')
     backButton.description = 'Main menu'
+    backButton.icon = globals.imgIndex['back'].copy()
+    backButton.iconScale = 0.75
+    backButton.iconColor = color(0,0)
 
     buttons = Object.endGroup()
 

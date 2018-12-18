@@ -29,6 +29,14 @@ def init():
     manualButton.applyStyle('pulsate')
     manualButton.text = "Manual"
     
+    quitButton = Button(37, 37, RoundRect(-25, -25, 50, 50) * 0.75)
+    quitButton.releaseAction = exitGame
+    quitButton.textSize *= 3
+    quitButton.applyStyle('compact')
+    quitButton.description = 'Quit'
+    quitButton.icon = globals.imgIndex['tictactoe-cross'].copy()
+    quitButton.iconScale = 0.5
+    
     buttons = Object.endGroup()
     
 def draw():
@@ -47,3 +55,9 @@ def gotoSettingsScreen(*args):
 def gotoManualScreen(*args):
     if args[1] == LEFT:
         globals.currentMenu = "manual"
+def exitGame(*args):
+    # Desperate attempt at containing a memory leak in Processing
+    for i in globals.imgIndex.values():
+        g.removeCache(i)
+    del globals.imgIndex
+    exit()
