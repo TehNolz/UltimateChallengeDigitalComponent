@@ -619,14 +619,14 @@ def playMinigame(*args):
             toRoll = players[:]
             currentPlayer = choice(players)
         elif "ticTacToe" in currentCard["minigame"]:
-            if currentCard["minigame"]["ticTacToe"] > 2:
+            if currentCard["minigame"]["ticTacToe"]["mode"] == "1v6":
                 brackets = []
                 for i in range(1, globals.playerCount+1):
                     if i != players[0]:
                         brackets.append([players[0], i])
-                currentPlayer = choice(brackets[0])
             else:
                 brackets = [(players[0], players[1])]
+            currentPlayer = choice(brackets[0])
     
 def checkPlayerCount(*args):
     global players
