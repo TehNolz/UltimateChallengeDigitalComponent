@@ -29,7 +29,6 @@ class Button(Object):
         self.hoverTextColor = color(0)
         self.pressTextColor = color(0)
         self.textSize = self.shape.getMaxTextSize() / 5
-        self.font = createFont(globals.font, self.shape.getMaxTextSize(), True)
         self.mouseEntered = False
         self.clickedInside = False
         
@@ -61,7 +60,6 @@ class Button(Object):
         colorMode(RGB)
         strokeJoin(ROUND)
         strokeWeight(self.strokeSize)
-        textFont(self.font)
         
         self.updateCursor()
         
