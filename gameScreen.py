@@ -11,10 +11,9 @@ def init():
     global imgPos
     global imgRet
     global retractImage
-    global b
-    global challengeNextCard
-    global startChallenge
-    global buttons
+    global minigameButtons
+    global defaultButtons
+    global miscButtons
     
     turnImage = False
     imgRot = 0
@@ -28,6 +27,10 @@ def init():
     b.releaseAction = startTurn
     b.text = "Pick a new card."
     
+    defaultButtons = Object.endGroup()
+    
+    Object.startGroup()
+    
     r = RoundRect(-140,-57,280,114)
     challengeNextCard = Button(width*0.57, height*0.9, r.copy()*0.5)
     challengeNextCard.releaseAction = startTurn
@@ -37,14 +40,20 @@ def init():
     startChallenge.releaseAction = gotoMinigame
     startChallenge.text = "Start challenge."
     
-    #Back button
-    r = RoundRect(-150, -150, 300, 300, 50)
-    r *= 0.5
-    backButton = Button(width*0.95, height*0.1, r.copy()*0.5)
-    backButton.releaseAction = gotoMainMenu
-    backButton.text = "Quit"
+    minigameButtons = Object.endGroup()
     
-    buttons = Object.endGroup()
+    Object.startGroup()
+    
+    #Back button
+    backButton = Button(37, 37, RoundRect(-25, -25, 50, 50) * 0.75)
+    backButton.releaseAction = gotoMainMenu
+    backButton.text = u"\xd7"
+    backButton.textSize *= 5
+    backButton.applyStyle('compact')
+    backButton.descBoxTextSize *= 2.0/3
+    backButton.description = 'Quit'
+    
+    miscButtons = Object.endGroup()
     
 def startTurn(*args):
     global turnImage
@@ -57,10 +66,6 @@ def draw():
     global imgPos
     global imgRet
     global retractImage
-    global b
-    global startChallenge
-    global challengeNextCard
-    global buttons
     global currentCard
     
     pushMatrix()
@@ -122,10 +127,13 @@ def draw():
     scale(*globals.baseScaleXY)
 
     if currentCard["showStart"]:
-        startChallenge.update()
-        challengeNextCard.update()
+        for o in minigameButtons:
+            o.update()
     else:
-        b.update()
+        for o in defaultButtons:
+            o.update()
+    for o in miscButtons:
+        o.update()
     
 def newCard():
     cardConfig = globals.cardConfig

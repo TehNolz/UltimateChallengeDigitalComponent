@@ -21,11 +21,15 @@ class Button(Object):
         self.pressStroke = color(0, 128)
         self.strokeSize = 3
         
+        self.icon = None
+        self.iconColor = color(0, 128)
+        self.iconScale = 1
+        
         self.idleTextColor = color(0)
         self.hoverTextColor = color(0)
         self.pressTextColor = color(0)
         self.textSize = self.shape.getMaxTextSize() / 5
-        self.font = createFont('Sans Serif', self.shape.getMaxTextSize()*0.75)
+        self.font = createFont(globals.font, self.shape.getMaxTextSize(), True)
         self.mouseEntered = False
         self.clickedInside = False
         
@@ -97,8 +101,12 @@ class Button(Object):
         else:
             # Run onNothing() when the button is idle
             self.onNothing()
-    
-        # Reset rotation to keep text horizontal
+        
+        if not self.icon == None:
+            imageMode(CENTER)
+            tint(lerpColor(self.stroke, removeAlpha(self.iconColor), float(alpha(self.iconColor)) / 255))
+            scale(self.iconScale)
+            image(self.icon, 0, 0, min(self.icon.width, self.shape.width), min(self.icon.height, self.shape.height))
 
     def updateCursor(self):
         """Update various field that effect how the button responds to the cursor"""
@@ -460,11 +468,11 @@ class ButtonStyles:
             if not self.shape.width == self.shape.height:
                 # Scale height to match width
                 if self.shape.width < self.shape.height:
-                    self.shape.Y += (h - w) / 2
+                    self.shape.Y += (self.shape.height - self.shape.width) / 2
                     self.shape.height = self.shape.width
                 # Scale width to match height
                 else:
-                    self.shape.X += (w - h) / 2
+                    self.shape.X += (self.shape.width - self.shape.height) / 2
                     self.shape.width = self.shape.height
             self.radioGroup = ''
             self.activated = False
@@ -718,8 +726,9 @@ class ButtonStyles:
             descBox.setPos(0, -self.shape.height * self.descBoxScale /2)
             descBox.height *= self.descBoxScale
             descBox.radius *= self.descBoxScale
+            descBoxMargin = min(textAscent(), descBox.height - textHeight(self.description))
             if self.permanentDesc:
-                 descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + textAscent(), EXP)
+                 descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + descBoxMargin, EXP)
             else:
                 descBox.width = transition(self, 'resize_desc', 150, 0, EXP)
             if self.descBoxSide.upper() == 'LEFT':
@@ -730,7 +739,7 @@ class ButtonStyles:
             fill(self.idleTextColor)
             pushMatrix()
             # The 'w' variable is the current width
-            w = max(self.shape.width, self.shape.width / 2 + descBox.width - textAscent()/2)
+            w = max(self.shape.width, self.shape.width / 2 + descBox.width - descBoxMargin/2)
             translate((w - self.shape.width/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
             scale(constrain(w / textWidth(self.description), 0, 1))
             translate((-textWidth(self.description)/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
@@ -756,7 +765,8 @@ class ButtonStyles:
             descBox.setPos(0, -self.shape.height * self.descBoxScale /2)
             descBox.height *= self.descBoxScale
             descBox.radius *= self.descBoxScale
-            descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + textAscent(), SQRT)
+            descBoxMargin = min(textAscent(), descBox.height - textHeight(self.description))
+            descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + descBoxMargin, SQRT)
             if self.descBoxSide.upper() == 'LEFT':
                 descBox.X -= descBox.width
             descBox.fill()
@@ -765,7 +775,7 @@ class ButtonStyles:
             fill(self.hoverTextColor)
             pushMatrix()
             # The 'w' variable is the current width
-            w = max(self.shape.width, self.shape.width / 2 + descBox.width - textAscent()/2)
+            w = max(self.shape.width, self.shape.width / 2 + descBox.width - descBoxMargin/2)
             translate((w - self.shape.width/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
             scale(constrain(w / textWidth(self.description), 0, 1))
             translate((-textWidth(self.description)/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
@@ -791,7 +801,8 @@ class ButtonStyles:
             descBox.setPos(0, -self.shape.height * self.descBoxScale /2)
             descBox.height *= self.descBoxScale
             descBox.radius *= self.descBoxScale
-            descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + textAscent(), SQRT)
+            descBoxMargin = min(textAscent(), descBox.height - textHeight(self.description))
+            descBox.width = transition(self, 'resize_desc', 100, self.shape.width/2 + textWidth(self.description) + descBoxMargin, SQRT)
             if self.descBoxSide.upper() == 'LEFT':
                 descBox.X -= descBox.width
             descBox.fill()
@@ -800,7 +811,7 @@ class ButtonStyles:
             fill(self.pressTextColor)
             pushMatrix()
             # The 'w' variable is the current width
-            w = max(self.shape.width, self.shape.width / 2 + descBox.width - textAscent()/2)
+            w = max(self.shape.width, self.shape.width / 2 + descBox.width - descBoxMargin/2)
             translate((w - self.shape.width/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)
             scale(constrain(w / textWidth(self.description), 0, 1))
             translate((-textWidth(self.description)/2) * (-1 if self.descBoxSide.upper() == 'LEFT' else 1), 0)

@@ -1,5 +1,6 @@
 import data
 import globals
+import settingsScreen
 import gameSetupScreen
 import gameScreen
 import mainMenu
@@ -8,6 +9,7 @@ import console
 import test
 import textInput
 import minigame
+import time
 from Object import Object
 from util import *
 
@@ -24,45 +26,67 @@ def setup():
     global font
     size(1133, 600, P3D)
     smooth(8)
+    background(204)
+    
+    
+def loadScreen():
+    global loadStage
+    global loadDuration
+    stage = loadStage
+    # Shows a progress bar
+    
+    
+    def loadBar():
+        amount = float(stage) / loadDuration
+        stroke(0)
+        strokeWeight(2)
+        fill(255)
+        rect(width/2-100, height*0.55, 200, 30, 5)
+        fill(0, 187, 255)
+        noStroke()
+        rect(width/2-100, height*0.55, 200 * amount, 30, 5)
+    
+    if stage == 0:
+        fill(0)
+        textSize(30)
+        text('Loading...', (width - textWidth('Loading'))/2, height/2)
+        loadBar()
+    
+        log.info("Starting!")
+    elif stage == 1:
+        data.loadData()
+    elif stage == 2:
+        settingsScreen.init()
+    elif stage == 3:
+        gameScreen.init()
+    elif stage == 4:
+        gameSetupScreen.init()
+    elif stage == 5:
+        mainMenu.init()
+    elif stage == 6:
+        test.init()
+    elif stage == 7:
+        console.init()
+    elif stage == 8:
+        manual.init()
+    else:
+        hint(DISABLE_OPTIMIZED_STROKE)
+        return True
+    loadBar()
+    loadStage += 1
+    return False
 
-    #Load the loading screen (so meta)
-    image(loadImage("misc-loadingscreen.png"), 0, 0, 1133, 600)
-    
-    #Start the game.
-    log.info("Starting!")
-    
-    data.loadData()
-    gameScreen.init()
-    gameSetupScreen.init()
-    mainMenu.init()
-    test.init()
-    console.init()
-    manual.init()
-    
-    hint(DISABLE_OPTIMIZED_STROKE)
-
+loadStage = 0
+loadDuration = 8
 def draw():
+    if not loadScreen(): return
+    
     # Update the mousePress value in Object
     # Necessary because when 'mousePressed()' is used, the field 'mousePressed' for some reason starts raising errors
     Object.mousePress = mousePressed
     #textFont(font)
     
-    # Load background from globals
-    backgroundImg = globals.backgroundImg
-    # In case it is None, use a white background instead and load a new image
-    if backgroundImg == None:
-        background(255)
-        globals.backgroundImg = globals.imgIndex['background'].copy()
-    else:
-        # Reload and resize the background image if the dimensions don't match the screen
-        # All this reloading nonsense is to prevent heapspace errors. Basically we're trying
-        # to reload the image as little as possible.
-        if not backgroundImg.width == width and not backgroundImg.height == height:
-            del globals.backgroundImg
-            globals.backgroundImg = globals.imgIndex['background'].copy()
-            globals.backgroundImg.resize(width, height)
-            backgroundImg = globals.backgroundImg
-        background(backgroundImg)
+    applySettings()
     
     #Center ALL THE THINGS!
     imageMode(CENTER)
@@ -83,7 +107,9 @@ def draw():
     elif globals.currentMenu == "manual":
         manual.draw()
     elif globals.currentMenu == "minigame":
-        minigame.draw(mousePressed)
+        minigame.draw()
+    elif globals.currentMenu == "settings":
+        settingsScreen.draw()
     elif globals.currentMenu == "test":
         test.draw()
     
@@ -98,6 +124,26 @@ def draw():
     # Reset the click position if the mouse is not pressed
     if not Object.mousePress:
         Object.clickPos = Vector2()
+
+loadFontOnce = False
+def applySettings():
+    
+    # Load background from globals
+    backgroundImg = globals.backgroundImg
+    # In case it is None, use a white background instead and load a new image
+    if backgroundImg == None:
+        background(255)
+        globals.backgroundImg = globals.imgIndex[globals.backgroundImgName].copy()
+    else:
+        # Reload and resize the background image if the dimensions don't match the screen
+        # All this reloading nonsense is to prevent heapspace errors. Basically we're trying
+        # to reload the image as little as possible.
+        if not backgroundImg.width == width and not backgroundImg.height == height:
+            del globals.backgroundImg
+            globals.backgroundImg = globals.imgIndex[globals.backgroundImgName].copy()
+            globals.backgroundImg.resize(width, height)
+            backgroundImg = globals.backgroundImg
+        background(backgroundImg)
 
 def mousePressed():
     textInput.check()
