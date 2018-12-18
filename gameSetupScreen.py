@@ -29,13 +29,15 @@ def init():
     playButton.releaseAction = startGame
     playButton.text = "Play"
     
-    #Back button
+    # Back button
     backButton = Button(37, 37, RoundRect(-25, -25, 50, 50) * 0.75)
     backButton.releaseAction = gotoMainMenu
-    backButton.text = "<"
     backButton.textSize *= 3
     backButton.applyStyle('compact')
     backButton.description = 'Main menu'
+    backButton.icon = globals.imgIndex['back'].copy()
+    backButton.iconScale = 0.75
+    backButton.iconColor = color(0,0)
     
     #Toggle base deck
     baseToggle = Button(width*0.8, height*0.18, r.copy()*0.2)
