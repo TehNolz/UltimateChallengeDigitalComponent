@@ -34,7 +34,7 @@ def loadScreen():
     stage = loadStage
     # Shows a progress bar
     
-    
+    loadText = ''
     def loadBar():
         width = 1133
         height = 600
@@ -47,33 +47,47 @@ def loadScreen():
         fill(0, 187, 255)
         noStroke()
         rect(width/2-100, height*0.55, 200 * amount, 30, 5)
+        fill(0)
+        textSize(20)
+        textAlign(CENTER)
+        if textWidth(loadText) + textAscent() > 200:
+            textSize(20 * (200 / float(textWidth(loadText) + textAscent())))
+        text(loadText, width/2, height*0.55 + 15 + textHeight(loadText) / 2)
         popStyle()
     
     if stage == 0:
         fill(0)
         textSize(30)
         text('Loading...', (width - textWidth('Loading'))/2, height/2)
-        loadBar()
-    
         log.info("Starting!")
+        loadText = 'Loading assets...'
     elif stage == 1:
         data.loadData()
+        loadText = 'Initializing settings screen...'
     elif stage == 2:
         settingsScreen.init()
+        loadText = 'Initializing game screen...'
     elif stage == 3:
         gameScreen.init()
+        loadText = 'Initializing game setup screen...'
     elif stage == 4:
         gameSetupScreen.init()
+        loadText = 'Initializing main menu...'
     elif stage == 5:
         mainMenu.init()
+        loadText = 'Initializing misc assets...'
     elif stage == 6:
         test.init()
+        loadText = 'Initializing console...'
     elif stage == 7:
         console.init()
+        loadText = 'Initializing manual screen...'
     elif stage == 8:
         manual.init()
+        loadText = 'Congfiguring renderer...'
     else:
         hint(DISABLE_OPTIMIZED_STROKE)
+        textMode(SHAPE)
         return True
     loadBar()
     loadStage += 1
@@ -128,9 +142,7 @@ def draw():
     if not Object.mousePress:
         Object.clickPos = Vector2()
 
-loadFontOnce = False
 def applySettings():
-    
     # Load background from globals
     backgroundImg = globals.backgroundImg
     # In case it is None, use a white background instead and load a new image
