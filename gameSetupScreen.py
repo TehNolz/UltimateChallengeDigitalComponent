@@ -29,9 +29,13 @@ def init():
     playButton.releaseAction = startGame
     playButton.text = "Play"
     
-    backButton = Button(width*0.95, height*0.1, r.copy()*0.5)
+    #Back button
+    backButton = Button(37, 37, RoundRect(-25, -25, 50, 50) * 0.75)
     backButton.releaseAction = gotoMainMenu
-    backButton.text = "Back"
+    backButton.text = "<"
+    backButton.textSize *= 3
+    backButton.applyStyle('compact')
+    backButton.description = 'Main menu'
     
     #Toggle base deck
     baseToggle = Button(width*0.8, height*0.18, r.copy()*0.2)
@@ -110,7 +114,7 @@ def draw():
     
     #Header text
     textSize(40)
-    text("Enter your name!", screenSize.X*0.01, screenSize.Y*0.1)
+    text("Enter your name!", screenSize.X*0.01, screenSize.Y*0.2)
     text("Use which decks?", screenSize.X*0.5, screenSize.Y*0.1)
     
     #Add text boxes + text
