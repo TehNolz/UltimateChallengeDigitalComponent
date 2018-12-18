@@ -14,8 +14,10 @@ def init():
     global minigameButtons
     global defaultButtons
     global miscButtons
+    global pool
     global b
     
+    pool = {}
     turnImage = False
     imgRot = 0
     imgPos = "foreground"
@@ -84,7 +86,8 @@ def draw():
     if turnImage and (imgRot == 0):
         turnImage = False
     elif imgRot == 180:
-        newCard()
+        if turnImage:
+            newCard()
         if currentCard["deck"] == "expansion2":
             turnImage = False
             fill(0, 0, 0, 255)
@@ -146,13 +149,16 @@ def draw():
         o.update()
     
 def newCard():
+    global pool
     cardConfig = globals.cardConfig
     
-    pool = {}
-    for deck in globals.userConfig["settings"]["useDecks"]:
-        pool.update(cardConfig[deck])
-    setCard(choice(pool.keys()))
-    
+    if pool == {}:
+        pool = {}
+        for deck in globals.userConfig["settings"]["useDecks"]:
+            pool.update(cardConfig[deck])
+    chosenCard = choice(pool.keys())
+    setCard(chosenCard)
+    del pool[chosenCard]
     
 def setCard(card):
     global currentCard
