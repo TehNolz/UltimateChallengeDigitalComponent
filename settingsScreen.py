@@ -24,7 +24,7 @@ def init():
     backButton.textSize *= 3
     backButton.applyStyle('compact')
     backButton.description = 'Quit'
-    backButton.icon = globals.imgIndex['kruisje'].copy()
+    backButton.icon = globals.imgIndex['tictactoe-cross'].copy()
     backButton.iconScale = 0.5
     backButton.iconColor = color(0,0)
     

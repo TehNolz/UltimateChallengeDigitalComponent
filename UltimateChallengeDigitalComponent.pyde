@@ -108,9 +108,9 @@ def draw():
     elif globals.currentMenu == "mainMenu":
         mainMenu.draw()
     elif globals.currentMenu == "manual":
-        manual.draw(mousePressed)
+        manual.draw()
     elif globals.currentMenu == "minigame":
-        minigame.draw()
+        minigame.draw(mousePressed)
     elif globals.currentMenu == "settings":
         settingsScreen.draw()
     elif globals.currentMenu == "test":

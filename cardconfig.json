@@ -87,7 +87,10 @@
     },
     "expansion1": {
         "expansion1-1": {
-			"ticTacToe": 2
+			"ticTacToe": {
+				"players": 2,
+				"mode": "1v1"
+			}
 		},
         "expansion1-10": null,
         "expansion1-11": null,
@@ -103,7 +106,10 @@
         "expansion1-19": null,
         "expansion1-2": null,
         "expansion1-20": {
-			"ticTacToe": 6
+			"ticTacToe": {
+				"players": 6,
+				"mode": "1v6"
+			}
 		},
         "expansion1-21": null,
         "expansion1-22": null,
