@@ -9,7 +9,6 @@ import console
 import test
 import textInput
 import minigame
-import time
 from Object import Object
 from util import *
 
@@ -37,6 +36,9 @@ def loadScreen():
     
     
     def loadBar():
+        width = 1133
+        height = 600
+        pushStyle()
         amount = float(stage) / loadDuration
         stroke(0)
         strokeWeight(2)
@@ -45,6 +47,7 @@ def loadScreen():
         fill(0, 187, 255)
         noStroke()
         rect(width/2-100, height*0.55, 200 * amount, 30, 5)
+        popStyle()
     
     if stage == 0:
         fill(0)
