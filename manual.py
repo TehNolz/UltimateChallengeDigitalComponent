@@ -48,7 +48,7 @@ def init():
 
     buttons = Object.endGroup()
 
-def draw(mousePressed):
+def draw():
     width = 1133
     height = 600
     
