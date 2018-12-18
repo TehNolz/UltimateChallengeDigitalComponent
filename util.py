@@ -4,7 +4,7 @@ def removeAlpha(c):
     return color(red(c), green(c), blue(c))
 
 def textHeight(txt):
-    return textAscent() - textDescent() - (textAscent() + textDescent()) * (txt.count('\n')) - (textDescent()*2 if txt.count('\n') > 0 else 0)
+    return textAscent() - textDescent() - (textAscent() + textDescent()) * (txt.count('\n')) - (textDescent()*2 if txt.count('\n') > 0 else textDescent()/3)
 
 def getCurrentInvMatrix():
     # This function exists because the matrix in the builtin 'g' graphics object
