@@ -160,8 +160,6 @@ class Button(Object):
         self.pressStyle(self, button)
         self.pressAction(self, button)
     def onRelease(self, button):
-        log = globals.log
-        log.debug(str(self) + ' activated. (MB'+str(button)+')')
         self.releaseStyle(self, button)
         self.releaseAction(self, button)
         cursor(0)
