@@ -164,6 +164,9 @@ def draw(mousePressed):
     global boardfull
     global brackets
     
+    if startingDiceRoll:
+        exitButton.text = "Start\nGame"
+    
     textAlign(CENTER)
     if not challengeActive:
         playerCount = None
