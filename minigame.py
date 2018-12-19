@@ -21,6 +21,8 @@ def init():
     minigameComplete = False
     global exitButton
     global nextMatchButton
+    global startingDiceRoll
+    startingDiceRoll = False
     
     #Create checkboxes
     r = RoundRect(-150, -150, 300, 300, 50)
@@ -137,6 +139,7 @@ def draw(mousePressed):
     global winner
     global toSelect
     global exitButton
+    global startingDiceRoll
     
     #Dice
     global resultBoxes
@@ -161,6 +164,7 @@ def draw(mousePressed):
     global boardfull
     global brackets
     
+    textAlign(CENTER)
     if not challengeActive:
         playerCount = None
         if "dice" in currentCard["minigame"]:
@@ -213,7 +217,10 @@ def draw(mousePressed):
             
             if minigameComplete:
                 if len(players) > 1:
-                    text(globals.userConfig["players"][str(winner)]+" wins the game!", width*0.35, height*0.1)
+                    if startingDiceRoll:
+                        text("The game starts with "+globals.userConfig["players"][str(winner)]+"'s turn!", width*0.35, height*0.1)
+                    else:
+                        text(globals.userConfig["players"][str(winner)]+" wins the game!", width*0.35, height*0.1)
                 else:
                     text("You win the game!", width*0.35, height*0.1)
                 dice.activators = {}

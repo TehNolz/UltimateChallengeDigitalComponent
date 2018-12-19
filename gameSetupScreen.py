@@ -154,6 +154,7 @@ def startGame(*args):
             if gameScreen.currentCard["deck"] == "expansion2":
                 gameScreen.imgRot = 180
             minigame.init()
+            minigame.startingDiceRoll = True
             globals.currentMenu = "minigame"
         else:
             pass
