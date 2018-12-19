@@ -101,7 +101,6 @@ def draw():
     # Update the mousePress value in Object
     # Necessary because when 'mousePressed()' is used, the field 'mousePressed' for some reason starts raising errors
     Object.mousePress = mousePressed
-    #textFont(font)
     
     applySettings()
     
@@ -143,6 +142,9 @@ def draw():
         Object.clickPos = Vector2()
 
 def applySettings():
+    if not globals.font == None:
+        textFont(globals.font)
+    
     # Load background from globals
     backgroundImg = globals.backgroundImg
     # In case it is None, use a white background instead and load a new image
@@ -168,8 +170,6 @@ def mouseReleased():
     Object.mouseRelease = True
     
 def keyPressed():
-    if key == '\\':
-        textFont(createFont('Open Sans', 48))
     #Open console
     if key == "`":
         console.toggleConsole()

@@ -116,7 +116,7 @@ def draw():
     
     #Header text
     textSize(40)
-    text("Enter your name!", screenSize.X*0.01, screenSize.Y*0.2)
+    text("Enter your name!", screenSize.X*0.01, screenSize.Y*0.1)
     text("Use which decks?", screenSize.X*0.5, screenSize.Y*0.1)
     
     #Add text boxes + text
