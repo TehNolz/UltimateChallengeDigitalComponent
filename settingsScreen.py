@@ -80,28 +80,35 @@ def init():
     fontSelectRadio1.applyStyle('radio')
     fontSelectRadio1.radioGroup = 'font_select'
     fontSelectRadio1.name = 'Sans Serif'
+    fontSelectRadio1.fullName = 'SansSerif.plain'
     fontSelectRadio1.releaseAction = setFont
     
     fontSelectRadio2 = Button(0, 0, r.copy())
     fontSelectRadio2.applyStyle('radio')
     fontSelectRadio2.radioGroup = 'font_select'
     fontSelectRadio2.name = 'Open Sans'
+    fontSelectRadio2.fullName = 'Open Sans'
     fontSelectRadio2.releaseAction = setFont
     
     fontSelectRadio3 = Button(0, 0, r.copy())
     fontSelectRadio3.applyStyle('radio')
     fontSelectRadio3.radioGroup = 'font_select'
     fontSelectRadio3.name = 'Lucida Sans'
+    fontSelectRadio3.fullName = 'Lucida Sans Regular'
     fontSelectRadio3.releaseAction = setFont
     
     fontSelectRadio4 = Button(0, 0, r.copy())
     fontSelectRadio4.applyStyle('radio')
     fontSelectRadio4.radioGroup = 'font_select'
     fontSelectRadio4.name = 'Consolas'
+    fontSelectRadio4.fullName = 'Consolas'
     fontSelectRadio4.releaseAction = setFont
     
     categories['Fonts'] = Object.endGroup()
     for o in categories['Fonts']:
+        if not o.fullName in PFont.list():
+            categories['Fonts'].remove(o)
+            continue
         if o.name == globals.userConfig['settings']['font']:
             o.releaseAction(o, -1)
             o.activated = True
@@ -164,8 +171,17 @@ def draw():
     height = 600
     scale(*globals.baseScaleXY)
     
-    pushStyle()
+    pushMatrix()
     fill(0)
+    pushStyle()
+    textMode(SHAPE)
+    textSize(40)
+    s = 'Settings'
+    translate(0, textHeight(s)*2 + textDescent())
+    text(s, width/2 - textWidth(s)/2, -textDescent())
+    popStyle()
+    
+    pushStyle()
     # Cache for fontsize so it is not called excessively
     _fontsize = 0
     for txt, pos, fontsize in onScreenText:
@@ -181,6 +197,7 @@ def draw():
     for group in categories.values():
         for o in group:
             o.update()
+    popMatrix()
     
     for o in buttons:
         o.update()
