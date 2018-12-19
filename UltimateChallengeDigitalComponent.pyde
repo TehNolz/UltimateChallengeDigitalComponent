@@ -56,12 +56,16 @@ def loadScreen():
         popStyle()
     
     if stage == 0:
+        background(204)
         fill(0)
         textSize(30)
         text('Loading...', (width - textWidth('Loading'))/2, height/2)
         log.info("Starting!")
         loadText = 'Loading assets...'
     elif stage == 1:
+        fill(0)
+        textSize(30)
+        text('Loading...', (width - textWidth('Loading'))/2, height/2)
         data.loadData()
         loadText = 'Initializing settings screen...'
     elif stage == 2:
@@ -87,7 +91,7 @@ def loadScreen():
         loadText = 'Congfiguring renderer...'
     else:
         hint(DISABLE_OPTIMIZED_STROKE)
-        textMode(SHAPE)
+        #textMode(SHAPE)
         return True
     loadBar()
     loadStage += 1
@@ -107,6 +111,7 @@ def draw():
     #Center ALL THE THINGS!
     imageMode(CENTER)
     rectMode(CENTER)
+    textAlign(LEFT)
     
     #Calculate base scale
     globals.baseScale = float(height) / 600
@@ -144,6 +149,7 @@ def draw():
 def applySettings():
     if not globals.font == None:
         textFont(globals.font)
+        globals.font = None
     
     # Load background from globals
     backgroundImg = globals.backgroundImg
