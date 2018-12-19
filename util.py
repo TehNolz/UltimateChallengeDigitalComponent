@@ -25,12 +25,14 @@ def getTransition(self, id, default): return transitionCache[id+str(self)] if (i
 transitions = dict()
 def transition(self, id, time, value, mod=LIN, stage=-1):
     _id = id+str(self)
-    reset = False
-    if stage >= 0 and (time == 0 or not _id in transitions or not transitions[_id][2] == stage):
-        reset = True
-    elif stage < 0 and (time == 0 or not _id in transitions or not transitions[_id][1] == value):
-        reset = True
-    if reset:
+    if not globals.userConfig['settings']['anims_OnOff']:
+        transitions[_id] = (millis()+time, value, stage)
+        cacheTransition(self,id+'#MEM',value)
+        cacheTransition(self,id,value)
+        return value
+
+    if ((stage >= 0 and (time == 0 or not _id in transitions or not transitions[_id][2] == stage)) or
+       (stage < 0 and (time == 0 or not _id in transitions or not transitions[_id][1] == value))):
         transitions[_id] = (millis()+time, value, stage)
         nv = getTransition(self, id+'#MEM', value)
         cacheTransition(self,id,nv)
@@ -49,12 +51,14 @@ def getColor(self, id, default): return colorCache[id+str(self)] if (id+str(self
 colorTransitions = dict()
 def transitionColor(self, id, time, c, mod=LIN, stage=-1):
     _id = id+str(self)
-    reset = False
-    if stage >= 0 and (time == 0 or not _id in colorTransitions or not colorTransitions[_id][2] == stage):
-        reset = True
-    elif stage < 0 and (time == 0 or not _id in colorTransitions or not colorTransitions[_id][1] == c):
-        reset = True
-    if reset:
+    if not globals.userConfig['settings']['anims_OnOff']:
+        colorTransitions[_id] = (millis()+time, c, stage)
+        cacheColor(self,id+'#MEM',c)
+        cacheColor(self,id,c)
+        return c
+    
+    if ((stage >= 0 and (time == 0 or not _id in colorTransitions or not colorTransitions[_id][2] == stage)) or
+       (stage < 0 and (time == 0 or not _id in colorTransitions or not colorTransitions[_id][1] == c))):
         colorTransitions[_id] = (millis()+time, c, stage)
         nc = getColor(self, id+'#MEM', c)
         cacheColor(self,id,nc)
