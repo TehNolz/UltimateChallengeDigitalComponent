@@ -106,13 +106,6 @@ def init():
     
     categories['Fonts'] = Object.endGroup()
     for o in categories['Fonts']:
-        if not o.fullName in PFont.list():
-            o.color = color(255, 40, 40)
-            o.hoverColor = color(200, 0, 0)
-            o.hoverStroke = o.idleStroke
-            o.activators = {}
-            o.activated = False
-            continue
         if o.name == globals.userConfig['settings']['font']:
             o.releaseAction(o, -1)
             o.activated = True
