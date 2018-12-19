@@ -18,7 +18,11 @@ userConfig = {
             "base",
             "expansion1",
             "expansion2"
-        ]
+        ],
+        "bg_select": 'Blue',
+        "objectAnims_OnOff": True,
+        "anims_OnOff": True,
+        "font": 'Open Sans'
     }
 }
 fonts = {}
@@ -38,13 +42,11 @@ currentMenu = "mainMenu"
 backgroundImgName = 'background'
 backgroundImg = None
 
-# Font
-font = "Open Sans"
-
 #Misc
 logging.basicConfig(level=logging.NOTSET)
 log = logging.getLogger("LOG")
 playerCount = 0
+font = None
 
 #Text boxes
 activeTextBox = None
