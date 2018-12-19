@@ -125,6 +125,8 @@ def init():
     nextMatchButton.text = "Next\nMatch"
     
 def draw(mousePressed):
+    width = 1133
+    height = 600
     pushStyle()
     pushMatrix()
     #Misc

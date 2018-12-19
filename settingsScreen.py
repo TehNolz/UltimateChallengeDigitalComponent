@@ -80,28 +80,24 @@ def init():
     fontSelectRadio1.applyStyle('radio')
     fontSelectRadio1.radioGroup = 'font_select'
     fontSelectRadio1.name = 'Sans Serif'
-    fontSelectRadio1.fullName = 'SansSerif.plain'
     fontSelectRadio1.releaseAction = setFont
     
     fontSelectRadio2 = Button(0, 0, r.copy())
     fontSelectRadio2.applyStyle('radio')
     fontSelectRadio2.radioGroup = 'font_select'
     fontSelectRadio2.name = 'Open Sans'
-    fontSelectRadio2.fullName = 'Open Sans'
     fontSelectRadio2.releaseAction = setFont
     
     fontSelectRadio3 = Button(0, 0, r.copy())
     fontSelectRadio3.applyStyle('radio')
     fontSelectRadio3.radioGroup = 'font_select'
     fontSelectRadio3.name = 'Lucida Sans'
-    fontSelectRadio3.fullName = 'Lucida Sans Regular'
     fontSelectRadio3.releaseAction = setFont
     
     fontSelectRadio4 = Button(0, 0, r.copy())
     fontSelectRadio4.applyStyle('radio')
     fontSelectRadio4.radioGroup = 'font_select'
     fontSelectRadio4.name = 'Consolas'
-    fontSelectRadio4.fullName = 'Consolas'
     fontSelectRadio4.releaseAction = setFont
     
     categories['Fonts'] = Object.endGroup()
