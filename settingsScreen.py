@@ -173,13 +173,10 @@ def draw():
     
     pushMatrix()
     fill(0)
-    pushStyle()
-    textMode(SHAPE)
     textSize(40)
     s = 'Settings'
     translate(0, textHeight(s)*2 + textDescent())
     text(s, width/2 - textWidth(s)/2, -textDescent())
-    popStyle()
     
     pushStyle()
     # Cache for fontsize so it is not called excessively
@@ -202,6 +199,12 @@ def draw():
     for o in buttons:
         o.update()
     
+    textMode(CENTER)
+    textSize(48)
+    text('testing for font texture quality', width/2, height*0.75)
+    textSize(100)
+    text('testing for font texture quality', width/2, height*0.75+textAscent())
+    
 def gotoMainMenu(*args):
     if args[1] == LEFT:
         globals.currentMenu = "mainMenu"
@@ -209,7 +212,7 @@ def gotoMainMenu(*args):
 def setFont(self, *args):
     globals.userConfig['settings']['font'] = self.name
     data.saveData()
-    globals.font = createFont(self.name, 48, True)
+    globals.font = createFont(self.name, 100, True)
     textFont(globals.font)
 
 def toggleSettings(self, *args):

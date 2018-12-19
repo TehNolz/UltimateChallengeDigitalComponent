@@ -119,6 +119,7 @@ def draw():
     globals.baseScaleXY.Y = float(height) / 600
     
     #Switch to a different menu.
+    pushStyle()
     if globals.currentMenu == "gameSetupScreen":
         gameSetupScreen.draw()
     elif globals.currentMenu == "gameScreen":
@@ -133,7 +134,7 @@ def draw():
         settingsScreen.draw()
     elif globals.currentMenu == "test":
         test.draw()
-    
+    popStyle()
         
     #Show console, when necessary.
     if console.showConsole:
@@ -147,9 +148,7 @@ def draw():
         Object.clickPos = Vector2()
 
 def applySettings():
-    if not globals.font == None:
-        textFont(globals.font)
-        globals.font = None
+    updateFont()
     
     # Load background from globals
     backgroundImg = globals.backgroundImg

@@ -1,10 +1,23 @@
 import globals
 
+currentFont = None
+def updateFont():
+    global currentFont
+    if not globals.font.name == currentFont:
+        textFont(globals.font)
+        currentFont = globals.font.name
+
+def reloadFont(size=-1):
+    if size > 0:
+        textFont(createFont(str(globals.font.name), size))
+    else:
+        textFont(globals.font)
+
 def removeAlpha(c):
     return color(red(c), green(c), blue(c))
 
 def textHeight(txt):
-    return textAscent() - textDescent() - (textAscent() + textDescent()) * (txt.count('\n')) - (textDescent()*2 if txt.count('\n') > 0 else textDescent()/3)
+    return textAscent() - textDescent() - (textAscent() + textDescent()) * (txt.count('\n')) - (textDescent()*2 if txt.count('\n') > 0 else 0)
 
 def getCurrentInvMatrix():
     # This function exists because the matrix in the builtin 'g' graphics object

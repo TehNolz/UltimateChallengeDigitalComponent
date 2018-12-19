@@ -7,6 +7,8 @@ from random import choice
 currentCard = None
 
 def init():
+    width = 1133
+    height = 600
     # ######################
     # Misc stuff
     ######################
@@ -127,6 +129,7 @@ def init():
 def draw(mousePressed):
     width = 1133
     height = 600
+    scale(*globals.baseScaleXY)
     pushStyle()
     pushMatrix()
     #Misc
@@ -246,6 +249,7 @@ def draw(mousePressed):
 
 
         elif "ticTacToe" in currentCard["minigame"]:
+            textAlign(LEFT)
             pushMatrix()
             text(globals.userConfig["players"][str(currentPlayer)]+"'s turn!", 105, 40)
             field()

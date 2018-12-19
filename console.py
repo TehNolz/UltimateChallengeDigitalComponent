@@ -12,6 +12,7 @@ def init():
     globals.textBoxDict["global"].append(consoleTextBox)
 
 def draw():
+    textSize(30)
     global consoleTextBox
     consoleTextBox.draw()
     
