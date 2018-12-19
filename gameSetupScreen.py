@@ -143,6 +143,8 @@ def startGame(*args):
         if len(globals.userConfig["settings"]["useDecks"]) > 0:
             for player in range(0, playerCount):
                 textBox = globals.textBoxDict["gameSetupScreen"][player]
+                if textBox.text in globals.userConfig["players"].values() or textBox.text == "":
+                    return False
                 globals.userConfig["players"][str(player+1)] = textBox.text
             
             data.saveData()

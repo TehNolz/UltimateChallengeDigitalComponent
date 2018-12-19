@@ -154,7 +154,6 @@ def newCard():
     cardConfig = globals.cardConfig
     
     if pool == {}:
-        pool = {}
         for deck in globals.userConfig["settings"]["useDecks"]:
             pool.update(cardConfig[deck])
     chosenCard = choice(pool.keys())
@@ -178,6 +177,8 @@ def setCard(card):
     
 def gotoMainMenu(*args):
     if args[1] == LEFT:
+        global pool
+        pool = {}
         globals.currentMenu = "mainMenu"
 def gotoMinigame(*args):
     global currentCard
