@@ -1,4 +1,5 @@
 from util import *
+import globals
 
 class Object:
     activeKeys = set()
@@ -42,9 +43,14 @@ class Object:
         self.controls()
         pushStyle()
         pushMatrix()
-        translate(*self.pos+self.localTranslation)
-        rotate(self.rotation + self.localRotation)
-        scale(self.baseScale * self.localScale)
+        if not globals.userConfig['settings']['objectAnims_OnOff']:
+            translate(*self.pos)
+            rotate(self.rotation)
+            scale(self.baseScale)
+        else:
+            translate(*self.pos+self.localTranslation)
+            rotate(self.rotation + self.localRotation)
+            scale(self.baseScale * self.localScale)
         self.drawImage()
         popMatrix()
         popStyle()
@@ -125,6 +131,9 @@ class Object:
             o.disableControls = not b
     
     def translateLocal(self, x, y):
+        # Disable the animations/transformations
+        if not globals.userConfig['settings']['objectAnims_OnOff']:
+            return
         translate(*-self.localTranslation)
         self.localTranslation.X += x
         self.localTranslation.Y += y
@@ -133,6 +142,8 @@ class Object:
         translate(*-self.localTranslation)
         self.localTranslation = Vector2()
     def rotateLocal(self, r):
+        if not globals.userConfig['settings']['objectAnims_OnOff']:
+            return
         rotate(-self.localRotation)
         self.localRotation = r
         rotate(r)
@@ -140,6 +151,8 @@ class Object:
         rotate(-self.localRotation)
         self.localRotation = 0
     def scaleLocal(self, s):
+        if not globals.userConfig['settings']['objectAnims_OnOff']:
+            return
         scale(1/self.localScale)
         self.localScale = s
         scale(s)
