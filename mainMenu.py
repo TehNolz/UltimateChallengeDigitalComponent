@@ -59,5 +59,7 @@ def exitGame(*args):
     # Desperate attempt at containing a memory leak in Processing
     for i in globals.imgIndex.values():
         g.removeCache(i)
+    import settingsScreen
+    del settingsScreen.onScreenFeatures
     del globals.imgIndex
     exit()
