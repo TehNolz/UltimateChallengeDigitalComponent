@@ -66,7 +66,7 @@ class textBox:
                 elif inputKey == ENTER or inputKey == RETURN:
                     if self.command != None:
                         self.command(self.text)
-                elif textWidth(self.text) < self.boxWidth+75:
+                elif textWidth(self.text) < self.boxWidth+300:
                     self.text+=str(inputKey)
             
     def active(self):
