@@ -129,8 +129,8 @@ def init():
 def draw(mousePressed):
     width = 1133
     height = 600
-    scale(*globals.baseScaleXY)
     pushStyle()
+    scale(*globals.baseScaleXY)
     pushMatrix()
     #Misc
     global currentCard
@@ -218,6 +218,7 @@ def draw(mousePressed):
             boxHeight = 0.2
             if len(players) > 1:
                 for player in players:
+                    textSize(30)
                     text(globals.userConfig["players"][str(player)], width*0.08, height*boxHeight)
                     resultBoxes[player-1].y = height*(boxHeight-0.05)
                     resultBoxes[player-1].draw()
