@@ -66,37 +66,34 @@ def draw():
     fill(0)
     text("The Ultimate Challenge manual", width/6, 40)
     
-    
-    image(manual1, width*(1.0/3), height/2)
     manual1.resize(370,500)
-    image(manual2, width*(2.0/3), height/2)
+    image(manual1, width*(1.0/3), height/2)
     manual2.resize(370,500)
+    image(manual2, width*(2.0/3), height/2)
         
     if forward == 1:
-        image(manual3, width*(1.0/3), height/2)
         manual3.resize(370,500)
-        image(manual4, width*(2.0/3), height/2)
+        image(manual3, width*(1.0/3), height/2)
         manual4.resize(370,500)
+        image(manual4, width*(2.0/3), height/2)
     
     if forward == 2:
-        image(manual5, width*(1.0/3), height/2)
         manual5.resize(370,500)
-        image(manual6, width*(2.0/3), height/2)
+        image(manual5, width*(1.0/3), height/2)
         manual6.resize(370,500)
+        image(manual6, width*(2.0/3), height/2)
     
     if backward == 1:
-        image(manual1, width*(1.0/3), height/2)
         manual1.resize(370,500)
-        image(manual2, width*(2.0/3), height/2)
+        image(manual1, width*(1.0/3), height/2)
         manual2.resize(370,500)
+        image(manual2, width*(2.0/3), height/2)
         
     if backward == 2:
-        image(manual3, width*(1.0/3), height/2)
         manual3.resize(370,500)
-        image(manual4, width*(2.0/3), height/2)
+        image(manual3, width*(1.0/3), height/2)
         manual4.resize(370,500)
-
-            
+        image(manual4, width*(2.0/3), height/2)   
     
     for o in buttons:
         o.update()
