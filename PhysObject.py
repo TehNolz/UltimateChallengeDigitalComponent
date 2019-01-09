@@ -1,6 +1,9 @@
 from Object import Object
 from util import *
 
+# This file is obsolete
+# The original intention was to use these objects as decorative particles, however that never came to fruition.
+
 class PhysObject(Object):
     buttons = {'UP': UP,
                'DOWN': DOWN,
