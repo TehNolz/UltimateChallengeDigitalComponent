@@ -141,21 +141,31 @@ def startGame(*args):
     
     if args[1] == LEFT:
         if len(globals.userConfig["settings"]["useDecks"]) > 0:
+            validNames = True
+            playerList = []
             for player in range(0, playerCount):
                 textBox = globals.textBoxDict["gameSetupScreen"][player]
-                globals.userConfig["players"][str(player+1)] = textBox.text
+                print(textBox.text)
+                print(playerList)
+                if textBox.text in playerList or textBox.text == "":
+                    validNames = False
+                    break
+                else:
+                    playerList.append(textBox.text)
+                    globals.userConfig["players"][str(player+1)] = textBox.text            
+                    
+            if validNames:
+                data.saveData()
+                globals.playerCount = playerCount
             
-            data.saveData()
-            globals.playerCount = playerCount
-        
-            gameScreen.setCard("expansion1-25")
-            minigame.currentCard = gameScreen.currentCard
-            gameScreen.newCard()
-            if gameScreen.currentCard["deck"] == "expansion2":
-                gameScreen.imgRot = 180
-            minigame.init()
-            minigame.startingDiceRoll = True
-            globals.currentMenu = "minigame"
+                gameScreen.setCard("expansion1-25")
+                minigame.currentCard = gameScreen.currentCard
+                gameScreen.newCard()
+                if gameScreen.currentCard["deck"] == "expansion2":
+                    gameScreen.imgRot = 180
+                minigame.init()
+                minigame.startingDiceRoll = True
+                globals.currentMenu = "minigame"
         else:
             pass
         
