@@ -141,7 +141,7 @@ def draw():
     elif globals.currentMenu == "settings":
         settingsScreen.draw()
     elif globals.currentMenu == "test":
-        test.draw()
+        test.draw(mousePressed)
     lastScreen = globals.currentMenu
     popStyle()
     popMatrix()

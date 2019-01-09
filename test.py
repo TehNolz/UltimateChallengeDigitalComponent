@@ -2,6 +2,7 @@ import globals
 from Object import Object
 from Button import Button
 from util import *
+import prime_number_menu
 
 
 buttons = None

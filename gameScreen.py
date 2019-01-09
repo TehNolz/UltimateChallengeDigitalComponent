@@ -16,6 +16,7 @@ def init():
     global primeNumberCardButtons
     global defaultButtons
     global miscButtons
+    global showPrimeNumbersButton
     global pool
     global b
     
@@ -30,6 +31,7 @@ def init():
     #New card
     b = Button(width*0.5, height*0.90, RoundRect(-285,-57,570,114)*0.5)
     b.releaseAction = startTurn
+    b.textSize = 15
     b.text = "Pick a new card."
     
     defaultButtons = Object.endGroup()
@@ -53,7 +55,7 @@ def init():
 
     showPrimeNumbersButton = Button(width*0.43, height*0.9, r.copy()*0.5)
     showPrimeNumbersButton.releaseAction = togglePrimeNumberMenu
-    showPrimeNumbersButton.text = "Toggle list of\nprime numbers."
+    showPrimeNumbersButton.text = "Show list of\nprime numbers."
     showPrimeNumbersButton.textSize = 15
     
     primeNumberCardButtons = Object.endGroup()
@@ -85,7 +87,6 @@ def draw(mousePressed=False):
     global imgRet
     global retractImage
     global currentCard
-    
     pushMatrix()
     translate(width/2, 0, 0)
     
@@ -165,10 +166,9 @@ def draw(mousePressed=False):
             o.update()
     for o in miscButtons:
         o.update()
-    
-    translate(width/2, height/2, 200)
+        
+    translate(1133*0.8, 600*0.5)
     if show_prime_numbers:
-        prime_number_menu.menu_scale = 0.75
         prime_number_menu.draw(mousePressed)
     
 def newCard():
@@ -212,6 +212,10 @@ show_prime_numbers = False
 def togglePrimeNumberMenu(*args):
     global show_prime_numbers
     show_prime_numbers = not show_prime_numbers
+    if show_prime_numbers:
+        showPrimeNumbersButton.text = "Hide list of\nprime numbers."
+    else:
+        showPrimeNumbersButton.text = "Show list of\nprime numbers."
     
 def gotoMainMenu(*args):
     if args[1] == LEFT:

@@ -43,7 +43,9 @@ def draw(mousePressed=False):
     pushMatrix()
     pushMatrix()
     g.setMatrix(getCurrentInvMatrix())
-    if mousePressed:
+    mousePos = Vector2(mouseX, mouseY).getModelPos()
+    shape = Rectangle(-getWidth()/2 - menu_offset.X, -getHeight()/2 - menu_offset.Y, getWidth(), getHeight())
+    if mousePressed and (shape.contains(*mousePos) or not menu_drag_pos == None):
         if menu_drag_pos == None:
             menu_drag_pos = Vector2(mouseX, mouseY).getModelPos()
         menu_offset += menu_drag_pos - Vector2(mouseX, mouseY).getModelPos()
@@ -52,7 +54,7 @@ def draw(mousePressed=False):
         menu_drag_pos = None
     popMatrix()
     translate(*-menu_offset)
-    translate(getWidth()/2, getHeight()/2)
+    translate(-getWidth()/2, -getHeight()/2)
     
     rectMode(CORNER)
     strokeWeight(1)
@@ -72,6 +74,8 @@ def draw(mousePressed=False):
     coord = [0, 0]
     column_width = menu_width / float(menu_columns)
     row_height = menu_height / float(menu_rows)
+    # Yeah i didn't bother caching the list
+    # I know, minor change, but it didn't impact performance much so i didn't really care
     for i in get_prime_numbers(menu_rows*menu_columns):
         while textAscent() + textDescent() > row_height:
             menu_fontsize -= 1
