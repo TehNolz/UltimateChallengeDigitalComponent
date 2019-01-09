@@ -109,7 +109,7 @@ def draw():
         o.update()
     if playerCount < 6:
         addPlayerButton.update()
-    if playerCount > 4:
+    if playerCount > 3:
         remPlayerButton.update()
     
     baseX, baseY = globals.baseScaleXY
@@ -166,7 +166,7 @@ def addPlayer(*args):
         playerCount+=1
 def remPlayer(*args):
     global playerCount
-    if playerCount != 4:
+    if playerCount != 3:
         playerCount-=1
 
 #Toggle decks
