@@ -4,6 +4,7 @@ from util import *
 from Button import Button
 from Object import Object
 from random import choice
+import prime_number_menu
 
 def init():
     global turnImage
@@ -12,6 +13,7 @@ def init():
     global imgRet
     global retractImage
     global minigameButtons
+    global primeNumberCardButtons
     global defaultButtons
     global miscButtons
     global pool
@@ -38,12 +40,24 @@ def init():
     challengeNextCard = Button(width*0.57, height*0.9, r.copy()*0.5)
     challengeNextCard.releaseAction = startTurn
     challengeNextCard.text = "Pick a new card."
+    challengeNextCard.textSize = 15
     
     startChallenge = Button(width*0.43, height*0.9, r.copy()*0.5)
     startChallenge.releaseAction = gotoMinigame
     startChallenge.text = "Start challenge."
+    startChallenge.textSize = 15
     
     minigameButtons = Object.endGroup()
+    
+    Object.startGroup()
+
+    showPrimeNumbersButton = Button(width*0.43, height*0.9, r.copy()*0.5)
+    showPrimeNumbersButton.releaseAction = togglePrimeNumberMenu
+    showPrimeNumbersButton.text = "Toggle list of\nprime numbers."
+    showPrimeNumbersButton.textSize = 15
+    
+    primeNumberCardButtons = Object.endGroup()
+    primeNumberCardButtons.append(challengeNextCard)
     
     Object.startGroup()
     
@@ -64,7 +78,7 @@ def startTurn(*args):
     if args[1] == LEFT:
         turnImage = True
 
-def draw():
+def draw(mousePressed=False):
     global turnImage
     global imgRot
     global imgPos
@@ -143,11 +157,19 @@ def draw():
     if currentCard["showStart"]:
         for o in minigameButtons:
             o.update()
+    elif currentCard['isPrimeNumber']:
+        for o in primeNumberCardButtons:
+            o.update()
     else:
         for o in defaultButtons:
             o.update()
     for o in miscButtons:
         o.update()
+    
+    translate(width/2, height/2, 200)
+    if show_prime_numbers:
+        prime_number_menu.menu_scale = 0.75
+        prime_number_menu.draw(mousePressed)
     
 def newCard():
     global pool
@@ -162,18 +184,34 @@ def newCard():
     
 def setCard(card):
     global currentCard
+    global show_prime_numbers
+    
+    # Hide the prime number menu when loading a new card
+    show_prime_numbers = False
     
     deck = card.split("-")[0]
     showStart = True
+    primeNumber = False
     if globals.cardConfig[deck][card] == None:
         showStart = False
+    else:
+        if 'primeNumber' in globals.cardConfig[deck][card]:
+            primeNumber = True
+            showStart = False
+        
     currentCard = {
         "id": card,
         "deck": deck,
         "back": "card-"+deck+"-back",
         "showStart": showStart,
-        "minigame": globals.cardConfig[deck][card]
+        "minigame": globals.cardConfig[deck][card],
+        'isPrimeNumber': primeNumber
     }
+    
+show_prime_numbers = False
+def togglePrimeNumberMenu(*args):
+    global show_prime_numbers
+    show_prime_numbers = not show_prime_numbers
     
 def gotoMainMenu(*args):
     if args[1] == LEFT:

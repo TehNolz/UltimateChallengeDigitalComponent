@@ -1,5 +1,6 @@
 import globals
 import data
+import prime_number_menu
 from util import *
 from Button import Button
 from Object import Object
@@ -18,6 +19,7 @@ def init():
     bgRadioButton1.radioGroup = 'bg_select'
     bgRadioButton1.name = 'Blue'
     bgRadioButton1.value = 'background'
+    bgRadioButton1.color_value = color(0,180, 250)
     bgRadioButton1.releaseAction = setBackground
     
     bgRadioButton2 = Button(0, 0, r.copy())
@@ -25,6 +27,7 @@ def init():
     bgRadioButton2.radioGroup = 'bg_select'
     bgRadioButton2.name = 'Orange'
     bgRadioButton2.value = 'background-1'
+    bgRadioButton2.color_value = color(250, 140, 0)
     bgRadioButton2.releaseAction = setBackground
     
     bgRadioButton3 = Button(0, 0, r.copy())
@@ -32,6 +35,7 @@ def init():
     bgRadioButton3.radioGroup = 'bg_select'
     bgRadioButton3.name = 'Green'
     bgRadioButton3.value = 'background-2'
+    bgRadioButton3.color_value = color(0, 200, 0)
     bgRadioButton3.releaseAction = setBackground
     
     bgRadioButton4 = Button(0, 0, r.copy())
@@ -39,6 +43,7 @@ def init():
     bgRadioButton4.radioGroup = 'bg_select'
     bgRadioButton4.name = 'Purple'
     bgRadioButton4.value = 'background-3'
+    bgRadioButton4.color_value = color(200, 0, 250)
     bgRadioButton4.releaseAction = setBackground
     
     bgRadioButton5 = Button(0, 0, r.copy())
@@ -46,6 +51,7 @@ def init():
     bgRadioButton5.radioGroup = 'bg_select'
     bgRadioButton5.name = 'Gray'
     bgRadioButton5.value = 'background-4'
+    bgRadioButton5.color_value = color(130)
     bgRadioButton5.releaseAction = setBackground
     
     categories['Background Select'] = Object.endGroup()
@@ -128,7 +134,8 @@ def init():
     
     buttons = Object.endGroup()
     
-    # I know this is messy code, but it works!
+    # I know the following chunk is messy code, but it works!
+    # It helps cache a lot of the data used for custom graphics and aligning text and buttons.
     textSizeHeader = 25
     textSizeButtons = 20
     
@@ -199,12 +206,6 @@ def draw():
     for o in buttons:
         o.update()
     
-    textMode(CENTER)
-    textSize(48)
-    text('testing for font texture quality', width/2, height*0.75)
-    textSize(100)
-    text('testing for font texture quality', width/2, height*0.75+textAscent())
-    
 def gotoMainMenu(*args):
     if args[1] == LEFT:
         globals.currentMenu = "mainMenu"
@@ -223,4 +224,5 @@ def setBackground(self, *args):
     globals.backgroundImgName = self.value
     globals.backgroundImg = globals.imgIndex[self.value].copy()
     globals.userConfig['settings']['bg_select'] = self.name
+    globals.userConfig['settings']['primary_color'] = self.color_value
     data.saveData()

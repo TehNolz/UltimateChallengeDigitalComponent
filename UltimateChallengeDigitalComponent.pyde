@@ -28,6 +28,8 @@ def setup():
     background(204)
     
     
+loadStage = 0
+loadDuration = 8
 def loadScreen():
     global loadStage
     global loadDuration
@@ -97,10 +99,12 @@ def loadScreen():
     loadStage += 1
     return False
 
-loadStage = 0
-loadDuration = 8
+lastScreen = ''
 def draw():
+    global lastScreen
+    # This loadscreen loads stuff in the draw so we can update the loading bar
     if not loadScreen(): return
+    
     
     # Update the mousePress value in Object
     # Necessary because when 'mousePressed()' is used, the field 'mousePressed' for some reason starts raising errors
@@ -120,10 +124,14 @@ def draw():
     
     #Switch to a different menu.
     pushStyle()
+    pushMatrix()
     if globals.currentMenu == "gameSetupScreen":
         gameSetupScreen.draw()
     elif globals.currentMenu == "gameScreen":
-        gameScreen.draw()
+        # Hides the prime number menu when you toggle to the gamescreen
+        if not lastScreen == globals.currentMenu:
+            gameScreen.showPrimeNumbers = False
+        gameScreen.draw(mousePressed)
     elif globals.currentMenu == "mainMenu":
         mainMenu.draw()
     elif globals.currentMenu == "manual":
@@ -134,7 +142,9 @@ def draw():
         settingsScreen.draw()
     elif globals.currentMenu == "test":
         test.draw()
+    lastScreen = globals.currentMenu
     popStyle()
+    popMatrix()
         
     #Show console, when necessary.
     if console.showConsole:

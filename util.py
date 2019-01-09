@@ -16,7 +16,7 @@ def reloadFont(size=-1):
 def removeAlpha(c):
     return color(red(c), green(c), blue(c))
 
-def textHeight(txt):
+def textHeight(txt=''):
     return textAscent() - textDescent() - (textAscent() + textDescent()) * (txt.count('\n')) - (textDescent()*2 if txt.count('\n') > 0 else 0)
 
 def getCurrentInvMatrix():

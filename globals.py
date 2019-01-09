@@ -20,6 +20,7 @@ userConfig = {
             "expansion2"
         ],
         "bg_select": 'Blue',
+        "primary_color": color(50, 230, 230),
         "objectAnims_OnOff": True,
         "anims_OnOff": True,
         "font": 'Open Sans'

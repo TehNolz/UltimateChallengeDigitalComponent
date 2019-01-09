@@ -4,6 +4,7 @@ from util import *
 import globals
 import textInput
 from random import choice
+import prime_number_menu
 currentCard = None
 
 def init():
@@ -328,7 +329,7 @@ def draw(mousePressed):
             popMatrix()
         ######################
         elif "primeNumber" in currentCard["minigame"]:
-            pass
+            prime_number_menu.draw(mousePressed)
         
         ######################
         if "timer" in currentCard["minigame"]:
