@@ -226,12 +226,6 @@ def draw(mousePressed):
     else:
         fill(0, 0, 0, 255)
         
-        var = []
-        for player in toRoll:
-            var.append(globals.userConfig["players"][str(player)])
-        print(var)
-        print(globals.userConfig["players"][str(currentPlayer)])
-        
         ######################
         if "dice" in currentCard["minigame"]:
             boxHeight = 0.2
