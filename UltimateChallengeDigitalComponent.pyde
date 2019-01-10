@@ -100,10 +100,47 @@ def loadScreen():
     return False
 
 lastScreen = ''
+keySpeed = 1 # 1 frame, or 60 times a second
+keySpeedCounter = 0
+keyRepeatDelay = 30 # 30 frames, or 500 milliseconds
+keyRepeatCounter = 0
+lastKeyEvent = None
+lastKeyCode = None
+activeKeys = set()
+activeKeyCodes = set()
 def draw():
     global lastScreen
     # This loadscreen loads stuff in the draw so we can update the loading bar
     if not loadScreen(): return
+
+    global keySpeed
+    global keySpeedCounter
+    global keyRepeatDelay
+    global keyRepeatCounter
+    global lastKeyEvent
+    global lastKeyCode
+    global activeKeys
+    global activeKeyCodes
+    
+    
+    # This is to force key repeats because P3D is gay and disables that for some fucking reason
+    # mind you key repeats work fucking fine in P2D
+    if keyPressed:
+        if keyRepeatCounter < keyRepeatDelay:
+            keyRepeatCounter += 1
+        else:
+            if keySpeedCounter < keySpeed:
+                keySpeedCounter += 1
+            else:
+                keySpeedCounter = 0
+                _keyPressed(lastKeyEvent, lastKeyCode)
+    else:
+        keySpeedCounter = 0
+        keyRepeatCounter = 0
+        activeKeys = set()
+        activeKeyCodes = set()
+        lastKeyEvent = None
+        lastKeyCode = None
     
     
     # Update the mousePress value in Object
@@ -126,7 +163,7 @@ def draw():
     pushStyle()
     pushMatrix()
     if globals.currentMenu == "gameSetupScreen":
-        gameSetupScreen.draw()
+        gameSetupScreen.draw(mousePressed)
     elif globals.currentMenu == "gameScreen":
         # Hides the prime number menu when you toggle to the gamescreen
         if not lastScreen == globals.currentMenu:
@@ -141,7 +178,7 @@ def draw():
     elif globals.currentMenu == "settings":
         settingsScreen.draw()
     elif globals.currentMenu == "test":
-        test.draw(mousePressed)
+        test.draw()
     lastScreen = globals.currentMenu
     popStyle()
     popMatrix()
@@ -184,21 +221,53 @@ def mousePressed():
 def mouseReleased():
     Object.mouseRelease = True
     
-def keyPressed():
+def _keyPressed(key, keyCode): # This one is for key repeats
+    global lastKeyEvent
+    global lastKeyCode
+    global keySpeedCounter
+    global keyRepeatCounter
+    global activeKeys
+    global activeKeyCodes
+    
+    if not lastKeyEvent == key or not lastKeyCode == keyCode:
+        keySpeedCounter = 0
+        keyRepeatCounter = 0
+    
+    lastKeyEvent = key
+    lastKeyCode = keyCode
+    
+    #Send key to active text box, if any exist.
+    if globals.activeTextBox != None:
+        textBox = globals.activeTextBox
+        textBox.input(activeKeys, activeKeyCodes)
+    
+def keyPressed(): #This one is for single key strokes
+    global activeKeys
+    global activeKeyCodes
+
+    if not key == CODED:
+        if key.isalnum() or key in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?':
+            newActiveKeys = set()
+            for k in activeKeys:
+                if not k == CODED and not k.isalnum():
+                    newActiveKeys.add(k)
+            activeKeys = newActiveKeys
+    activeKeys.add(key)
+    activeKeyCodes.add(keyCode)
+    _keyPressed(key, keyCode)
+    
     #Open console
-    if key == "`":
+    if key == "`" and globals.debug:
         console.toggleConsole()
 
-    #Send key to active text box, if any exist.
-    elif globals.activeTextBox != None:
-        textBox = globals.activeTextBox
-        textBox.input(key, keyCode)
-        
-    # Easy screen switchers
-    if keyCode == UP:
-        globals.currentMenu = 'test'
-    if keyCode == LEFT:
-        gameScreen.newCard()
-        globals.currentMenu = 'gameScreen'
-    if keyCode == RIGHT:
-        globals.currentMenu = 'gameSetupScreen'
+def keyReleased():
+    global activeKeys
+    global activeKeyCodes
+    global lastKeyEvent
+    global lastKeyCode
+    if key in activeKeys: activeKeys.remove(key)
+    if keyCode in activeKeyCodes: activeKeyCodes.remove(keyCode)
+    if lastKeyEvent == key:
+        lastKeyEvent = None
+    if lastKeyCode == keyCode:
+        lastKeyCode = None
