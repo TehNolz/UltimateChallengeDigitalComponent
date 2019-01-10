@@ -27,15 +27,14 @@ def draw():
 def toggleConsole():
     global consoleTextBox
     global showConsole
-    global consoleText
     showConsole = not showConsole
     if not showConsole:
-        consoleText = ""
+        consoleTextBox.text[0] = ""
         globals.activeTextBox = None
     else:
         globals.activeTextBox = consoleTextBox
     
-#Input a key. Will execute valid commands if the last key is enter ("\n")
+#Runs commands
 def command(input):
     global consoleText
     global consoleTextColor

@@ -627,6 +627,7 @@ def checkWinner():
             challengeActive = True
             timeMemory = millis()-timeOffset
             showTimeIsUpMsg = False
+            players = winners
             toRoll = players[:]
             for box in resultBoxes:
                 box.text = ['','','']
