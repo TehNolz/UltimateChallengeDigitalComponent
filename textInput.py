@@ -109,7 +109,7 @@ class textBox:
             if not len(self.text[1]) == 0:
                 pushStyle()
                 noStroke()
-                fill(setAlpha(globals.userConfig['settings']['primary_color'], 150))
+                fill(setAlpha(globals.userConfig['settings']['primary_color'], 200))
                 rect(10 + textWidth(self.text[0]),
                      self.textHeight - textAscent() * 0.75,
                      textWidth(self.text[1]),
