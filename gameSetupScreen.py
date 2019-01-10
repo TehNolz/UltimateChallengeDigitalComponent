@@ -1,3 +1,4 @@
+# coding= utf-8
 from Object import Object
 from Button import Button
 from util import *
@@ -89,13 +90,13 @@ def init():
     var = 1
     globals.textBoxDict["gameSetupScreen"] = []
     for i in range(1, 7):
-        textBox = textInput.textBox(width/6, height*(1-boxHeight), 200, 50)
-        textBox.text = "Player "+str(var)
+        textBox = textInput.textBox(1133/6, 600*(1-boxHeight), 200, 50)
+        textBox.text[0] = "Player "+str(var)
         var+=1
         globals.textBoxDict["gameSetupScreen"].append(textBox)
         boxHeight -= 0.1
             
-def draw():
+def draw(mousePressed=False):
     global playerCount
     
     screenSize = globals.baseScreenSize
@@ -126,7 +127,7 @@ def draw():
         textBox = globals.textBoxDict["gameSetupScreen"][player]
         text("Player "+str(player+1), screenSize.X*0.01, screenSize.Y*(1-textHeight))
         textHeight-=0.1
-        textBox.draw()
+        textBox.draw(mousePressed)
     
     text("Base Deck", screenSize.X*0.5, screenSize.Y*0.2)
     text("Expansion Deck 1", screenSize.X*0.5, screenSize.Y*0.3)
@@ -145,14 +146,14 @@ def startGame(*args):
             playerList = []
             for player in range(0, playerCount):
                 textBox = globals.textBoxDict["gameSetupScreen"][player]
-                print(textBox.text)
+                print(textBox.getFullText())
                 print(playerList)
-                if textBox.text in playerList or textBox.text == "":
+                if textBox.getFullText() in playerList or textBox.getFullText() == "":
                     validNames = False
                     break
                 else:
-                    playerList.append(textBox.text)
-                    globals.userConfig["players"][str(player+1)] = textBox.text            
+                    playerList.append(textBox.getFullText())
+                    globals.userConfig["players"][str(player+1)] = textBox.getFullText()           
                     
             if validNames:
                 data.saveData()
