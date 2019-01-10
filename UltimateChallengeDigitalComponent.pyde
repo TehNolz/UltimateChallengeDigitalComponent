@@ -108,11 +108,30 @@ lastKeyEvent = None
 lastKeyCode = None
 activeKeys = set()
 activeKeyCodes = set()
+
 def draw():
+    try:
+        _draw()
+    except Exception, e:
+        import javax.swing.JOptionPane as JOptionPane
+        import java.awt.Toolkit as Toolkit
+        import os
+        Toolkit.getDefaultToolkit().beep()
+        if len(e.args) < 2:
+            e.args = (e.args[0], '')
+        message = ''
+        if e.message != '':
+            message = '\nERROR:  - Message: \''+e.message+'\''
+        JOptionPane.showMessageDialog(None, 
+            'ERROR: Caught '+e.__class__.__name__+message+'\nERROR:  - Cause: '+ e.args[1] + '\nERROR:  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__),
+            "Traceback", 
+            JOptionPane.WARNING_MESSAGE);
+        raise e
+def _draw():
     global lastScreen
     # This loadscreen loads stuff in the draw so we can update the loading bar
     if not loadScreen(): return
-
+    
     global keySpeed
     global keySpeedCounter
     global keyRepeatDelay
