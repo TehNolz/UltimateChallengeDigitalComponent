@@ -174,6 +174,10 @@ def draw(mousePressed):
     
     if startingDiceRoll:
         exitButton.text = "Start\nGame"
+        if minigameComplete:
+            exitButton.update()
+    else:
+        exitButton.update()
     
     textAlign(CENTER)
     if not challengeActive:
@@ -393,9 +397,7 @@ def draw(mousePressed):
             if stopTimer == True:
                 timeOffset = millis()
             popMatrix()
-                    
-        exitButton.update()
-            
+                
     popStyle()
     popMatrix()
 
