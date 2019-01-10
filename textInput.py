@@ -220,7 +220,7 @@ class textBox:
 
         if ENTER in key or RETURN in key:
             if not self.command == None:
-                self.command(self.text)
+                self.command(self.text[0])
         
         if u'\x01' in key: # this is ctrl+a
             self.selectCursor = 0
