@@ -77,19 +77,19 @@ class textBox:
                 if Width > mousePos.X:
                     Width -= textWidth(c)/2
                     if Width > mousePos.X:
-                        self.selectCursor = counter-1
+                        self.cursor = counter-1
                     else:
-                        self.selectCursor = counter
+                        self.cursor = counter
                     movedCursor = True
                     break
             if not movedCursor:
                 if Width < mousePos.X:
-                    self.selectCursor = len(self.text[0] + self.text[1] + self.text[2])
+                    self.cursor = len(self.text[0] + self.text[1] + self.text[2])
                 else:
-                    self.selectCursor = 0
+                    self.cursor = 0
             if not self.clicked:
                 self.clicked = True
-                self.cursor = self.selectCursor
+                self.selectCursor = self.cursor
             self.update_textSegments()
         else:
             self.clicked = False
@@ -116,7 +116,7 @@ class textBox:
                 
             stroke(self.textColor)
             if (millis() - self.cursorTimeOffset) % 1000 < 500:
-                cursorPos = 10 + textWidth(self.text[0])
+                cursorPos = 10 + textWidth(self.getFullText()[:self.cursor])
                 line(cursorPos,
                      self.textHeight + textDescent(),
                      cursorPos,

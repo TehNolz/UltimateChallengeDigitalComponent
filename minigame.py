@@ -190,14 +190,20 @@ def draw(mousePressed):
             
         if 6 > playerCount > 1 or "ticTacToe" in currentCard["minigame"]:
             textheight = 0.2
+            textSize(30)
+            textAlign(LEFT)
             var = playerCount-len(players)
             fill(0, 0, 0, 255)
             if var == 1:
-                text("Who will play? Pick "+str(var)+" player.",  width*0.16, height*0.1)
+                pushStyle()
+                txt = "Who will play? Pick "+str(var)+" player."
+                text(txt, width*0.05, height*0.1)
+                popStyle()
             elif var == 0:
-                text("Press play to continue.",  width*0.16, height*0.1)
+                text("Press play to continue.",  width*0.05, height*0.1)
             else:
-                text("Who will play? Pick "+str(var)+" players.", width*0.16, height*0.1)
+                txt = "Who will play? Pick "+str(var)+" players."
+                text(txt, width*0.05, height*0.1)
             for player in range(0, globals.playerCount):
                 text(globals.userConfig["players"][str(player+1)], width*0.15, height*textheight)
                 playerButtonCheckboxes[player].update()
@@ -253,16 +259,25 @@ def draw(mousePressed):
 
 
         elif "ticTacToe" in currentCard["minigame"]:
-            textAlign(LEFT)
+            textSize(30)
             pushMatrix()
+            translate((width-300)/2, (height-300)/2)
+            textAlign(CENTER)
             text(globals.userConfig["players"][str(currentPlayer)]+"'s turn!", 105, 40)
+            textAlign(LEFT)
             field()
             
+            pushMatrix()
+            g.setMatrix(getCurrentInvMatrix())
+            mousePos = Vector2(mouseX, mouseY).getModelPos()
+            popMatrix()
+            
+            point(*mousePos)
             if moves == False:
                 if mousePressed and not once:
-                    x = int((mouseX - 75)/50)
-                    y = int((mouseY - 75)/50)
-                    if x < 3 and x > -1 and y > -1 and y < 4:
+                    x = int((mousePos.X)/50)
+                    y = int((mousePos.Y)/50)
+                    if x < 3 and x > -1 and y > -1 and y < 3:
                         if boarddict[x][y] == 0:
                             once = True
                             icons.append((x*50, y*50, currentPlayer))
