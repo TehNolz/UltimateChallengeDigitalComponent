@@ -265,7 +265,7 @@ class textBox:
                     self.text[1] = ''
 
         self.update_textSegments()
-        while textWidth(self.getFullText()) > self.boxWidth - 10:
+        while textWidth(self.getFullText()) > self.boxWidth - 20:
             self.text[0] = self.text[0][:-1]
             self.cursor -= 1
             self.selectCursor -= 1
