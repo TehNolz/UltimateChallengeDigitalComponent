@@ -67,4 +67,4 @@ def command(input):
     if command == "changemenu" or command[0] == "cm":
         globals.currentMenu = str(command[1])
     
-    consoleTextBox.text = ""
+    consoleTextBox.text = ['', '', '']
