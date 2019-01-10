@@ -126,7 +126,7 @@ class textBox:
         
         fill(self.textColor)
         if self.textAlignment == CENTER:
-            text(self.getFullText(), self.textHeight)
+            text(self.getFullText(), self.boxWidth/2, self.textHeight)
         else:
             text(self.getFullText(), 10, self.textHeight)
         
