@@ -8,14 +8,18 @@ def loadData():
     
     #Load configuration files
     #Cardconfig
-    cardConfig = json.loads(open("cardconfig.json").read())
+    
+    if not os.path.exists('data/cardconfig.json'):
+        raise MissingConfigException('', 'Unable to locate \'data\\cardconfig.json\'.')
+    cardConfig = json.loads(open("data/cardconfig.json").read())
     
     #Userconfig
-    if os.path.isfile("userconfig.json"):
-        userConfig = json.loads(open("userconfig.json").read())
+    if os.path.isfile("data/userconfig.json"):
+        userConfig = json.loads(open("data/userconfig.json").read())
     else:
         userConfig = globals.userConfig
-        with open('userconfig.json', 'w') as outfile:
+        globals.log.info("Config file missing, generating new blank...")
+        with open('data/userconfig.json', 'w') as outfile:
             json.dump(userConfig, outfile, indent=4)
     globals.log.info("Loaded configs.")
     
@@ -50,6 +54,12 @@ def loadData():
     
 def saveData():
     userConfig = globals.userConfig
-    with open('userconfig.json', 'w') as outfile:
+    with open('data/userconfig.json', 'w') as outfile:
         json.dump(userConfig, outfile, indent=4)
-        
+
+class MissingConfigException(Exception):
+    def __init__(self, message, cause):
+        self.message = message
+        self.args = (message, cause)
+    def __str__(self):
+        return self.message
