@@ -47,6 +47,8 @@ class textBox:
         self.clicked = False
         self.textAlignment = LEFT
         self.textHeight = 0
+        
+        self.placeholder = ''
     
     def draw(self, mousePressed=False):
         textSize(30)
@@ -66,7 +68,7 @@ class textBox:
         mousePos = Vector2(mouseX, mouseY).getModelPos()
         popMatrix()
         r = Rectangle(0, 0, self.boxWidth, self.boxHeight)
-        if mousePressed and r.contains(*mousePos): # This figures out where in the string you clicked
+        if mousePressed and (r.contains(*mousePos) or self.clicked): # This figures out where in the string you clicked
             Width = 10
             fullString = self.text[0] + self.text[1] + self.text[2]
             counter = 0
@@ -91,7 +93,7 @@ class textBox:
                 self.clicked = True
                 self.selectCursor = self.cursor
             self.update_textSegments()
-        else:
+        elif not mousePressed:
             self.clicked = False
             
         fill(self.boxColor)
@@ -109,9 +111,9 @@ class textBox:
                 noStroke()
                 fill(setAlpha(globals.userConfig['settings']['primary_color'], 150))
                 rect(10 + textWidth(self.text[0]),
-                     self.textHeight - textAscent(),
+                     self.textHeight - textAscent() * 0.75,
                      textWidth(self.text[1]),
-                     textAscent() + textDescent())
+                     textAscent() * 0.75 + textDescent())
                 popStyle()
                 
             stroke(self.textColor)
@@ -120,15 +122,19 @@ class textBox:
                 line(cursorPos,
                      self.textHeight + textDescent(),
                      cursorPos,
-                     self.textHeight - textAscent())
+                     self.textHeight - textAscent() * 0.75)
         else:
             self.selected = False
         
         fill(self.textColor)
+        txt = self.getFullText()
+        if len(txt) == 0:
+            txt = self.placeholder
+            fill(lerpColor(self.textColor, color(255, 255, 255), 0.5))
         if self.textAlignment == CENTER:
-            text(self.getFullText(), self.boxWidth/2, self.textHeight)
+            text(txt, self.boxWidth/2, self.textHeight)
         else:
-            text(self.getFullText(), 10, self.textHeight)
+            text(txt, 10, self.textHeight)
         
         popStyle()
         popMatrix()

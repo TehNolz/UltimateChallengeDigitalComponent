@@ -91,7 +91,7 @@ def init():
     globals.textBoxDict["gameSetupScreen"] = []
     for i in range(1, 7):
         textBox = textInput.textBox(1133/6, 600*(1-boxHeight), 200, 50)
-        textBox.text[0] = "Player "+str(var)
+        textBox.placeholder = "Player "+str(var)
         var+=1
         globals.textBoxDict["gameSetupScreen"].append(textBox)
         boxHeight -= 0.1
