@@ -1,4 +1,3 @@
-# coding= utf-8
 import globals
 import java.awt.Toolkit as Toolkit
 import java.awt.datatransfer.Clipboard as Clipboard
@@ -111,9 +110,9 @@ class textBox:
                 noStroke()
                 fill(setAlpha(globals.userConfig['settings']['primary_color'], 200))
                 rect(10 + textWidth(self.text[0]),
-                     self.textHeight - textAscent() * 0.75,
+                     self.textHeight - textAscent(),
                      textWidth(self.text[1]),
-                     textAscent() * 0.75 + textDescent())
+                     textAscent() + textDescent())
                 popStyle()
                 
             stroke(self.textColor)
@@ -122,7 +121,7 @@ class textBox:
                 line(cursorPos,
                      self.textHeight + textDescent(),
                      cursorPos,
-                     self.textHeight - textAscent() * 0.75)
+                     self.textHeight - textAscent())
         else:
             self.selected = False
         
@@ -225,7 +224,7 @@ class textBox:
         if u'\x01' in key: # this is ctrl+a
             self.selectCursor = 0
             self.cursor = len(self.text[0] + self.text[1] + self.text[2])
-            
+        
         if u'\x18' in key: # this is ctrl+x
             tk = Toolkit.getDefaultToolkit()
             clipboard = tk.getSystemClipboard()
