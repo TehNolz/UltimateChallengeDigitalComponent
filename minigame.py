@@ -218,13 +218,19 @@ def draw(mousePressed):
             challengeActive = True
             players = [1]
             toRoll = players[:]
-            currentPlayer = choice(players)
+            currentPlayer = choice(toRoll)
         if playerCount == 6:
             players = list(range(1, globals.playerCount+1))
             toRoll = players[:]
 
     else:
         fill(0, 0, 0, 255)
+        
+        var = []
+        for player in toRoll:
+            var.append(globals.userConfig["players"][str(player)])
+        print(var)
+        print(globals.userConfig["players"][str(currentPlayer)])
         
         ######################
         if "dice" in currentCard["minigame"]:
@@ -615,6 +621,7 @@ def checkWinner():
         showTimeIsUpMsg = False
         players = winners
         toRoll = players[:]
+        currentPlayer = choice(toRoll)
         for box in resultBoxes:
             box.text = ['', '', '']
             
@@ -627,8 +634,8 @@ def checkWinner():
             challengeActive = True
             timeMemory = millis()-timeOffset
             showTimeIsUpMsg = False
-            players = winners
             toRoll = players[:]
+            currentPlayer = choice(toRoll)
             for box in resultBoxes:
                 box.text = ['','','']
             return None
@@ -653,7 +660,7 @@ def playMinigame(*args):
         challengeActive = True
         if "dice" in currentCard["minigame"]:
             toRoll = players[:]
-            currentPlayer = choice(players)
+            currentPlayer = choice(toRoll)
         elif "ticTacToe" in currentCard["minigame"]:
             if currentCard["minigame"]["ticTacToe"]["mode"] == "1v6":
                 brackets = []
