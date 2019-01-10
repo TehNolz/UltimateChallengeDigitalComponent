@@ -1,4 +1,3 @@
-# coding= utf-8
 from Object import Object
 from util import *
 import globals

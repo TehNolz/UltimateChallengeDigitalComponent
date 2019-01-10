@@ -1,4 +1,3 @@
-# coding= utf-8
 from Object import Object
 from Button import Button
 from util import *

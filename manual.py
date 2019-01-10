@@ -1,4 +1,3 @@
-# coding= utf-8
 import globals
 from util import *
 from Button import Button
