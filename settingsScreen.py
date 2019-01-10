@@ -1,3 +1,4 @@
+# coding= utf-8
 import globals
 import data
 import prime_number_menu

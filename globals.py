@@ -1,3 +1,4 @@
+# coding= utf-8
 from util import *
 import logging
 
@@ -48,6 +49,7 @@ logging.basicConfig(level=logging.NOTSET)
 log = logging.getLogger("LOG")
 playerCount = 0
 font = None
+debug = False
 
 #Text boxes
 activeTextBox = None

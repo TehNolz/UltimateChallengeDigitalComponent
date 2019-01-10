@@ -1,3 +1,4 @@
+# coding= utf-8
 from Object import Object
 from Button import Button
 from util import *
@@ -54,6 +55,7 @@ def init():
     boxHeight = 0.2
     for i in range(1, 7):
         textBox = textInput.textBox(width*0.2, 0, 50, 50, writable=False)
+        textBox.textAlignment = CENTER
         resultBoxes.append(textBox)
         
     #Create dice
@@ -245,7 +247,7 @@ def draw(mousePressed):
             if rolling and not minigameComplete:
                 if dice.throwdice == False:
                     rolling = False
-                    resultBoxes[currentPlayer-1].text = dice.Rolldice
+                    resultBoxes[currentPlayer-1].text[0] = str(dice.Rolldice)
                     
                     winner = checkWinner()
 
@@ -556,37 +558,37 @@ def checkWinner():
         if toRoll == []:
             var = 0
             for box in resultBoxes:
-                if box.text != "":
-                    if int(box.text) > var:
-                        var = int(box.text)
+                if box.getFullText() != "":
+                    if int(box.getFullText()) > var:
+                        var = int(box.getFullText())
             for box in resultBoxes:
-                if box.text != "":
-                    if int(box.text) == var:
+                if box.getFullText() != "":
+                    if int(box.getFullText()) == var:
                         winners.append(resultBoxes.index(box)+1)
     elif currentCard["minigame"]["dice"]["mode"] == "LOWEST":
         toRoll.remove(currentPlayer)
         if toRoll == []:
             var = 999999999999
             for box in resultBoxes:
-                if box.text != "":
-                    if int(box.text) < var:
-                        var = int(box.text)
+                if box.getFullText() != "":
+                    if int(box.getFullText()) < var:
+                        var = int(box.getFullText())
             for box in resultBoxes:
-                if box.text != "":
-                    if int(box.text) == var:
+                if box.getFullText() != "":
+                    if int(box.getFullText()) == var:
                         winners.append(resultBoxes.index(box)+1)
             
     elif currentCard["minigame"]["dice"]["mode"] == "FIRST":
         toRoll.remove(currentPlayer)
         for box in resultBoxes:
-            if box.text != "":
-                if int(box.text) == int(currentCard["minigame"]["dice"]["target"]):
+            if box.getFullText() != "":
+                if int(box.getFullText()) == int(currentCard["minigame"]["dice"]["target"]):
                     winners.append(resultBoxes.index(box)+1)
     elif currentCard["minigame"]["dice"]["mode"] == "WITHINTIME":
         if stopTimer == False:
             for box in resultBoxes:
-                if box.text != "":
-                    if int(box.text) == currentCard["minigame"]["dice"]["target"]:
+                if box.getFullText != "":
+                    if int(box.getFullText()) == currentCard["minigame"]["dice"]["target"]:
                         winners.append(resultBoxes.index(box)+1)
     
     if len(winners) > 1:
@@ -597,7 +599,7 @@ def checkWinner():
         players = winners
         toRoll = players[:]
         for box in resultBoxes:
-            box.text = ""
+            box.text = ['', '', '']
             
         pauseTimer()
         
@@ -610,7 +612,7 @@ def checkWinner():
             showTimeIsUpMsg = False
             toRoll = players[:]
             for box in resultBoxes:
-                box.text = ""
+                box.text = ['','','']
             return None
         else:
             currentPlayer = choice(toRoll)

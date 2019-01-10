@@ -1,3 +1,4 @@
+# coding= utf-8
 import globals
 from Object import Object
 from Button import Button

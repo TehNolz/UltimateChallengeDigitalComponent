@@ -1,3 +1,4 @@
+# coding= utf-8
 import globals
 
 currentFont = None
@@ -15,6 +16,9 @@ def reloadFont(size=-1):
 
 def removeAlpha(c):
     return color(red(c), green(c), blue(c))
+
+def setAlpha(c, a):
+    return color(red(c), green(c), blue(c), a)
 
 def textHeight(txt=''):
     return textAscent() - textDescent() - (textAscent() + textDescent()) * (txt.count('\n')) - (textDescent()*2 if txt.count('\n') > 0 else 0)
