@@ -92,6 +92,8 @@ def init():
     for i in range(1, 7):
         textBox = textInput.textBox(1133/6, 600*(1-boxHeight), 200, 50)
         textBox.placeholder = "Player "+str(var)
+        playername = globals.userConfig['players'][str(i)]
+        textBox.text[0] = playername if playername != None else ''
         var+=1
         globals.textBoxDict["gameSetupScreen"].append(textBox)
         boxHeight -= 0.1
@@ -199,3 +201,10 @@ def toggleDeck(deck):
 def gotoMainMenu(*args):
     if args[1] == LEFT:
         globals.currentMenu = "mainMenu"
+        
+        # stores the player name data
+
+        for player in range(0, playerCount):
+            textBox = globals.textBoxDict["gameSetupScreen"][player]
+            globals.userConfig["players"][str(player+1)] = textBox.getFullText()
+        data.saveData()
