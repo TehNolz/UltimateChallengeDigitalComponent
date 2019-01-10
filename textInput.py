@@ -1,4 +1,10 @@
+# coding= utf-8
 import globals
+import java.awt.Toolkit as Toolkit
+import java.awt.datatransfer.Clipboard as Clipboard
+import java.awt.datatransfer.DataFlavor as DataFlavor
+import java.awt.datatransfer.StringSelection as StringSelection
+from util import *
 # Class for creating text input boxes.
 #
 # Required params;
@@ -15,7 +21,9 @@ import globals
 # writable  - Whether to allow players to type in this box. Default is true.
 
 class textBox:
+    allTextBoxes = list()
     def __init__(self, x, y, boxWidth, boxHeight, **kwargs):
+        textBox.allTextBoxes.append(self)
         #Required params
         self.x = x
         self.y = y
@@ -30,31 +38,235 @@ class textBox:
         self.numeric = kwargs.get("numeric", False)
         self.writable = kwargs.get("writable", True)
         
-        self.text = ""
-        
-    def draw(self):
+        self.text = ['', '', ''] # this is a list of strings: text before the cursor, selected text, text after the cursor
+        self.lastUpdate = millis()
+        self.selected = False
+        self.cursorTimeOffset = 0
+        self.cursor = 0 #position of the cursor
+        self.selectCursor = 0 #position of the second selector cursor
+        self.clicked = False
+        self.textAlignment = LEFT
+        self.textHeight = 0
+    
+    def draw(self, mousePressed=False):
+        textSize(30)
+        self.lastUpdate = millis()
+        self.update_textSegments()
         pushStyle()
         pushMatrix()
         rectMode(CORNER)
-        textAlign(LEFT)
+        textAlign(self.textAlignment)
     
         textSize(self.textSize)
 
-        translate(0, self.boxHeight, 0)
-        fill(self.boxColor)
-        rect(self.x, self.y, self.boxWidth, 0-self.boxHeight)
+        translate(self.x, self.y, 0)
         
+        pushMatrix()
+        g.setMatrix(getCurrentInvMatrix())
+        mousePos = Vector2(mouseX, mouseY).getModelPos()
+        popMatrix()
+        r = Rectangle(0, 0, self.boxWidth, self.boxHeight)
+        if mousePressed and r.contains(*mousePos): # This figures out where in the string you clicked
+            Width = 10
+            fullString = self.text[0] + self.text[1] + self.text[2]
+            counter = 0
+            movedCursor = False
+            for c in fullString:
+                Width += textWidth(c)
+                counter+=1
+                if Width > mousePos.X:
+                    Width -= textWidth(c)/2
+                    if Width > mousePos.X:
+                        self.selectCursor = counter-1
+                    else:
+                        self.selectCursor = counter
+                    movedCursor = True
+                    break
+            if not movedCursor:
+                if Width < mousePos.X:
+                    self.selectCursor = len(self.text[0] + self.text[1] + self.text[2])
+                else:
+                    self.selectCursor = 0
+            if not self.clicked:
+                self.clicked = True
+                self.cursor = self.selectCursor
+            self.update_textSegments()
+        else:
+            self.clicked = False
+            
+        fill(self.boxColor)
+        rect(0, 0, self.boxWidth, self.boxHeight)
+        
+        self.textHeight = (self.boxHeight + textAscent() - textDescent())/2
         if globals.activeTextBox == self:
-            fill(self.textColor)
-            line((self.x+10), (self.y-3), ((self.boxWidth+self.x)-10), (self.y-3))
+            if self.selected == False:
+                self.selected = True
+                self.cursorTimeOffset = millis()
+                self.selectCursor = self.cursor
+                
+            if not len(self.text[1]) == 0:
+                pushStyle()
+                noStroke()
+                fill(setAlpha(globals.userConfig['settings']['primary_color'], 150))
+                rect(10 + textWidth(self.text[0]),
+                     self.textHeight - textAscent(),
+                     textWidth(self.text[1]),
+                     textAscent() + textDescent())
+                popStyle()
+                
+            stroke(self.textColor)
+            if (millis() - self.cursorTimeOffset) % 1000 < 500:
+                cursorPos = 10 + textWidth(self.text[0])
+                line(cursorPos,
+                     self.textHeight + textDescent(),
+                     cursorPos,
+                     self.textHeight - textAscent())
+        else:
+            self.selected = False
         
         fill(self.textColor)
-        text(self.text, (self.x+10), (self.y-self.boxHeight/5))
+        if self.textAlignment == CENTER:
+            text(self.getFullText(), self.textHeight)
+        else:
+            text(self.getFullText(), 10, self.textHeight)
         
         popStyle()
         popMatrix()
         
-    def input(self, inputKey, inputCode):
+    def input(self, key, keyCode):
+        textSize(30)
+        # key and keyCode are actually sets because i wanted multi key input, unlike a certain somebody
+        
+        if RIGHT in keyCode:
+            while True: # This is basically a do while loop
+                if not SHIFT in keyCode:
+                    if self.cursor != self.selectCursor:
+                        self.cursor = len(self.text[0]+self.text[1])
+                    else:
+                        self.cursor += 1
+                    self.selectCursor = self.cursor
+                else:
+                    self.cursor += 1
+                self.update_textSegments()
+                if (not CONTROL in keyCode
+                    or len(self.getFullText()) <= self.cursor
+                    or self.getFullText()[self.cursor] in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?'):
+                    break
+        if LEFT in keyCode:
+            while True:
+                if not SHIFT in keyCode:
+                    if self.cursor != self.selectCursor:
+                        self.cursor = len(self.text[0])
+                    else:
+                        self.cursor -= 1
+                    self.selectCursor = self.cursor
+                else:
+                    self.cursor -= 1
+                self.update_textSegments()
+                if (not CONTROL in keyCode
+                    or self.cursor <= 0
+                    or self.getFullText()[self.cursor-1] in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?'):
+                    break
+        
+        if TAB in key:
+            # This is the epidemic of lazy coding lol
+            shiftedFocus = False
+            currentScreenBoxes = list((_ for _ in textBox.allTextBoxes if millis() - _.lastUpdate < 40 and not _ == self))
+            for tb in currentScreenBoxes:
+                #i use a loop because i was retarded, and it works so shut up
+                if textBox.allTextBoxes.index(self) - textBox.allTextBoxes.index(tb) == (1 if SHIFT in keyCode else -1):
+                    globals.activeTextBox = tb
+                    tb.cursor = self.cursor
+                    tb.selectCursor = self.cursor
+                    shiftedFocus = True
+                    break
+            if not shiftedFocus and not len(currentScreenBoxes) == 0:
+                tb = currentScreenBoxes[-1] if SHIFT in keyCode else currentScreenBoxes[0]
+                globals.activeTextBox = tb
+                tb.cursor = self.cursor
+                tb.selectCursor = self.cursor
+        
+        if BACKSPACE in key:
+            if len(self.text[1]) == 0:
+                self.text[0] = self.text[0][:-1]
+                self.cursor -= 1
+                self.selectCursor -= 1
+                if CONTROL in keyCode:
+                    while not len(self.text[0]) == 0 and not self.text[0][-1] in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?':
+                        self.text[0] = self.text[0][:-1]
+                        self.cursor -= 1
+                        self.selectCursor -= 1
+            elif self.cursor > self.selectCursor:
+                self.cursor = self.selectCursor
+            self.text[1] = ''
+            self.selectCursor = self.cursor
+            
+        if DELETE in key:
+            if len(self.text[1]) == 0:
+                self.text[2] = self.text[2][1:]
+                if CONTROL in keyCode:
+                    while not len(self.text[2]) == 0 and not self.text[2][0] in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?':
+                        self.text[2] = self.text[2][1:]
+            elif self.cursor > self.selectCursor:
+                self.cursor = self.selectCursor
+            self.text[1] = ''
+            self.selectCursor = self.cursor
+
+        if ENTER in key or RETURN in key:
+            if not self.command == None:
+                self.command(self.text)
+        
+        if u'\x01' in key: # this is ctrl+a
+            self.selectCursor = 0
+            self.cursor = len(self.text[0] + self.text[1] + self.text[2])
+            
+        if u'\x18' in key: # this is ctrl+x
+            tk = Toolkit.getDefaultToolkit()
+            clipboard = tk.getSystemClipboard()
+            sts = StringSelection(self.text[1])
+            clipboard.setContents(sts, None)
+            self.text[1] = ''
+            self.cursor = len(self.text[0])
+            self.selectCursor = self.cursor
+            
+        if u'\x03' in key: # this is ctrl+c
+            tk = Toolkit.getDefaultToolkit()
+            clipboard = tk.getSystemClipboard()
+            sts = StringSelection(self.text[1])
+            clipboard.setContents(sts, None)
+            
+        try:
+            if u'\x16' in key: # this is ctrl+v
+                #java lol
+                self.text[1] = ''
+                self.selectCursor = self.cursor
+                tk = Toolkit.getDefaultToolkit()
+                clipboard = tk.getSystemClipboard()
+                self.text[0] += str(clipboard.getData(DataFlavor.stringFlavor))
+                self.cursor = len(self.text[0])
+                self.selectCursor = self.cursor
+        except:
+            log = globals.log
+            log.error('Caught exception \'UnicodeEncodeError\'.')
+            log.error('The encoding of the copied string is not supported.')
+        
+        if not CODED in key:
+            for k in key:
+                if k.isalnum() or k in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?':
+                    self.text[0] += str(k)
+                    self.cursor = len(self.text[0])
+                    self.selectCursor = self.cursor
+                    self.text[1] = ''
+
+        self.update_textSegments()
+        while textWidth(self.getFullText()) > self.boxWidth - 10:
+            self.text[0] = self.text[0][:-1]
+            self.cursor -= 1
+            self.selectCursor -= 1
+        self.update_textSegments()
+        
+        #fuck this code
+        '''
         inputKey = str(inputKey)
         if len(inputKey) == 1:
             if not self.numeric or inputKey in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]: #Probably a really shitty solution but w/e
@@ -68,11 +280,24 @@ class textBox:
                         self.command(self.text)
                 elif textWidth(self.text) < self.boxWidth+300:
                     self.text+=str(inputKey)
-            
+        '''
+    
+    def getFullText(self):
+        return self.text[0] + self.text[1] + self.text[2]
+    
+    def update_textSegments(self):
+        txt = self.text[0] + self.text[1] + self.text[2]
+        self.cursor = constrain(self.cursor, 0, len(txt))
+        self.selectCursor = constrain(self.selectCursor, 0, len(txt))
+        if self.cursor > self.selectCursor:
+            self.text = [txt[:self.selectCursor], txt[self.selectCursor:self.cursor], txt[self.cursor:]]
+        else:
+            self.text = [txt[:self.cursor], txt[self.cursor:self.selectCursor], txt[self.selectCursor:]]
+    
     def active(self):
         if self.writable:
             globals.activeTextBox = self
-        
+    
 def check():
     baseX = globals.baseScaleXY.X
     baseY = globals.baseScaleXY.Y
