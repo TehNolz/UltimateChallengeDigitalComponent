@@ -41,9 +41,14 @@ class textBox:
         self.lastUpdate = millis()
         self.selected = False
         self.cursorTimeOffset = 0
+        
         self.cursor = 0 #position of the cursor
         self.selectCursor = 0 #position of the second selector cursor
         self.clicked = False
+        self.lastClickMillis = 0
+        self.doubleClick = False
+        self.tripleClick = False
+        
         self.textAlignment = LEFT
         self.textHeight = 0
         
@@ -68,32 +73,78 @@ class textBox:
         popMatrix()
         r = Rectangle(0, 0, self.boxWidth, self.boxHeight)
         if mousePressed and (r.contains(*mousePos) or self.clicked): # This figures out where in the string you clicked
-            Width = 10
-            fullString = self.text[0] + self.text[1] + self.text[2]
-            counter = 0
-            movedCursor = False
-            for c in fullString:
-                Width += textWidth(c)
-                counter+=1
-                if Width > mousePos.X:
-                    Width -= textWidth(c)/2
+            if not self.doubleClick and not self.tripleClick:
+                Width = 10
+                fullString = self.text[0] + self.text[1] + self.text[2]
+                counter = 0
+                movedCursor = False
+                for c in fullString:
+                    Width += textWidth(c)
+                    counter+=1
                     if Width > mousePos.X:
-                        self.cursor = counter-1
+                        Width -= textWidth(c)/2
+                        if Width > mousePos.X:
+                            self.cursor = counter-1
+                        else:
+                            self.cursor = counter
+                        movedCursor = True
+                        break
+                if not movedCursor:
+                    if Width < mousePos.X:
+                        self.cursor = len(self.text[0] + self.text[1] + self.text[2])
                     else:
-                        self.cursor = counter
-                    movedCursor = True
-                    break
-            if not movedCursor:
-                if Width < mousePos.X:
-                    self.cursor = len(self.text[0] + self.text[1] + self.text[2])
-                else:
-                    self.cursor = 0
+                        self.cursor = 0
             if not self.clicked:
                 self.clicked = True
                 self.selectCursor = self.cursor
+                if millis() - self.lastClickMillis < 200:
+                    if not self.tripleClick and self.doubleClick:
+                        self.tripleClick = True
+                        self.cursor = len(self.getFullText())
+                        self.selectCursor = 0
+                    elif not self.tripleClick and not self.doubleClick:
+                        self.doubleClick = True
+                        # Append a space because cursors should be able to be placed at len(str)+1
+                        txt = self.getFullText() + ' '
+                        
+                        cursorStop = False
+                        scursorStop = False
+                        if isWordTerminator(txt[self.cursor-1]): # This will only select matching characters
+                            starterChar = txt[self.cursor-1]
+                            while True:
+                                if self.cursor < len(txt)-1 and txt[self.cursor] == starterChar:
+                                    self.cursor += 1
+                                else:
+                                    cursorStop = True
+                                    
+                                if self.selectCursor > 0 and txt[self.selectCursor-1] == starterChar:
+                                    self.selectCursor -= 1
+                                else:
+                                    scursorStop = True
+                                
+                                if cursorStop and scursorStop:
+                                    break
+                        else:
+                            while True: # This scans words untill a stop delimiter or an end of the string is reached.
+                                if self.cursor < len(txt)-1 and not isWordTerminator(txt[self.cursor]):
+                                    self.cursor += 1
+                                else:
+                                    cursorStop = True
+                                    
+                                if self.selectCursor > 0 and not isWordTerminator(txt[self.selectCursor-1]):
+                                    self.selectCursor -= 1
+                                else:
+                                    scursorStop = True
+                                
+                                if cursorStop and scursorStop:
+                                    break
+                self.lastClickMillis = millis()
             self.update_textSegments()
         elif not mousePressed:
             self.clicked = False
+            if millis() - self.lastClickMillis > 200:
+                self.doubleClick = False
+                self.tripleClick = False
             
         fill(self.boxColor)
         rect(0, 0, self.boxWidth, self.boxHeight)
