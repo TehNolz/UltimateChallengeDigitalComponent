@@ -1,5 +1,8 @@
 import globals
 
+def isWordTerminator(c):
+    return c in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?'
+    
 currentFont = None
 def updateFont():
     global currentFont
