@@ -114,6 +114,7 @@ def draw():
         _draw()
     except Exception, e:
         import javax.swing.JOptionPane as JOptionPane
+        import javax.swing.JDialog as JDialog
         import java.awt.Toolkit as Toolkit
         import os
         Toolkit.getDefaultToolkit().beep()
@@ -121,11 +122,24 @@ def draw():
             e.args = (e.args[0], '')
         message = ''
         if e.message != '':
-            message = '\nERROR:  - Message: \''+e.message+'\''
+            message = '\n  - Message: \''+e.message+'\''
+            
+        globals.log.error('Caught '+e.__class__.__name__)
+        if len(message) != 0:
+            globals.log.error('  - Message: \''+e.message+'\'')
+        globals.log.error('  - Cause: '+ e.args[1])
+        globals.log.error('  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__))
+        pane = JOptionPane(' Caught '+e.__class__.__name__+message+'\n  - Cause: '+ e.args[1] + '\n  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__),
+                        JOptionPane.ERROR_MESSAGE)
+        dialog = pane.createDialog('Traceback')
+        dialog.setAlwaysOnTop(True)
+        dialog.show()
+        '''
         JOptionPane.showMessageDialog(None, 
             'ERROR: Caught '+e.__class__.__name__+message+'\nERROR:  - Cause: '+ e.args[1] + '\nERROR:  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__),
             "Traceback", 
             JOptionPane.WARNING_MESSAGE);
+        '''
         raise e
 def _draw():
     global lastScreen
@@ -204,7 +218,7 @@ def _draw():
         
     #Show console, when necessary.
     if console.showConsole:
-        console.draw()
+        console.draw(mousePressed)
     
     # Reset the mouseRelease value
     Object.mouseRelease = False
