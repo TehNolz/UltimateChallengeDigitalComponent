@@ -11,10 +11,10 @@ def init():
     consoleTextBox = textInput.textBox(height*0.1, 0, 1000*baseScale, 50*baseScale, boxColor=color(0, 0, 0, 128), textColor=color(255, 255, 255), command=command)
     globals.textBoxDict["global"].append(consoleTextBox)
 
-def draw():
+def draw(mousePressed=False):
     textSize(30)
     global consoleTextBox
-    consoleTextBox.draw()
+    consoleTextBox.draw(mousePressed)
     
     pushStyle()
     fill(0, 0, 0, 255)
