@@ -43,15 +43,17 @@ class textBox:
         self.cursorTimeOffset = 0
         
         self.cursor = 0 #position of the cursor
+        self.oldCursor = 0
         self.selectCursor = 0 #position of the second selector cursor
         self.clicked = False
+        self.doubleClickDelay = 500
         self.lastClickMillis = 0
         self.doubleClick = False
-        self.tripleClick = False
+        self.ignoreMousePos = False
         
         self.textAlignment = LEFT
         self.textHeight = 0
-        
+
         self.placeholder = ''
     
     def draw(self, mousePressed=False):
@@ -73,7 +75,7 @@ class textBox:
         popMatrix()
         r = Rectangle(0, 0, self.boxWidth, self.boxHeight)
         if mousePressed and (r.contains(*mousePos) or self.clicked): # This figures out where in the string you clicked
-            if not self.doubleClick and not self.tripleClick:
+            if not self.ignoreMousePos:
                 Width = 10
                 fullString = self.text[0] + self.text[1] + self.text[2]
                 counter = 0
@@ -97,19 +99,21 @@ class textBox:
             if not self.clicked:
                 self.clicked = True
                 self.selectCursor = self.cursor
-                if millis() - self.lastClickMillis < 200:
-                    if not self.tripleClick and self.doubleClick:
-                        self.tripleClick = True
+                if millis() - self.lastClickMillis < self.doubleClickDelay:
+                    if self.doubleClick:
+                        self.ignoreMousePos = True
                         self.cursor = len(self.getFullText())
                         self.selectCursor = 0
-                    elif not self.tripleClick and not self.doubleClick:
+                    else:
+                        self.ignoreMousePos = True
                         self.doubleClick = True
+                        
                         # Append a space because cursors should be able to be placed at len(str)+1
                         txt = self.getFullText() + ' '
                         
                         cursorStop = False
                         scursorStop = False
-                        if isWordTerminator(txt[self.cursor-1]): # This will only select matching characters
+                        if isWordDelimiter(txt[self.cursor-1]): # This will only select matching characters
                             starterChar = txt[self.cursor-1]
                             while True:
                                 if self.cursor < len(txt)-1 and txt[self.cursor] == starterChar:
@@ -126,12 +130,12 @@ class textBox:
                                     break
                         else:
                             while True: # This scans words untill a stop delimiter or an end of the string is reached.
-                                if self.cursor < len(txt)-1 and not isWordTerminator(txt[self.cursor]):
+                                if self.cursor < len(txt)-1 and not isWordDelimiter(txt[self.cursor]):
                                     self.cursor += 1
                                 else:
                                     cursorStop = True
                                     
-                                if self.selectCursor > 0 and not isWordTerminator(txt[self.selectCursor-1]):
+                                if self.selectCursor > 0 and not isWordDelimiter(txt[self.selectCursor-1]):
                                     self.selectCursor -= 1
                                 else:
                                     scursorStop = True
@@ -142,13 +146,17 @@ class textBox:
             self.update_textSegments()
         elif not mousePressed:
             self.clicked = False
-            if millis() - self.lastClickMillis > 200:
+            if millis() - self.lastClickMillis > self.doubleClickDelay:
                 self.doubleClick = False
                 self.tripleClick = False
+            self.ignoreMousePos = False
             
         fill(self.boxColor)
         rect(0, 0, self.boxWidth, self.boxHeight)
         
+        if self.cursor != self.oldCursor:
+            self.cursorTimeOffset = millis()
+            self.oldCursor = self.cursor
         self.textHeight = (self.boxHeight + textAscent() - textDescent())/2
         if globals.activeTextBox == self:
             if self.selected == False:
@@ -227,17 +235,17 @@ class textBox:
         if TAB in key:
             # This is the epidemic of lazy coding lol
             shiftedFocus = False
-            currentScreenBoxes = list((_ for _ in textBox.allTextBoxes if millis() - _.lastUpdate < 40 and not _ == self))
+            currentScreenBoxes = list((_ for _ in textBox.allTextBoxes if millis() - _.lastUpdate < float(1000)/frameRate + 10 and _.writable))
             for tb in currentScreenBoxes:
                 #i use a loop because i was retarded, and it works so shut up
-                if textBox.allTextBoxes.index(self) - textBox.allTextBoxes.index(tb) == (1 if SHIFT in keyCode else -1):
+                if currentScreenBoxes.index(self) - currentScreenBoxes.index(tb) == (1 if SHIFT in keyCode else -1):
                     globals.activeTextBox = tb
                     tb.cursor = self.cursor
                     tb.selectCursor = self.cursor
                     shiftedFocus = True
                     break
             if not shiftedFocus and not len(currentScreenBoxes) == 0:
-                tb = currentScreenBoxes[-1] if SHIFT in keyCode else currentScreenBoxes[0]
+                tb = (currentScreenBoxes[-1] if SHIFT in keyCode else currentScreenBoxes[0])
                 globals.activeTextBox = tb
                 tb.cursor = self.cursor
                 tb.selectCursor = self.cursor
@@ -248,10 +256,17 @@ class textBox:
                 self.cursor -= 1
                 self.selectCursor -= 1
                 if CONTROL in keyCode:
-                    while not len(self.text[0]) == 0 and not self.text[0][-1] in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?':
-                        self.text[0] = self.text[0][:-1]
-                        self.cursor -= 1
-                        self.selectCursor -= 1
+                    if not len(self.text[0]) == 0 and isWordDelimiter(self.text[0][-1]):
+                        startingChar = self.text[0][-1]
+                        while self.text[0][-1] == startingChar:
+                            self.text[0] = self.text[0][:-1]
+                            self.cursor -= 1
+                            self.selectCursor -= 1
+                    else:
+                        while not len(self.text[0]) == 0 and not self.text[0][-1] in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?':
+                            self.text[0] = self.text[0][:-1]
+                            self.cursor -= 1
+                            self.selectCursor -= 1
             elif self.cursor > self.selectCursor:
                 self.cursor = self.selectCursor
             self.text[1] = ''

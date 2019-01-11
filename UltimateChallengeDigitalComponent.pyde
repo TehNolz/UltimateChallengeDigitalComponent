@@ -133,13 +133,7 @@ def draw():
                         JOptionPane.ERROR_MESSAGE)
         dialog = pane.createDialog('Traceback')
         dialog.setAlwaysOnTop(True)
-        dialog.show()
-        '''
-        JOptionPane.showMessageDialog(None, 
-            'ERROR: Caught '+e.__class__.__name__+message+'\nERROR:  - Cause: '+ e.args[1] + '\nERROR:  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__),
-            "Traceback", 
-            JOptionPane.WARNING_MESSAGE);
-        '''
+        dialog.show() 
         raise e
 def _draw():
     global lastScreen
@@ -282,7 +276,7 @@ def keyPressed(): #This one is for single key strokes
         if key.isalnum() or key in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?':
             newActiveKeys = set()
             for k in activeKeys:
-                if not k == CODED and not k.isalnum():
+                if not k == CODED and not k.isalnum() and not isWordDelimiter(k):
                     newActiveKeys.add(k)
             activeKeys = newActiveKeys
     activeKeys.add(key)

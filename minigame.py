@@ -227,6 +227,7 @@ def draw(mousePressed):
         
         ######################
         if "dice" in currentCard["minigame"]:
+            pushMatrix()
             boxHeight = 0.2
             if len(players) > 1:
                 for player in players:
@@ -259,6 +260,7 @@ def draw(mousePressed):
                     resultBoxes[currentPlayer-1].text[0] = str(dice.Rolldice)
                     
                     winner = checkWinner()
+            popMatrix()
 
 
         elif "ticTacToe" in currentCard["minigame"]:

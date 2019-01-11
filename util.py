@@ -1,6 +1,6 @@
 import globals
 
-def isWordTerminator(c):
+def isWordDelimiter(c):
     return c in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?'
     
 currentFont = None
