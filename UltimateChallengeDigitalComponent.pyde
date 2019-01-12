@@ -181,7 +181,6 @@ def showErrorMessage():
                 if len(w) == 0 or lineno == 1 or lineno % 2 == 0:
                     continue
                 if True in [(w == _) for _ in keyword.kwlist]:
-                    print(w)
                     modStr = _line.replace(w, ' '*len(w), occurrences[w]-1)
                     index = modStr.find(w)
                     addTag('<font color=#0000ff>', index, index+len(w))
