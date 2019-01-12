@@ -35,11 +35,12 @@ def loadScreen():
     # Shows a progress bar
     
     loadText = ''
-    def loadBar():
+    def loadBar(progress=stage, duration=loadDuration, yOffset=0):
         width = 1133
         height = 600
+        translate(0, yOffset)
         pushStyle()
-        amount = float(stage) / loadDuration
+        amount = float(progress) / duration
         stroke(0)
         strokeWeight(2)
         fill(255)
@@ -65,10 +66,19 @@ def loadScreen():
     elif stage == 1:
         fill(0)
         textSize(30)
-        text('Loading...', (width - textWidth('Loading'))/2, height/2)
-        data.loadData()
+        totalRequests, finishedRequests = data.loadData(True)
+        if finishedRequests != totalRequests:
+            loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
+            loadBar(finishedRequests, totalRequests, 45)
+            return False
+        loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
+        loadBar(finishedRequests, totalRequests, 45)
         loadText = 'Initializing settings screen...'
     elif stage == 2:
+        stroke(204)
+        strokeWeight(5)
+        fill(204)
+        rect(width/2-100, height*0.55+45, 200, 30)
         settingsScreen.init()
         loadText = 'Initializing game screen...'
     elif stage == 3:
@@ -107,18 +117,93 @@ def showErrorMessage():
     custom_tb = ''
     bare_tb = ''
     tb_lines = traceback.format_exc().split('\n')
-    counter = 0
     for line in tb_lines[:-1]:
-        counter += 1
-        _line = line.replace(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), '')
+        lineno = tb_lines.index(line)+1
+        _line = line.replace(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))+'\\', '')
 
         bare_tb += _line + '\n'
-    
         _line = _line.replace(' ', '&nbsp;')
-        if counter != 1 and counter % 2 != 0:
+        
+        colorTags = []
+        def addTag(fontTag, start, end, endTag='</font>'):
+            for tag, _start, _end, endTag in colorTags:
+                if isWithin(start, _start, _end) or isWithin(end, _start, _end):
+                    return # Enclosed tags are skipped
+            colorTags.append((fontTag, start, end, endTag))
+    
+        for c in ('\'', '"'):
+            if c in _line:
+                searchOffset = 0
+                newString = _line
+                counter = 0
+                tagStart = 0
+                tagEnd = len(_line)
+                while searchOffset != -1:
+                    searchOffset = _line.find(c, searchOffset)
+                    if searchOffset != 0 and _line[searchOffset-1] == '\\':
+                        searchOffset += 1
+                        continue
+                    if searchOffset != -1:
+                        if counter % 2 == 0:
+                            tagStart = searchOffset
+                        else:
+                            tagEnd = searchOffset+1
+                            addTag('<font color=#a31515>', tagStart, tagEnd)
+                            tagStart = 0
+                            tagEnd = len(_line)
+                        counter += 1
+                        searchOffset += 1
+                    elif counter % 2 != 0:
+                        addTag('<font color=#a31515>', tagStart, tagEnd)
+        
+        if '#' in _line and lineno != 1 and lineno % 2 != 0:
+            addTag('<font color=#008052>', _line.find('#'), len(_line))
+            
+        if '@' in _line and lineno != 1 and lineno % 2 != 0:
+            addTag('<font color=#a31515>', _line.find('#'), len(_line))
+        
+        counter = 0
+        words = list()
+        for w in _line.split('&nbsp;'):
+            words.extend(split_multiDelim(w, ' /\()"\'-:,;<>~!@#$%^&*|+=[]{}`~?'))
+        
+        occurrences = dict()
+        import keyword
+        for kw in keyword.kwlist:
+            occurrences[kw] = _line.count(kw)
+        
+        for w in words:
+            isNumber = False
+            try:
+                float(w)
+                isNumber = True
+            except:
+                if len(w) == 0 or lineno == 1 or lineno % 2 == 0:
+                    continue
+                if True in [(w == _) for _ in keyword.kwlist]:
+                    print(w)
+                    modStr = _line.replace(w, ' '*len(w), occurrences[w]-1)
+                    index = modStr.find(w)
+                    addTag('<font color=#0000ff>', index, index+len(w))
+                
+            if isNumber: 
+                occurrences[w] = occurrences.get(w, 0) + 1
+                modStr = _line.replace(w, ' '*len(w), occurrences[w]-1)
+                
+                index = modStr.find(w)
+                addTag('<font color=#008052>', index, index+len(w))
+            counter += 1
+
+        # Sort the tags based on the closing index, because the string is modified back to front
+        colorTags = sorted(colorTags, key=lambda tup: tup[2]) 
+        for tag, start, end, endTag in colorTags[::-1]:
+            _line = _line[:end] + endTag + _line[end:] 
+            _line = _line[:start] + tag + _line[start:]
+        
+        if lineno != 1 and lineno % 2 != 0:
             # Apply the monospaced font face
             _line = '<font face=\'Monospaced\' style=\'font-weight:normal\'>' + _line + '</font>'
-        elif counter != 1 and line.strip().startswith('File'):
+        elif lineno != 1 and line.strip().startswith('File'):
             _line = '&nbsp;&nbsp;&nbsp;&nbsp;'+_line.strip()
         custom_tb += ('\n' if tb_lines.index(line) != 0 else '') + _line
     
@@ -162,6 +247,9 @@ def draw():
         #Switch to a different menu.
         pushStyle()
         pushMatrix()
+        if not lastScreen == globals.currentMenu:
+            globals.log.info('Screen changed to ' + globals.currentMenu)
+            
         if globals.currentMenu == "gameSetupScreen":
             gameSetupScreen.draw(mousePressed)
         elif globals.currentMenu == "gameScreen":
@@ -208,6 +296,7 @@ def applySettings():
         # All this reloading nonsense is to prevent heapspace errors. Basically we're trying
         # to reload the image as little as possible.
         if not backgroundImg.width == width and not backgroundImg.height == height:
+            globals.log.info('Reloading background image')
             del globals.backgroundImg
             globals.backgroundImg = globals.imgIndex[globals.backgroundImgName].copy()
             globals.backgroundImg.resize(width, height)
