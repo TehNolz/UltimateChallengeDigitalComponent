@@ -34,7 +34,7 @@ def loadData(firstLoad=False):
                 var = False
             else:
                 loadStart = millis()
-                finishedRequests += os.path.getsize(assetNames[img])
+                finishedRequests += os.path.getsize(assetNames[img]) 
         if totalRequests == finishedRequests:
             globals.imgIndex = imgIndex
             loadingAssets = False
@@ -44,9 +44,7 @@ def loadData(firstLoad=False):
     
     #Load configuration files
     #Cardconfig
-    
-    if not os.path.exists('data/cardconfig.json'):
-        raise MissingConfigException('', 'Unable to locate \'data\\cardconfig.json\'.')
+
     cardConfig = json.loads(open("data/cardconfig.json").read())
     
     #Userconfig
@@ -83,10 +81,3 @@ def saveData():
     userConfig = globals.userConfig
     with open('data/userconfig.json', 'w') as outfile:
         json.dump(userConfig, outfile, indent=4)
-
-class MissingConfigException(Exception):
-    def __init__(self, message, cause):
-        self.message = message
-        self.args = (message, cause)
-    def __str__(self):
-        return self.message
