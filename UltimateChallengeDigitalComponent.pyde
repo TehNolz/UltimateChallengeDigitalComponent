@@ -75,10 +75,12 @@ def loadScreen():
         loadBar(finishedRequests, totalRequests, 45)
         loadText = 'Initializing settings screen...'
     elif stage == 2:
+        pushStyle()
         stroke(204)
         strokeWeight(5)
         fill(204)
         rect(width/2-100, height*0.55+45, 200, 30)
+        popStyle() 
         settingsScreen.init()
         loadText = 'Initializing game screen...'
     elif stage == 3:
@@ -169,7 +171,9 @@ def showErrorMessage():
         
         occurrences = dict()
         import keyword
-        for kw in keyword.kwlist:
+        kwlist = keyword.kwlist
+        kwlist.extend(['True', 'False', 'None'])
+        for kw in kwlist: 
             occurrences[kw] = _line.count(kw)
         
         for w in words:
@@ -180,7 +184,7 @@ def showErrorMessage():
             except:
                 if len(w) == 0 or lineno == 1 or lineno % 2 == 0:
                     continue
-                if True in [(w == _) for _ in keyword.kwlist]:
+                if True in [(w == _) for _ in kwlist]:
                     modStr = _line.replace(w, ' '*len(w), occurrences[w]-1)
                     index = modStr.find(w)
                     addTag('<font color=#0000ff>', index, index+len(w))
