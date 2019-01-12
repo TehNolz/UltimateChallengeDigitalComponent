@@ -5,14 +5,14 @@ import logging
 imgIndex = {}
 cardConfig = {}
 userConfig = {
-    "players": {
-        1: None,
-        2: None,
-        3: None,
-        4: None,
-        5: None,
-        6: None,
-    },
+    "players": [
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+    ],
     "settings": {
         "useDecks": [
             "base",
@@ -23,7 +23,8 @@ userConfig = {
         "primary_color": color(50, 230, 230),
         "objectAnims_OnOff": True,
         "anims_OnOff": True,
-        "font": 'Open Sans'
+        "font": 'Open Sans',
+        "enable_debug_console": False
     }
 }
 fonts = {}
@@ -44,11 +45,10 @@ backgroundImgName = 'background'
 backgroundImg = None
 
 #Misc
-logging.basicConfig(level=logging.NOTSET)
+logging.basicConfig(filename='ucdc_app.log', level=logging.NOTSET, format='[%(asctime)s][%(name)s:%(levelname)s] %(message)s',  filemode='w+', datefmt='%X')
 log = logging.getLogger("LOG")
 playerCount = 0
 font = None
-debug = False
 
 #Text boxes
 activeTextBox = None

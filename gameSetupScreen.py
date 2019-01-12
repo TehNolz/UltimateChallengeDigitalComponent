@@ -90,10 +90,10 @@ def init():
     boxHeight = 0.7
     var = 1
     globals.textBoxDict["gameSetupScreen"] = []
-    for i in range(1, 7):
+    for i in range(6):
         textBox = textInput.textBox(1133/6, 600*(1-boxHeight), 200, 50)
         textBox.placeholder = "Player "+str(var)
-        playername = globals.userConfig['players'][str(i)]
+        playername = globals.userConfig['players'][i]
         textBox.text[0] = playername if playername != None else ''
         var+=1
         globals.textBoxDict["gameSetupScreen"].append(textBox)
@@ -151,14 +151,12 @@ def startGame(*args):
             playerList = []
             for player in range(0, playerCount):
                 textBox = globals.textBoxDict["gameSetupScreen"][player]
-                print(textBox.getFullText())
-                print(playerList)
                 if textBox.getFullText() in playerList or textBox.getFullText() == "":
                     validNames = False
                     break
                 else:
                     playerList.append(textBox.getFullText())
-                    globals.userConfig["players"][str(player+1)] = textBox.getFullText()           
+                    globals.userConfig["players"][player] = textBox.getFullText()           
                     
             if validNames:
                 data.saveData()
@@ -206,8 +204,7 @@ def gotoMainMenu(*args):
         globals.currentMenu = "mainMenu"
         
         # stores the player name data
-
         for player in range(0, playerCount):
             textBox = globals.textBoxDict["gameSetupScreen"][player]
-            globals.userConfig["players"][str(player+1)] = textBox.getFullText()
+            globals.userConfig["players"][player] = textBox.getFullText() if textBox.getFullText() != '' else None
         data.saveData()
