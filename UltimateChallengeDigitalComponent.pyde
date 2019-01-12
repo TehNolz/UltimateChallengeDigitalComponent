@@ -95,91 +95,104 @@ def loadScreen():
     loadStage += 1
     return False
 
+def showErrorMessage():
+    import javax.swing.JOptionPane as JOptionPane
+    import javax.swing.JDialog as JDialog
+    import java.awt.Toolkit as Toolkit
+    import java.awt.Font as Font
+    import os, traceback
+    
+    Toolkit.getDefaultToolkit().beep()
+    
+    custom_tb = ''
+    bare_tb = ''
+    tb_lines = traceback.format_exc().split('\n')
+    counter = 0
+    for line in tb_lines[:-1]:
+        counter += 1
+        _line = line.replace(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), '')
+
+        bare_tb += _line + '\n'
+    
+        _line = _line.replace(' ', '&nbsp;')
+        if counter != 1 and counter % 2 != 0:
+            # Apply the monospaced font face
+            _line = '<font face=\'Monospaced\' style=\'font-weight:normal\'>' + _line + '</font>'
+        elif counter != 1 and line.strip().startswith('File'):
+            _line = '&nbsp;&nbsp;&nbsp;&nbsp;'+_line.strip()
+        custom_tb += ('\n' if tb_lines.index(line) != 0 else '') + _line
+    
+    globals.log.critical(bare_tb[:-1])
+    
+    custom_tb = custom_tb.replace('\n', '<br>')
+    custom_tb = custom_tb = '<html>' + custom_tb + '</html>'
+    
+    pane = JOptionPane(custom_tb, JOptionPane.ERROR_MESSAGE)
+    
+    dialog = pane.createDialog('Traceback')
+    dialog.setAlwaysOnTop(True)
+    dialog.show()
+    exit(1)
+
 lastScreen = ''
 activeKeys = set()
 activeKeyCodes = set()
-def draw(): # This wraps the _draw() with a try-catch block
+def draw():
     try:
-        _draw()
-    except Exception, e:
-        import javax.swing.JOptionPane as JOptionPane
-        import javax.swing.JDialog as JDialog
-        import java.awt.Toolkit as Toolkit
-        import os
-        Toolkit.getDefaultToolkit().beep()
-        if len(e.args) < 2:
-            e.args = (e.args[0], '')
-        message = ''
-        cause = ''
-        if e.message != '':
-            message = '\n  - Message: \''+e.message+'\''
-        if e.args[1] != '':
-            cause = '\n  - Cause: '+ e.args[1]
-            
-        globals.log.error('Caught '+e.__class__.__name__)
-        globals.log.error(message[1:])
-        globals.log.error(cause[1:])
-        globals.log.error('  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__))
-        pane = JOptionPane(' Caught '+e.__class__.__name__+ message + cause + '\n  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__),
-                        JOptionPane.ERROR_MESSAGE)
-        dialog = pane.createDialog('Traceback')
-        dialog.setAlwaysOnTop(True)
-        dialog.show() 
-        raise e
-
-def _draw():
-    global lastScreen
-    # This loadscreen loads stuff in the draw so we can update the loading bar
-    if not loadScreen(): return
-    
-    # Update the mousePress value in Object
-    # Necessary because when 'mousePressed()' is used, the field 'mousePressed' for some reason starts raising errors
-    Object.mousePress = mousePressed
-    
-    applySettings()
-    
-    #Center ALL THE THINGS!
-    imageMode(CENTER)
-    rectMode(CENTER)
-    textAlign(LEFT)
-    
-    #Calculate base scale
-    globals.baseScale = float(height) / 600
-    globals.baseScaleXY.X = float(width) / 1133
-    globals.baseScaleXY.Y = float(height) / 600
-    
-    #Switch to a different menu.
-    pushStyle()
-    pushMatrix()
-    if globals.currentMenu == "gameSetupScreen":
-        gameSetupScreen.draw(mousePressed)
-    elif globals.currentMenu == "gameScreen":
-        # Hides the prime number menu when you toggle to the gamescreen
-        if not lastScreen == globals.currentMenu:
-            gameScreen.showPrimeNumbers = False
-        gameScreen.draw(mousePressed)
-    elif globals.currentMenu == "mainMenu":
-        mainMenu.draw()
-    elif globals.currentMenu == "manual":
-        manual.draw()
-    elif globals.currentMenu == "minigame":
-        minigame.draw(mousePressed)
-    elif globals.currentMenu == "settings":
-        settingsScreen.draw()
-    lastScreen = globals.currentMenu
-    popStyle()
-    popMatrix()
+        global lastScreen
+        # This loadscreen loads stuff in the draw so we can update the loading bar
+        if not loadScreen(): return
         
-    #Show console, when necessary.
-    if console.showConsole:
-        console.draw(mousePressed)
-    
-    # Reset the mouseRelease value
-    Object.mouseRelease = False
-    
-    # Reset the click position if the mouse is not pressed
-    if not Object.mousePress:
-        Object.clickPos = Vector2()
+        # Update the mousePress value in Object
+        # Necessary because when 'mousePressed()' is used, the field 'mousePressed' for some reason starts raising errors
+        Object.mousePress = mousePressed
+        
+        applySettings()
+        
+        #Center ALL THE THINGS!
+        imageMode(CENTER)
+        rectMode(CENTER)
+        textAlign(LEFT)
+        
+        #Calculate base scale
+        globals.baseScale = float(height) / 600
+        globals.baseScaleXY.X = float(width) / 1133
+        globals.baseScaleXY.Y = float(height) / 600
+        
+        #Switch to a different menu.
+        pushStyle()
+        pushMatrix()
+        if globals.currentMenu == "gameSetupScreen":
+            gameSetupScreen.draw(mousePressed)
+        elif globals.currentMenu == "gameScreen":
+            # Hides the prime number menu when you toggle to the gamescreen
+            if not lastScreen == globals.currentMenu:
+                gameScreen.showPrimeNumbers = False
+            gameScreen.draw(mousePressed)
+        elif globals.currentMenu == "mainMenu":
+            mainMenu.draw()
+        elif globals.currentMenu == "manual":
+            manual.draw()
+        elif globals.currentMenu == "minigame":
+            minigame.draw(mousePressed)
+        elif globals.currentMenu == "settings":
+            settingsScreen.draw()
+        lastScreen = globals.currentMenu
+        popStyle()
+        popMatrix()
+            
+        #Show console, when necessary.
+        if console.showConsole:
+            console.draw(mousePressed)
+        
+        # Reset the mouseRelease value
+        Object.mouseRelease = False
+        
+        # Reset the click position if the mouse is not pressed
+        if not Object.mousePress:
+            Object.clickPos = Vector2()
+    except:
+        showErrorMessage()
 
 def applySettings():
     updateFont()
@@ -202,37 +215,49 @@ def applySettings():
         background(backgroundImg)
 
 def mousePressed():
-    textInput.check()
-    Object.clickPos = Vector2(mouseX, mouseY)
-
+    try:
+        textInput.check()
+        Object.clickPos = Vector2(mouseX, mouseY)
+    except:
+        showErrorMessage()
+    
 def mouseReleased():
-    Object.mouseRelease = True
+    try:
+        Object.mouseRelease = True
+    except:
+        showErrorMessage()
     
-def keyPressed(): #This one is for single key strokes
-    global activeKeys
-    global activeKeyCodes
-
-    if not key == CODED:
-        if key.isalnum() or key in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?':
-            newActiveKeys = set()
-            for k in activeKeys:
-                if not k == CODED and not k.isalnum() and not isWordDelimiter(k):
-                    newActiveKeys.add(k)
-            activeKeys = newActiveKeys
-    activeKeys.add(key)
-    activeKeyCodes.add(keyCode)
+def keyPressed():
+    try:
+        global activeKeys
+        global activeKeyCodes
     
-    #Send key to active text box, if any exist.
-    if globals.activeTextBox != None:
-        textBox = globals.activeTextBox
-        textBox.input(activeKeys, activeKeyCodes)
+        if not key == CODED:
+            if key.isalnum() or key in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?':
+                newActiveKeys = set()
+                for k in activeKeys:
+                    if not k == CODED and not k.isalnum() and not isWordDelimiter(k):
+                        newActiveKeys.add(k)
+                activeKeys = newActiveKeys
+        activeKeys.add(key)
+        activeKeyCodes.add(keyCode)
         
-    #Open console
-    if key == "`" and globals.debug:
-        console.toggleConsole()
+        #Send key to active text box, if any exist.
+        if globals.activeTextBox != None:
+            textBox = globals.activeTextBox
+            textBox.input(activeKeys, activeKeyCodes)
+            
+        #Open console with F12
+        if keyCode == 108 and globals.userConfig['settings']['enable_debug_console']:
+            console.toggleConsole()
+    except:
+        showErrorMessage()
 
 def keyReleased():
-    global activeKeys
-    global activeKeyCodes
-    if key in activeKeys: activeKeys.remove(key)
-    if keyCode in activeKeyCodes: activeKeyCodes.remove(keyCode)
+    try:
+        global activeKeys
+        global activeKeyCodes
+        if key in activeKeys: activeKeys.remove(key)
+        if keyCode in activeKeyCodes: activeKeyCodes.remove(keyCode)
+    except:
+        showErrorMessage()
