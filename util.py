@@ -1,5 +1,37 @@
 import globals
+
+def scaleMemory(x, decimals=0, tag=True):
+    GIBIBYTE = 1073741820
+    MEBIBYTE = 1048576
+    KIBIBYTE = 1024
     
+    def forceDecimals(x, decimals):
+        if decimals <= 0:
+            return str(int(x))
+        s = str(int(x)) + '.'
+        x -= int(x)
+        d = str(round(x, decimals))[2:][:decimals]
+        while len(d) < decimals:
+            d += '0'
+        return s+d
+    
+    if x > GIBIBYTE: return str(forceDecimals(float(x) / GIBIBYTE, decimals)) + (' GB' if tag else '')
+    elif x > MEBIBYTE: return str(forceDecimals(float(x) / MEBIBYTE, decimals)) + (' MB' if tag else '')
+    elif x > KIBIBYTE: return str(forceDecimals(float(x) / KIBIBYTE, decimals)) + (' kB' if tag else '')
+    return str(forceDecimals(x, decimals)) + (' B' if tag else '')
+
+def isWithin(val, start, end):
+    return val > start and val < end
+
+def split_multiDelim(txt, delims):
+    l = [txt]
+    for c in delims:
+        newList = []
+        for s in l:
+            newList.extend(s.split(c))
+        l = newList
+    return l
+
 def exit(code=0):
     try:
         import __builtin__
@@ -13,7 +45,7 @@ def exit(code=0):
     __builtin__.exit()
     
 def isWordDelimiter(c):
-    return c in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?'
+    return c in ' ./\()"\'-:,;<>~!@#$%^&*|+=[]{}`~?'
     
 currentFont = None
 def updateFont():
