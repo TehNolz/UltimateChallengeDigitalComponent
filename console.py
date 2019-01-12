@@ -14,8 +14,11 @@ def init():
     globals.textBoxDict["global"].append(consoleTextBox)
 
 def draw(mousePressed=False):
+    width = 1133
+    height = 600
     textSize(30)
     global consoleTextBox
+    scale(globals.baseScale)
     consoleTextBox.draw(mousePressed)
     
     pushStyle()
@@ -37,8 +40,6 @@ def toggleConsole():
     
 #Runs commands
 def command(input):
-    width = 1133
-    height = 600
     global consoleText
     global consoleTextColor
 
