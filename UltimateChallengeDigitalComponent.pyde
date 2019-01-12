@@ -6,7 +6,6 @@ import gameScreen
 import mainMenu
 import manual
 import console
-import test
 import textInput
 import minigame
 from Object import Object
@@ -27,9 +26,8 @@ def setup():
     smooth(8)
     background(204)
     
-    
 loadStage = 0
-loadDuration = 8
+loadDuration = 7
 def loadScreen():
     global loadStage
     global loadDuration
@@ -81,18 +79,16 @@ def loadScreen():
         loadText = 'Initializing main menu...'
     elif stage == 5:
         mainMenu.init()
-        loadText = 'Initializing misc assets...'
-    elif stage == 6:
-        test.init()
         loadText = 'Initializing console...'
-    elif stage == 7:
+    elif stage == 6:
         console.init()
         loadText = 'Initializing manual screen...'
-    elif stage == 8:
+    elif stage == 7:
         manual.init()
         loadText = 'Congfiguring renderer...'
     else:
         hint(DISABLE_OPTIMIZED_STROKE)
+        hint(ENABLE_KEY_REPEAT)
         #textMode(SHAPE)
         return True
     loadBar()
@@ -100,16 +96,9 @@ def loadScreen():
     return False
 
 lastScreen = ''
-keySpeed = 1 # 1 frame, or 60 times a second
-keySpeedCounter = 0
-keyRepeatDelay = 30 # 30 frames, or 500 milliseconds
-keyRepeatCounter = 0
-lastKeyEvent = None
-lastKeyCode = None
 activeKeys = set()
 activeKeyCodes = set()
-
-def draw():
+def draw(): # This wraps the _draw() with a try-catch block
     try:
         _draw()
     except Exception, e:
@@ -121,54 +110,27 @@ def draw():
         if len(e.args) < 2:
             e.args = (e.args[0], '')
         message = ''
+        cause = ''
         if e.message != '':
             message = '\n  - Message: \''+e.message+'\''
+        if e.args[1] != '':
+            cause = '\n  - Cause: '+ e.args[1]
             
         globals.log.error('Caught '+e.__class__.__name__)
-        if len(message) != 0:
-            globals.log.error('  - Message: \''+e.message+'\'')
-        globals.log.error('  - Cause: '+ e.args[1])
+        globals.log.error(message[1:])
+        globals.log.error(cause[1:])
         globals.log.error('  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__))
-        pane = JOptionPane(' Caught '+e.__class__.__name__+message+'\n  - Cause: '+ e.args[1] + '\n  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__),
+        pane = JOptionPane(' Caught '+e.__class__.__name__+ message + cause + '\n  - Line:  '+ str(sys.exc_info()[2].tb_lineno) + ' at file '+ os.path.basename(__file__),
                         JOptionPane.ERROR_MESSAGE)
         dialog = pane.createDialog('Traceback')
         dialog.setAlwaysOnTop(True)
         dialog.show() 
         raise e
+
 def _draw():
     global lastScreen
     # This loadscreen loads stuff in the draw so we can update the loading bar
     if not loadScreen(): return
-    
-    global keySpeed
-    global keySpeedCounter
-    global keyRepeatDelay
-    global keyRepeatCounter
-    global lastKeyEvent
-    global lastKeyCode
-    global activeKeys
-    global activeKeyCodes
-    
-    
-    # This is to force key repeats because P3D is gay and disables that for some fucking reason
-    # mind you key repeats work fucking fine in P2D
-    if keyPressed:
-        if keyRepeatCounter < keyRepeatDelay:
-            keyRepeatCounter += 1
-        else:
-            if keySpeedCounter < keySpeed:
-                keySpeedCounter += 1
-            else:
-                keySpeedCounter = 0
-                _keyPressed(lastKeyEvent, lastKeyCode)
-    else:
-        keySpeedCounter = 0
-        keyRepeatCounter = 0
-        activeKeys = set()
-        activeKeyCodes = set()
-        lastKeyEvent = None
-        lastKeyCode = None
-    
     
     # Update the mousePress value in Object
     # Necessary because when 'mousePressed()' is used, the field 'mousePressed' for some reason starts raising errors
@@ -204,8 +166,6 @@ def _draw():
         minigame.draw(mousePressed)
     elif globals.currentMenu == "settings":
         settingsScreen.draw()
-    elif globals.currentMenu == "test":
-        test.draw()
     lastScreen = globals.currentMenu
     popStyle()
     popMatrix()
@@ -248,26 +208,6 @@ def mousePressed():
 def mouseReleased():
     Object.mouseRelease = True
     
-def _keyPressed(key, keyCode): # This one is for key repeats
-    global lastKeyEvent
-    global lastKeyCode
-    global keySpeedCounter
-    global keyRepeatCounter
-    global activeKeys
-    global activeKeyCodes
-    
-    if not lastKeyEvent == key or not lastKeyCode == keyCode:
-        keySpeedCounter = 0
-        keyRepeatCounter = 0
-    
-    lastKeyEvent = key
-    lastKeyCode = keyCode
-    
-    #Send key to active text box, if any exist.
-    if globals.activeTextBox != None:
-        textBox = globals.activeTextBox
-        textBox.input(activeKeys, activeKeyCodes)
-    
 def keyPressed(): #This one is for single key strokes
     global activeKeys
     global activeKeyCodes
@@ -281,8 +221,12 @@ def keyPressed(): #This one is for single key strokes
             activeKeys = newActiveKeys
     activeKeys.add(key)
     activeKeyCodes.add(keyCode)
-    _keyPressed(key, keyCode)
     
+    #Send key to active text box, if any exist.
+    if globals.activeTextBox != None:
+        textBox = globals.activeTextBox
+        textBox.input(activeKeys, activeKeyCodes)
+        
     #Open console
     if key == "`" and globals.debug:
         console.toggleConsole()
@@ -290,11 +234,5 @@ def keyPressed(): #This one is for single key strokes
 def keyReleased():
     global activeKeys
     global activeKeyCodes
-    global lastKeyEvent
-    global lastKeyCode
     if key in activeKeys: activeKeys.remove(key)
     if keyCode in activeKeyCodes: activeKeyCodes.remove(keyCode)
-    if lastKeyEvent == key:
-        lastKeyEvent = None
-    if lastKeyCode == keyCode:
-        lastKeyCode = None
