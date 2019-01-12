@@ -4,6 +4,8 @@ from Button import Button
 from util import *
 
 def init():
+    width = 1133
+    height = 600
     global playGame
     global buttons
     

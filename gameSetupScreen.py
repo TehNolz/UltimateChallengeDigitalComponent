@@ -9,6 +9,8 @@ import minigame
 
 buttons = None
 def init():
+    width = 1133
+    height = 600
     global buttons
     global boxList
     global playerCount
@@ -98,6 +100,8 @@ def init():
         boxHeight -= 0.1
             
 def draw(mousePressed=False):
+    width = 1133
+    height = 600
     global playerCount
     
     screenSize = globals.baseScreenSize

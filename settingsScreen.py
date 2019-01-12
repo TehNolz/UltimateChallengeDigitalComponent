@@ -6,6 +6,8 @@ from Button import Button
 from Object import Object
 
 def init():
+    width = 1133
+    height = 600
     global buttons, categories, onScreenText
     
     categories = dict()

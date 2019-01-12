@@ -6,6 +6,8 @@ showConsole = False
 consoleTextColor = color(255, 255, 255)
 
 def init():
+    width = 1133
+    height = 600
     global consoleTextBox
     baseScale = globals.baseScale
     consoleTextBox = textInput.textBox(height*0.1, 0, 1000*baseScale, 50*baseScale, boxColor=color(0, 0, 0, 128), textColor=color(255, 255, 255), command=command)
@@ -35,6 +37,8 @@ def toggleConsole():
     
 #Runs commands
 def command(input):
+    width = 1133
+    height = 600
     global consoleText
     global consoleTextColor
 

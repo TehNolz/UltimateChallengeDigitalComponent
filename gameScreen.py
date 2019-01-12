@@ -7,6 +7,8 @@ from random import choice
 import prime_number_menu
 
 def init():
+    width = 1133
+    height = 600
     global turnImage
     global imgRot
     global imgPos

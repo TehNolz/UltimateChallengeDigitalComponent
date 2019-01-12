@@ -11,6 +11,8 @@ forward = 0
 backward = 0
 
 def init():
+    width = 1133
+    height = 600
     global manual1, manual2, manual3, manual4, manual5, manual6,  buttons, forward, backward
     
     imgIndex = globals.imgIndex
