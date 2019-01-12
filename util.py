@@ -1,5 +1,17 @@
 import globals
-
+    
+def exit(code=0):
+    try:
+        import __builtin__
+    except ImportError:
+        # Python 3
+        import builtins as __builtin__
+    if code == 1:
+        globals.log.info('Program exited with errors, see log above. (1)')
+    else:
+        globals.log.info('Program exited with no errors. (0)')
+    __builtin__.exit()
+    
 def isWordDelimiter(c):
     return c in ' ./\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?'
     
