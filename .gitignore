@@ -1,4 +1,4 @@
 *.class
 userconfig.json
 data/attributes.txt
-ucdc_app.log
+*.log
