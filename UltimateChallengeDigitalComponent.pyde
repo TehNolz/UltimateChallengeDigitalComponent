@@ -31,7 +31,8 @@ def showErrorMessage():
         lineno = tb_lines.index(line)+1
         _line = line.replace(os.path.dirname(os.path.realpath(__file__))+'\\', '')
 
-        bare_tb += _line + '\n'
+        if not ignoreLog and lineno < len(tb_lines)-2:
+            bare_tb += _line + '\n'
         _line = _line.replace(' ', '&nbsp;')
         
         colorTags = []
@@ -347,6 +348,8 @@ def applySettings():
         background(backgroundImg)
 
 def mousePressed():
+    if loadStage <= loadDuration:
+        return # ignore if still loading
     try:
         textInput.check()
         Object.clickPos = Vector2(mouseX, mouseY)
@@ -354,12 +357,16 @@ def mousePressed():
         showErrorMessage()
     
 def mouseReleased():
+    if loadStage <= loadDuration:
+        return # ignore if still loading
     try:
         Object.mouseRelease = True
     except:
         showErrorMessage()
     
 def keyPressed():
+    if loadStage <= loadDuration:
+        return # ignore if still loading
     try:
         global activeKeys
         global activeKeyCodes
@@ -386,6 +393,8 @@ def keyPressed():
         showErrorMessage()
 
 def keyReleased():
+    if loadStage <= loadDuration:
+        return # ignore if still loading
     try:
         global activeKeys
         global activeKeyCodes
