@@ -62,10 +62,11 @@ def loadScreen():
         textSize(30)
         text('Loading...', (width - textWidth('Loading'))/2, height/2)
         log.info("Starting!")
-        loadText = 'Loading assets...'
     elif stage == 1:
         fill(0)
         textSize(30)
+        loadText = 'Loading assets...'
+        loadBar()
         totalRequests, finishedRequests = data.loadData(True)
         if finishedRequests != totalRequests:
             loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
@@ -121,7 +122,7 @@ def showErrorMessage():
     tb_lines = traceback.format_exc().split('\n')
     for line in tb_lines[:-1]:
         lineno = tb_lines.index(line)+1
-        _line = line.replace(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))+'\\', '')
+        _line = line.replace(os.path.dirname(os.path.realpath(__file__))+'\\', '')
 
         bare_tb += _line + '\n'
         _line = _line.replace(' ', '&nbsp;')
@@ -133,6 +134,7 @@ def showErrorMessage():
                     return # Enclosed tags are skipped
             colorTags.append((fontTag, start, end, endTag))
     
+        pendingTags = list()
         for c in ('\'', '"'):
             if c in _line:
                 searchOffset = 0
@@ -156,7 +158,9 @@ def showErrorMessage():
                         counter += 1
                         searchOffset += 1
                     elif counter % 2 != 0:
-                        addTag('<font color=#a31515>', tagStart, tagEnd)
+                        pendingTags.append(('<font color=#a31515>', tagStart, tagEnd))
+        for tag in pendingTags:
+            addTag(*tag)
         
         if '#' in _line and lineno != 1 and lineno % 2 != 0:
             addTag('<font color=#008052>', _line.find('#'), len(_line))
@@ -203,7 +207,7 @@ def showErrorMessage():
             _line = _line[:end] + endTag + _line[end:] 
             _line = _line[:start] + tag + _line[start:]
         
-        if lineno != 1 and lineno % 2 != 0:
+        if lineno != 1 and lineno % 2 != 0 and not _line.strip().startswith('File'):
             # Apply the monospaced font face
             _line = '<font face=\'Monospaced\' style=\'font-weight:normal\'>' + _line + '</font>'
         elif lineno != 1 and line.strip().startswith('File'):
