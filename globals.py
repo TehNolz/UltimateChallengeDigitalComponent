@@ -1,5 +1,6 @@
 from util import *
 import logging
+import os
 
 #Data
 imgIndex = {}
@@ -46,7 +47,16 @@ backgroundImgName = 'background'
 backgroundImg = None
 
 #Misc
-logging.basicConfig(filename='logs\\ucdc_app.log', level=logging.NOTSET, format='[%(asctime)s][%(name)s:%(levelname)s] %(message)s',  filemode='w+', datefmt='%X')
+maxLogFiles = 4
+logFile = lambda x: 'logs\\ucdc_app.'+str(x)+'.log'
+for i in list(range(maxLogFiles))[::-1]:
+    if os.path.exists(logFile(i)):
+        if i == maxLogFiles-1:
+            os.remove(logFile(i))
+        else:
+            os.rename(logFile(i), logFile(i+1))
+    
+logging.basicConfig(filename=logFile(0), level=logging.NOTSET, format='[%(asctime)s][%(name)s:%(levelname)s] %(message)s',  filemode='w+', datefmt='%X')
 log = logging.getLogger("LOG")
 playerCount = 0
 font = None
