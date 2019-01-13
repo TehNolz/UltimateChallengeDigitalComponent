@@ -32,7 +32,7 @@ def init():
     r *= 0.5
     buttonHeight = 0.2
     Object.startGroup()
-    for i in range(1, 7):
+    for i in range(6):
         button = Button(width*0.3, height*buttonHeight, r.copy()*0.2)
         button.applyStyle('checkbox')
         button.boxColor = color(0,0,0, 128)
@@ -52,7 +52,7 @@ def init():
     #Create dice result boxes
     resultBoxes = []
     boxHeight = 0.2
-    for i in range(1, 7):
+    for i in range(6):
         textBox = textInput.textBox(width*0.2, 0, 50, 50, writable=False)
         textBox.textAlignment = CENTER
         resultBoxes.append(textBox)
@@ -81,30 +81,20 @@ def init():
     ######################
     # Timer stuff
     ######################
-    global startSec
-    startSec=0
-    global startMins
-    startMins=0
-    global scrnMins
-    scrnMins=0
-    global scrnSecs
-    scrnSecs=0
-    global restartSecs
-    restartSecs=0
-    global restartMins
-    restartMins=0
     global stopTimer
     stopTimer = True
-    global timeOffset
-    timeOffset = 0
     global timeMemory
     timeMemory = 0
     global showTimeIsUpMsg
     showTimeIsUpMsg = False
-    
+    global timerCache
+    timerCache = 0
+    global lastTimeMillis
+    lastTimeMillis = 0
+
     offset = 0
     if "dice" in currentCard["minigame"]:
-        offset+=0.25
+        offset+=0.125
     
     global startTimerButton
     r*=0.5
@@ -127,14 +117,18 @@ def init():
     nextMatchButton = Button(width*0.7, height*0.8, r.copy())
     nextMatchButton.releaseAction = nextMatch
     nextMatchButton.text = "Next\nMatch"
-    
+
 def draw(mousePressed):
+    updatedTime = False
+    drawStart = millis()
     width = 1133
     height = 600
     pushStyle()
     scale(*globals.baseScaleXY)
     pushMatrix()
     #Misc
+    global timerCache
+    global lastTimeMillis
     global currentCard
     global challengeActive
     global playerButtonCheckboxes
@@ -160,7 +154,6 @@ def draw(mousePressed):
     global stopTimer
     global timeOffset
     global timeMemory
-    global actualSecs
     global actualMins
     global showTimeIsUpMsg
     
@@ -207,8 +200,8 @@ def draw(mousePressed):
             else:
                 txt = "Who will play? Pick "+str(var)+" players."
                 text(txt, width*0.05, height*0.1)
-            for player in range(0, globals.playerCount):
-                text(globals.userConfig["players"][str(player+1)], width*0.15, height*textheight)
+            for player in range(globals.playerCount):
+                text(globals.userConfig["players"][player], width*0.15, height*textheight)
                 playerButtonCheckboxes[player].update()
                 textheight+= 0.1
                 
@@ -219,7 +212,7 @@ def draw(mousePressed):
             toRoll = players[:]
             currentPlayer = choice(toRoll)
         if playerCount == 6:
-            players = list(range(1, globals.playerCount+1))
+            players = list(range(globals.playerCount))
             toRoll = players[:]
 
     else:
@@ -228,47 +221,55 @@ def draw(mousePressed):
         ######################
         if "dice" in currentCard["minigame"]:
             pushMatrix()
+            pushStyle()
+            textAlign(CENTER)
+            if "timer" in currentCard["minigame"]:
+                translate(width*-0.25, 0)
+            textSize(30)
             boxHeight = 0.2
             if len(players) > 1:
                 for player in players:
                     textSize(30)
-                    text(globals.userConfig["players"][str(player)], width*0.08, height*boxHeight)
-                    resultBoxes[player-1].y = height*(boxHeight-0.05)
-                    resultBoxes[player-1].draw()
+                    text(globals.userConfig["players"][player], width*0.08, height*boxHeight)
+                    resultBoxes[player].y = height*(boxHeight-0.05)
+                    resultBoxes[player].draw()
                     boxHeight+=0.1
             
             if minigameComplete:
                 if len(players) > 1:
                     if startingDiceRoll:
-                        text("The game starts with "+globals.userConfig["players"][str(winner)]+"'s turn!", width*0.35, height*0.1)
+                        text("The game starts with "+globals.userConfig["players"][winner]+"'s turn!", width*0.5, height*0.1)
                     else:
-                        text(globals.userConfig["players"][str(winner)]+" wins the game!", width*0.35, height*0.1)
+                        text(globals.userConfig["players"][winner]+" wins the game!", width*0.5, height*0.1)
                 else:
-                    text("You win the game!", width*0.35, height*0.1)
+                    text("You win the game!", width*0.5, height*0.1)
                 dice.activators = {}
             else:
                 if len(players) > 1:
-                    text("Roll the dice, "+globals.userConfig["players"][str(currentPlayer)]+"!", width*0.35, height*0.1)
+                    text("Roll the dice, "+globals.userConfig["players"][currentPlayer]+"!", width*0.5, height*0.1)
                 else:
-                    text("Roll the dice!", width*0.35, height*0.1)
+                    text("Roll the dice!", width*0.5, height*0.1)
                 dice.activators = {LEFT}
             dice.update()
             
             if rolling and not minigameComplete:
                 if dice.throwdice == False:
                     rolling = False
-                    resultBoxes[currentPlayer-1].text[0] = str(dice.Rolldice)
+                    resultBoxes[currentPlayer].text[0] = str(dice.Rolldice)
                     
                     winner = checkWinner()
             popMatrix()
+            popStyle()
 
 
         elif "ticTacToe" in currentCard["minigame"]:
-            textSize(30)
             pushMatrix()
+            pushStyle()
+            textSize(30)
             translate((width-300)/2, (height-300)/2)
-            textAlign(CENTER)
-            text(globals.userConfig["players"][str(currentPlayer)]+"'s turn!", 105, 40)
+            if not moves:
+                textAlign(CENTER)
+                text(globals.userConfig["players"][currentPlayer]+"'s turn!", 105, 40)
             textAlign(LEFT)
             field()
             
@@ -346,9 +347,10 @@ def draw(mousePressed):
             if boardfull:
                 Boardfull()
                 
-            text(globals.userConfig["players"][str(brackets[0][0])] +" vs "+globals.userConfig["players"][str(brackets[0][1])], 0,250)
+            text(globals.userConfig["players"][brackets[0][0]] +" vs "+globals.userConfig["players"][brackets[0][1]], 0,250)
                 
             popMatrix()
+            popStyle()
         ######################
         elif "primeNumber" in currentCard["minigame"]:
             prime_number_menu.draw(mousePressed)
@@ -356,25 +358,16 @@ def draw(mousePressed):
         ######################
         if "timer" in currentCard["minigame"]:
             pushMatrix()
-            #if "dice" in currentCard["minigame"]:
-            #    translate(0, 0, 0)
-            
-            actualSecs=(millis()-timeOffset)/1000
-            actualMins=(millis()-timeOffset)/1000/60
-            scrnSecs = actualSecs - restartSecs
-            scrnMins = actualMins - restartMins
-            
-            if(actualSecs%60==0):
-                restartSecs=actualSecs
-                scrnSec=startSec
+            pushStyle()
+            if "dice" in currentCard["minigame"]:
+                translate(width*0.125, 0)
                 
             textAlign(CENTER)
             fill(0, 0, 0)
             textSize(100)
             
-            if currentCard["minigame"]["timer"] == actualSecs:
+            if currentCard["minigame"]["timer"] == int(timerCache/1000):
                 showTimeIsUpMsg = True
-                timeMemory = millis()-timeOffset
                 stopTimer = True
                 pauseTimerButton.text = "Pause"
                 if "dice" in currentCard["minigame"]:
@@ -383,24 +376,37 @@ def draw(mousePressed):
             if stopTimer:
                 if showTimeIsUpMsg:
                     text("Time's up!", width/2, height*0.2)
-                # show memorized time
-                stopTimeSec = timeMemory/1000
-                stopTimeMin = timeMemory/1000/60
-                
-                text(nf(stopTimeMin, 2) + " : " + nf(stopTimeSec, 2), width/2, height/2)
             else:
-                text(nf(scrnMins, 2) + " : " + nf(scrnSecs, 2), width/2, height/2)
+                # timerCache is incremented by the amount of time each draw() took
+                # This allows us to stop and reset the clock much more easily
+                
+                # When the timer is running, we add the delay between this draw() and the previous draw()
+                timerCache += millis() - lastTimeMillis
+                # Remember the time in millis for the next time
+                # helps control the timer cache by checking the time update delay
+                lastTimeMillis = millis()
+                updatedTime = True
+            
+            # the modulus makes the value 'loop back' to 0 when it becomes 60
+            seconds = int(timerCache / 1000) % 60
+            mins = int(timerCache / 1000 / 60)
+            
+            # Format the time into a string and draw it on screen
+            text(nf(mins, 2) + " : " + nf(seconds, 2), width/2, height/2)
+
+            popMatrix()
+            popStyle()
+            
             #restartButton
             startTimerButton.update()
             #pauseButton
             pauseTimerButton.update()
-
-            if stopTimer == True:
-                timeOffset = millis()
-            popMatrix()
                 
     popStyle()
     popMatrix()
+    
+    if not updatedTime:
+        lastTimeMillis = millis()
 
 ######################
 # TICTACTOE
@@ -483,15 +489,15 @@ def winConditions():
         var = brackets[0][0]
         
     if len(brackets) > 1 and var == brackets[0][0]:
-        text(globals.userConfig["players"][str(var)]+" wins! Click the Next Match button to continue.", 0,200)
+        text(globals.userConfig["players"][var]+" wins! Click the Next Match button to continue.", 0,200)
         nextMatchButton.update()
     else:
         if playerCount == 2:
-            text(globals.userConfig["players"][str(var)]+" wins!", 0,200)
+            text(globals.userConfig["players"][var]+" wins!", 0,200)
         elif currentCard["minigame"]["ticTacToe"]["mode"] == "1v6" and var == brackets[0][0]:
-            text(globals.userConfig["players"][str(var)]+" won all matches!", 0,200)
+            text(globals.userConfig["players"][var]+" won all matches!", 0,200)
         else:
-            text(globals.userConfig["players"][str(var)]+" wins!", 0,200)
+            text(globals.userConfig["players"][var]+" wins!", 0,200)
         
 def nextMatch(*args):
     global brackets
@@ -505,46 +511,38 @@ def nextMatch(*args):
 # TIMER
 ######################
 def pauseTimer(*args):
-    global timeMemory
+    global timerCache
     global stopTimer
-    global timeOffset
     global pauseTimerButton
-    global scrnSecs
-    global scrnMins
     global minigameComplete
     
     if not minigameComplete:
         if stopTimer == False:
-            timeMemory = millis()-timeOffset
             stopTimer = True
             showTimeIsUpMsg = False
-            pauseTimerButton.text = "Resume"
+            pauseTimerButton.text = "Resume" if timerCache != 0 else "Start"
         else:
-            scrnSecs = timeMemory/1000
-            scrnMins = timeMemory/1000/60
             stopTimer = False
             showTimeIsUpMsg = False
             pauseTimerButton.text = "Pause"
         
     
-    
+# This has actually become a  reset button
 def startTimer(*args):
     global stopTimer
-    global restartSecs
-    global scrnSec
-    global restartMins
-    global scrnMins
-    global actualSecs
-    global actualMins
     global startTimerButton
-    
-    stopTimer = False
+    global pauseTimerButton
+    global timerCache
+
+    if not stopTimer:
+        stopTimer = True
+        timerCache = 0
+        startTimerButton.text = 'Start'
+    else:
+        stopTimer = False
+        startTimerButton.text = 'Reset\nTimer'
     showTimeIsUpMsg = False
-    restartSecs = actualSecs
-    scrnSec = startSec
-    restartMins = actualMins
-    scrnMins = startMins
-    startTimerButton.text = "Restart\nTimer"
+    pauseTimerButton.text = "Pause"
 
 ######################
 # DICE
@@ -582,7 +580,7 @@ def checkWinner():
             for box in resultBoxes:
                 if box.getFullText() != "":
                     if int(box.getFullText()) == var:
-                        winners.append(resultBoxes.index(box)+1)
+                        winners.append(resultBoxes.index(box))
     elif currentCard["minigame"]["dice"]["mode"] == "LOWEST":
         toRoll.remove(currentPlayer)
         if toRoll == []:
@@ -594,25 +592,24 @@ def checkWinner():
             for box in resultBoxes:
                 if box.getFullText() != "":
                     if int(box.getFullText()) == var:
-                        winners.append(resultBoxes.index(box)+1)
+                        winners.append(resultBoxes.index(box))
             
     elif currentCard["minigame"]["dice"]["mode"] == "FIRST":
         toRoll.remove(currentPlayer)
         for box in resultBoxes:
             if box.getFullText() != "":
                 if int(box.getFullText()) == int(currentCard["minigame"]["dice"]["target"]):
-                    winners.append(resultBoxes.index(box)+1)
+                    winners.append(resultBoxes.index(box))
     elif currentCard["minigame"]["dice"]["mode"] == "WITHINTIME":
         if stopTimer == False:
             for box in resultBoxes:
-                if box.getFullText != "":
+                if box.getFullText() != "":
                     if int(box.getFullText()) == currentCard["minigame"]["dice"]["target"]:
-                        winners.append(resultBoxes.index(box)+1)
+                        winners.append(resultBoxes.index(box))
     
     if len(winners) > 1:
         minigameComplete = False
         challengeActive = True
-        timeMemory = millis()-timeOffset
         showTimeIsUpMsg = False
         players = winners
         toRoll = players[:]
@@ -627,7 +624,6 @@ def checkWinner():
         if len(toRoll) == 0:
             minigameComplete = False
             challengeActive = True
-            timeMemory = millis()-timeOffset
             showTimeIsUpMsg = False
             toRoll = players[:]
             currentPlayer = choice(toRoll)
@@ -638,7 +634,6 @@ def checkWinner():
             currentPlayer = choice(toRoll)
     
     elif len(winners) == 1:
-        timeMemory = millis()-timeOffset
         pauseTimer()
         minigameComplete = True
         showTimeIsUpMsg = False
@@ -659,7 +654,7 @@ def playMinigame(*args):
         elif "ticTacToe" in currentCard["minigame"]:
             if currentCard["minigame"]["ticTacToe"]["mode"] == "1v6":
                 brackets = []
-                for i in range(1, globals.playerCount+1):
+                for i in range(globals.playerCount):
                     if i != players[0]:
                         brackets.append([players[0], i])
             else:
