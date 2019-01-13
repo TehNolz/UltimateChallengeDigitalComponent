@@ -55,6 +55,7 @@ class textBox:
         self.textHeight = 0
 
         self.placeholder = ''
+        self.lastMousePos = Vector2(0,0)
     
     def draw(self, mousePressed=False):
         textSize(30)
@@ -99,7 +100,7 @@ class textBox:
             if not self.clicked:
                 self.clicked = True
                 self.selectCursor = self.cursor
-                if millis() - self.lastClickMillis < self.doubleClickDelay:
+                if millis() - self.lastClickMillis < self.doubleClickDelay and self.lastClickPos == mousePos:
                     if self.doubleClick:
                         self.ignoreMousePos = True
                         self.cursor = len(self.getFullText())
@@ -142,6 +143,7 @@ class textBox:
                                 
                                 if cursorStop and scursorStop:
                                     break
+                self.lastClickPos = mousePos
                 self.lastClickMillis = millis()
             self.update_textSegments()
         elif not mousePressed:
