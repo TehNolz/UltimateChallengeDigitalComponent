@@ -19,7 +19,7 @@ def init():
     global baseToggle
     global exp1Toggle
     global exp2Toggle
-    playerCount = 4
+    playerCount = globals.userConfig['playerCount']
     
     Object.startGroup()
     
@@ -139,6 +139,8 @@ def draw(mousePressed=False):
     text("Expansion Deck 2", screenSize.X*0.5, screenSize.Y*0.4)
     
     popStyle()
+    
+    globals.userConfig['playerCount'] = playerCount
     
 def startGame(*args):
     global baseToggle
