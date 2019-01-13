@@ -4,8 +4,7 @@ def showErrorMessage():
     import java.awt.Toolkit as Toolkit
     import java.awt.Font as Font
     import os, traceback
-    from util import split_multiDelim, isWithin, exit
-    from globals import logFile
+    from util import split_multiDelim, isWithin
     
     try:
         import __builtin__
@@ -15,6 +14,7 @@ def showErrorMessage():
     ignoreLog = False
     try:
         import globals
+        from util import exit
     except:
         ignoreLog = True 
     
@@ -23,8 +23,8 @@ def showErrorMessage():
     custom_tb = ''
     bare_tb = ''
     tb_lines = traceback.format_exc().split('\n') 
-    if not ignoreLogFile:
-        tb_lines.append('See \''+logFile(0)+'\' for more details.')
+    if not ignoreLog:
+        tb_lines.append('See \'data\\logs\\ucdc_app.0.log\' for more details.')
     else:
         tb_lines = tb_lines[:-1]
     for line in tb_lines:
