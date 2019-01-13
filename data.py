@@ -59,7 +59,7 @@ def loadData(firstLoad=False):
     globals.log.info("Loaded configs.")
     
     #Load all assets
-    for file in os.listdir("data"):
+    for file in [_ for _ in os.listdir("data") if os.path.isfile('data\\'+_)]:
         filetype = file.split(".")[1]
         name = file.split(".")[0]
         
