@@ -5,6 +5,7 @@ def showErrorMessage():
     import java.awt.Font as Font
     import os, traceback
     from util import split_multiDelim, isWithin, exit
+    from globals import logFile
     
     try:
         import __builtin__
@@ -22,7 +23,10 @@ def showErrorMessage():
     custom_tb = ''
     bare_tb = ''
     tb_lines = traceback.format_exc().split('\n') 
-    tb_lines.append('See \'logs\\ucdc_app.log\' for more details.')
+    if not ignoreLogFile:
+        tb_lines.append('See \''+logFile(0)+'\' for more details.')
+    else:
+        tb_lines = tb_lines[:-1]
     for line in tb_lines:
         lineno = tb_lines.index(line)+1
         _line = line.replace(os.path.dirname(os.path.realpath(__file__))+'\\', '')
@@ -89,7 +93,7 @@ def showErrorMessage():
                 float(w)
                 isNumber = True
             except:
-                if len(w) == 0 or lineno == 1 or lineno % 2 == 0:
+                if len(w) == 0 or lineno == 1 or lineno % 2 == 0 or _line.startswith('See'):
                     continue
                 if True in [(w == _) for _ in kwlist]:
                     modStr = _line.replace(w, ' '*len(w), occurrences[w]-1)
