@@ -284,8 +284,7 @@ def draw(mousePressed):
             g.setMatrix(getCurrentInvMatrix())
             mousePos = Vector2(mouseX, mouseY).getModelPos()
             popMatrix()
-            
-            point(*mousePos)
+        
             if moves == False:
                 if mousePressed and not once:
                     x = int((mousePos.X)/50)
@@ -294,7 +293,7 @@ def draw(mousePressed):
                         if boarddict[x][y] == 0:
                             once = True
                             icons.append((x*50, y*50, currentPlayer))
-                            boarddict[x][y] = currentPlayer
+                            boarddict[x][y] = currentPlayer+1
 
                             if currentPlayer == brackets[0][0]:
                                 currentPlayer = brackets[0][1]
