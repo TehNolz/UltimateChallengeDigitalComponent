@@ -48,7 +48,7 @@ backgroundImg = None
 
 #Misc
 maxLogFiles = 4
-logFile = lambda x: 'logs\\ucdc_app.'+str(x)+'.log'
+logFile = lambda x: 'data\\logs\\ucdc_app.'+str(x)+'.log'
 for i in list(range(maxLogFiles))[::-1]:
     if os.path.exists(logFile(i)):
         if i == maxLogFiles-1:
