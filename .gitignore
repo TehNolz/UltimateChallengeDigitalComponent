@@ -2,3 +2,8 @@
 userconfig.json
 data/attributes.txt
 *.log
+application.windows64/
+application.windows32/
+application.macosx/
+application.linux32/
+application.linux64/
