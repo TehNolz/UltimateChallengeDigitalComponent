@@ -5,6 +5,7 @@ import logging
 imgIndex = {}
 cardConfig = {}
 userConfig = {
+    "playerCount": 4,
     "players": [
         None,
         None,
