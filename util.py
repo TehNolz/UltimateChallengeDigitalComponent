@@ -149,6 +149,7 @@ class Vector2:
         self.Y = y
 
     def __add__(self, other): return Vector2(self.X+other.X, self.Y+other.Y)
+    def __eq__(self, other): return self.X == other.X and self.Y == other.Y
     def __sub__(self, other): return self + (-other)
     def __neg__(self): return self*-1
     def __repr__(self): return '{X:' + str(self.X) + ',Y:' + str(self.Y) + '}'
