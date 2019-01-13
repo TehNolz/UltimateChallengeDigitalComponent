@@ -1,130 +1,28 @@
-import data
-import globals
-import settingsScreen
-import gameSetupScreen
-import gameScreen
-import mainMenu
-import manual
-import console
-import textInput
-import minigame
-from Object import Object
-from util import *
-
-#Hello world!
-log = globals.log
-log.info("Hello world!")
-
-def setup():
-    #log.info("Running setup!")
-    global imgIndex
-    global font
-    global gameScreen
-    global mainMenu
-    global font
-    size(1133, 600, P3D)
-    smooth(8)
-    background(204)
-    
-loadStage = 0
-loadDuration = 7
-def loadScreen():
-    global loadStage
-    global loadDuration
-    stage = loadStage
-    # Shows a progress bar
-    
-    loadText = ''
-    def loadBar(progress=stage, duration=loadDuration, yOffset=0):
-        width = 1133
-        height = 600
-        translate(0, yOffset)
-        pushStyle()
-        amount = float(progress) / duration
-        stroke(0)
-        strokeWeight(2)
-        fill(255)
-        rect(width/2-100, height*0.55, 200, 30, 5)
-        fill(0, 187, 255)
-        noStroke()
-        rect(width/2-100, height*0.55, 200 * amount, 30, 5)
-        fill(0)
-        textSize(20)
-        textAlign(CENTER)
-        if textWidth(loadText) + textAscent() > 200:
-            textSize(20 * (200 / float(textWidth(loadText) + textAscent())))
-        text(loadText, width/2, height*0.55 + 15 + textHeight(loadText) / 2)
-        popStyle()
-    
-    if stage == 0:
-        background(204)
-        fill(0)
-        textSize(30)
-        text('Loading...', (width - textWidth('Loading'))/2, height/2)
-        log.info("Starting!")
-    elif stage == 1:
-        fill(0)
-        textSize(30)
-        loadText = 'Loading assets...'
-        loadBar()
-        totalRequests, finishedRequests = data.loadData(True)
-        if finishedRequests != totalRequests:
-            loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
-            loadBar(finishedRequests, totalRequests, 45)
-            return False
-        loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
-        loadBar(finishedRequests, totalRequests, 45)
-        loadText = 'Initializing settings screen...'
-    elif stage == 2:
-        pushStyle()
-        stroke(204)
-        strokeWeight(5)
-        fill(204)
-        rect(width/2-100, height*0.55+45, 200, 30)
-        popStyle() 
-        settingsScreen.init()
-        loadText = 'Initializing game screen...'
-    elif stage == 3:
-        gameScreen.init()
-        loadText = 'Initializing game setup screen...'
-    elif stage == 4:
-        gameSetupScreen.init()
-        loadText = 'Initializing main menu...'
-    elif stage == 5:
-        mainMenu.init()
-        loadText = 'Initializing console...'
-    elif stage == 6:
-        console.init()
-        loadText = 'Initializing manual screen...'
-    elif stage == 7:
-        manual.init()
-        loadText = 'Congfiguring renderer...'
-    elif stage == 8:
-        hint(DISABLE_OPTIMIZED_STROKE)
-        hint(ENABLE_KEY_REPEAT)
-        #textMode(SHAPE)
-        loadStage += 1
-        globals.log.info('Finished Loading!\t['+str(millis())+' ms]')
-        return True
-    else:
-        return True
-    loadBar()
-    loadStage += 1
-    return False
-
 def showErrorMessage():
     import javax.swing.JOptionPane as JOptionPane
     import javax.swing.JDialog as JDialog
     import java.awt.Toolkit as Toolkit
     import java.awt.Font as Font
     import os, traceback
+    from util import split_multiDelim, isWithin, exit
+    
+    try:
+        import __builtin__
+    except:
+        import builtins as __builtin__
+    
+    ignoreLog = False
+    try:
+        import globals
+    except:
+        ignoreLog = True 
     
     Toolkit.getDefaultToolkit().beep()
     
     custom_tb = ''
     bare_tb = ''
-    tb_lines = traceback.format_exc().split('\n')
-    tb_lines.append('\n\nSee \'logs\\ucdc_app.log\' for more details.')
+    tb_lines = traceback.format_exc().split('\n') 
+    tb_lines.append('See \'logs\\ucdc_app.log\' for more details.')
     for line in tb_lines:
         lineno = tb_lines.index(line)+1
         _line = line.replace(os.path.dirname(os.path.realpath(__file__))+'\\', '')
@@ -181,7 +79,7 @@ def showErrorMessage():
         occurrences = dict()
         import keyword
         kwlist = keyword.kwlist
-        kwlist.extend(['True', 'False', 'None'])
+        kwlist.extend(list(dir(__builtin__))) 
         for kw in kwlist: 
             occurrences[kw] = _line.count(kw)
         
@@ -197,14 +95,14 @@ def showErrorMessage():
                     modStr = _line.replace(w, ' '*len(w), occurrences[w]-1)
                     index = modStr.find(w)
                     addTag('<font color=#0000ff>', index, index+len(w))
-                
+                 
             if isNumber: 
                 occurrences[w] = occurrences.get(w, 0) + 1
                 modStr = _line.replace(w, ' '*len(w), occurrences[w]-1)
                 
                 index = modStr.find(w)
                 addTag('<font color=#008052>', index, index+len(w))
-            counter += 1
+            counter += 1 
 
         # Sort the tags based on the closing index, because the string is modified back to front
         colorTags = sorted(colorTags, key=lambda tup: tup[2]) 
@@ -219,7 +117,8 @@ def showErrorMessage():
             _line = '&nbsp;&nbsp;&nbsp;&nbsp;'+_line.strip()
         custom_tb += ('\n' if tb_lines.index(line) != 0 else '') + _line
     
-    globals.log.critical(bare_tb[:-1])
+    if not ignoreLog:
+        globals.log.critical(bare_tb[:-1])
     
     custom_tb = custom_tb.replace('\n', '<br>')
     custom_tb = '<html>' + custom_tb + '</html>'
@@ -229,7 +128,128 @@ def showErrorMessage():
     dialog = pane.createDialog('Traceback')
     dialog.setAlwaysOnTop(True)
     dialog.show()
-    exit(1)
+    if not ignoreLog:
+        exit(1)
+    else:
+        __builtin__.exit()
+
+try:
+    import data
+    import globals
+    import settingsScreen
+    import gameSetupScreen
+    import gameScreen
+    import mainMenu
+    import manual
+    import console
+    import textInput
+    import minigame
+    from Object import Object
+    from util import *
+except: 
+    showErrorMessage()
+
+#Hello world!
+log = globals.log
+log.info("Hello world!")
+
+def setup():
+    #log.info("Running setup!")
+    global imgIndex
+    global font
+    global gameScreen
+    global mainMenu
+    global font
+    size(1133, 600, P3D)
+    smooth(8)
+    background(204)
+    
+loadStage = 0
+loadDuration = 7
+def loadScreen():
+    global loadStage
+    global loadDuration
+    stage = loadStage
+    # Shows a progress bar
+    
+    loadText = ''
+    def loadBar(progress=stage, duration=loadDuration, yOffset=0):
+        width = 1133
+        height = 600
+        translate(0, yOffset)
+        pushStyle()
+        amount = float(progress) / duration
+        stroke(0)
+        strokeWeight(2)
+        fill(255)
+        rect(width/2-100, height*0.55, 200, 30, 5)
+        fill(0, 187, 255)
+        noStroke()
+        rect(width/2-100, height*0.55, 200 * amount, 30, 5)
+        fill(0)
+        textSize(20)
+        textAlign(CENTER)
+        if textWidth(loadText) + textAscent() > 200:
+            textSize(20 * (200 / float(textWidth(loadText) + textAscent())))
+        text(loadText, width/2, height*0.55 + 15 + textHeight(loadText) / 2)
+        popStyle()
+    
+    if stage == 0:
+        background(204)
+        fill(0)
+        textSize(30)
+        text('Loading...', (width - textWidth('Loading'))/2, height/2)
+        log.info("Starting!")
+        loadText = 'Loading assets...'
+    elif stage == 1:
+        fill(0)
+        textSize(30)
+        loadText = 'Loading assets...'
+        loadBar()
+        totalRequests, finishedRequests = data.loadData(True)
+        if finishedRequests != totalRequests:
+            loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
+            loadBar(finishedRequests, totalRequests, 45)
+            return False
+        loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
+        loadBar(finishedRequests, totalRequests, 45)
+        loadText = 'Initializing settings screen...'
+    elif stage == 2:
+        pushStyle()
+        stroke(204)
+        strokeWeight(5)
+        fill(204)
+        rect(width/2-100, height*0.55+45, 200, 30)
+        popStyle() 
+        settingsScreen.init()
+        loadText = 'Initializing game screen...'
+    elif stage == 3:
+        gameScreen.init()
+        loadText = 'Initializing game setup screen...'
+    elif stage == 4:
+        gameSetupScreen.init()
+        loadText = 'Initializing main menu...'
+    elif stage == 5:
+        mainMenu.init()
+        loadText = 'Initializing console...'
+    elif stage == 6:
+        console.init()
+        loadText = 'Initializing manual screen...'
+    elif stage == 7:
+        manual.init()
+        loadText = 'Congfiguring renderer...'
+    elif stage == 8:
+        hint(DISABLE_OPTIMIZED_STROKE)
+        hint(ENABLE_KEY_REPEAT)
+        #textMode(SHAPE)
+        loadStage += 1
+        globals.log.info('Finished Loading!\t['+str(millis())+' ms]')
+        return True
+    else:
+        return True
+    loadBar()
+    loadStage += 1
+    return False
 
 lastScreen = ''
 activeKeys = set()
