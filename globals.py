@@ -49,6 +49,11 @@ backgroundImg = None
 #Misc
 maxLogFiles = 4
 logFile = lambda x: 'data\\logs\\ucdc_app.'+str(x)+'.log'
+# This is to trigger exceptions if the program loads from %appdata%
+# It basically just helps with the traceback
+os.listdir('data')
+if not os.path.exists('data\\logs'):
+    os.mkdir('data\\logs')
 for i in list(range(maxLogFiles))[::-1]:
     if os.path.exists(logFile(i)):
         if i == maxLogFiles-1:
