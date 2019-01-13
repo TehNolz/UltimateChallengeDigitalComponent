@@ -1,6 +1,7 @@
 import os
 import json
 import globals
+from util import getMostRecentCall
 
 loadingAssets = False
 totalRequests = 0
@@ -78,6 +79,10 @@ def loadData(firstLoad=False):
     return totalRequests, 0
     
 def saveData():
+    import time
+    saveStart = time.clock()
     userConfig = globals.userConfig
     with open('data/userconfig.json', 'w') as outfile:
         json.dump(userConfig, outfile, indent=4)
+    globals.log.info('Saved settings.\t['+str(int((time.clock()-saveStart)*10**6))+' us]')
+    globals.log.debug(u'\u2514\u2500 Call from f'+getMostRecentCall()[1:])

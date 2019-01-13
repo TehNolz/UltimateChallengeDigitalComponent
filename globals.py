@@ -46,7 +46,7 @@ backgroundImgName = 'background'
 backgroundImg = None
 
 #Misc
-logging.basicConfig(filename='ucdc_app.log', level=logging.NOTSET, format='[%(asctime)s][%(name)s:%(levelname)s] %(message)s',  filemode='w+', datefmt='%X')
+logging.basicConfig(filename='logs\\ucdc_app.log', level=logging.NOTSET, format='[%(asctime)s][%(name)s:%(levelname)s] %(message)s',  filemode='w+', datefmt='%X')
 log = logging.getLogger("LOG")
 playerCount = 0
 font = None

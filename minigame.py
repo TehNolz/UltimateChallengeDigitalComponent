@@ -8,6 +8,8 @@ import prime_number_menu
 currentCard = None
 
 def init():
+    import time
+    setupStart = time.clock()
     width = 1133
     height = 600
     # ######################
@@ -117,6 +119,11 @@ def init():
     nextMatchButton = Button(width*0.7, height*0.8, r.copy())
     nextMatchButton.releaseAction = nextMatch
     nextMatchButton.text = "Next\nMatch"
+
+    globals.log.info('Loading minigame...')
+    globals.log.debug('Arguments: '+str(currentCard['minigame'])[1:-1])
+    globals.log.info('Loaded minigame.\t['+str(int((time.clock()-setupStart)*10**6))+' us]')
+    globals.log.debug(u'\u2514\u2500 Call from f'+getMostRecentCall()[1:])
 
 def draw(mousePressed):
     updatedTime = False

@@ -209,6 +209,7 @@ def setCard(card):
         "minigame": globals.cardConfig[deck][card],
         'isPrimeNumber': primeNumber
     }
+    globals.log.info('Loaded card '+currentCard['id'] + '.')
     
 show_prime_numbers = False
 def togglePrimeNumberMenu(*args):

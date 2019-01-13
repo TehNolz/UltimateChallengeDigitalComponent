@@ -99,10 +99,14 @@ def loadScreen():
     elif stage == 7:
         manual.init()
         loadText = 'Congfiguring renderer...'
-    else:
+    elif stage == 8:
         hint(DISABLE_OPTIMIZED_STROKE)
         hint(ENABLE_KEY_REPEAT)
         #textMode(SHAPE)
+        loadStage += 1
+        globals.log.info('Finished Loading!\t['+str(millis())+' ms]')
+        return True
+    else:
         return True
     loadBar()
     loadStage += 1
@@ -120,7 +124,8 @@ def showErrorMessage():
     custom_tb = ''
     bare_tb = ''
     tb_lines = traceback.format_exc().split('\n')
-    for line in tb_lines[:-1]:
+    tb_lines.append('\n\nSee \'logs\\ucdc_app.log\' for more details.')
+    for line in tb_lines:
         lineno = tb_lines.index(line)+1
         _line = line.replace(os.path.dirname(os.path.realpath(__file__))+'\\', '')
 
@@ -207,7 +212,7 @@ def showErrorMessage():
             _line = _line[:end] + endTag + _line[end:] 
             _line = _line[:start] + tag + _line[start:]
         
-        if lineno != 1 and lineno % 2 != 0 and not _line.strip().startswith('File'):
+        if lineno != 1 and lineno % 2 != 0 and not _line.strip().startswith('File') and not _line.startswith('See'):
             # Apply the monospaced font face
             _line = '<font face=\'Monospaced\' style=\'font-weight:normal\'>' + _line + '</font>'
         elif lineno != 1 and line.strip().startswith('File'):
@@ -217,7 +222,7 @@ def showErrorMessage():
     globals.log.critical(bare_tb[:-1])
     
     custom_tb = custom_tb.replace('\n', '<br>')
-    custom_tb = custom_tb = '<html>' + custom_tb + '</html>'
+    custom_tb = '<html>' + custom_tb + '</html>'
     
     pane = JOptionPane(custom_tb, JOptionPane.ERROR_MESSAGE)
     
@@ -229,11 +234,18 @@ def showErrorMessage():
 lastScreen = ''
 activeKeys = set()
 activeKeyCodes = set()
+lastUpdate = 0
 def draw():
+    global lastUpdate
     try:
+        updateDelay = millis() - lastUpdate
+        lastUpdate = millis()
         global lastScreen
         # This loadscreen loads stuff in the draw so we can update the loading bar
         if not loadScreen(): return
+        
+        if updateDelay > 1000:
+            globals.log.warning('Detected abnormally high update latency. ['+str(updateDelay)+' ms]')
         
         # Update the mousePress value in Object
         # Necessary because when 'mousePressed()' is used, the field 'mousePressed' for some reason starts raising errors
@@ -254,9 +266,6 @@ def draw():
         #Switch to a different menu.
         pushStyle()
         pushMatrix()
-        if not lastScreen == globals.currentMenu:
-            globals.log.info('Screen changed to ' + globals.currentMenu)
-            
         if globals.currentMenu == "gameSetupScreen":
             gameSetupScreen.draw(mousePressed)
         elif globals.currentMenu == "gameScreen":
@@ -272,7 +281,10 @@ def draw():
             minigame.draw(mousePressed)
         elif globals.currentMenu == "settings":
             settingsScreen.draw()
-        lastScreen = globals.currentMenu
+        
+        if not lastScreen == globals.currentMenu:
+            globals.log.info('Screen changed to ' + globals.currentMenu + '.')
+        lastScreen = str(globals.currentMenu)
         popStyle()
         popMatrix()
             

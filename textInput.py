@@ -301,12 +301,14 @@ class textBox:
             self.text[1] = ''
             self.cursor = len(self.text[0])
             self.selectCursor = self.cursor
+            globals.log.info('Copied selection \''+sts.toString().split('.')[-1]+'\' to clipboard.')
             
         if u'\x03' in key: # this is ctrl+c
             tk = Toolkit.getDefaultToolkit()
             clipboard = tk.getSystemClipboard()
             sts = StringSelection(self.text[1])
             clipboard.setContents(sts, None)
+            globals.log.info('Copied selection \''+sts.toString().split('.')[-1]+'\' to clipboard.')
             
         try:
             if u'\x16' in key: # this is ctrl+v
@@ -318,10 +320,17 @@ class textBox:
                 self.text[0] += str(clipboard.getData(DataFlavor.stringFlavor))
                 self.cursor = len(self.text[0])
                 self.selectCursor = self.cursor
+                globals.log.info('Pasted clipboard \''+clipboard.toString().split('.')[-1]+'\' to textbox.')
         except:
-            log = globals.log
-            log.error('Caught exception \'UnicodeEncodeError\'.')
-            log.error('The encoding of the copied string is not supported.')
+            import os, traceback
+            Toolkit.beep()
+            
+            bare_tb = ''
+            tb_lines = traceback.format_exc().split('\n')
+            for line in tb_lines[:-1]:
+                line = line.replace(os.path.dirname(os.path.realpath(__file__))+'\\', '')
+                bare_tb += line + '\n'
+            globals.log.error(bare_tb[:-1])
         
         if not CODED in key:
             for k in key:

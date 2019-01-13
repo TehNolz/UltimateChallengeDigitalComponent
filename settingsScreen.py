@@ -5,7 +5,10 @@ from util import *
 from Button import Button
 from Object import Object
 
+delaySaving = False
 def init():
+    global delaySaving
+    delaySaving = True
     width = 1133
     height = 600
     global buttons, categories, onScreenText
@@ -172,6 +175,8 @@ def init():
             onScreenText.append((o.name, Vector2(offsetX + (o.shape.width + textAscent()*1.5)/2, i + (textAscent()-textDescent()) / 2), textSizeButtons))
             i += o.shape.height * 1.5
         popStyle()
+    delaySaving = False
+    data.saveData()
 
 onScreenText = list()
 onScreenFeatures = list()
@@ -214,17 +219,20 @@ def gotoMainMenu(*args):
 
 def setFont(self, *args):
     globals.userConfig['settings']['font'] = self.name
-    data.saveData()
+    if not delaySaving:
+        data.saveData()
     globals.font = createFont(self.name, 100, True)
     textFont(globals.font)
 
 def toggleSettings(self, *args):
     globals.userConfig['settings'][self.value] = self.activated
-    data.saveData()
+    if not delaySaving:
+        data.saveData()
 
 def setBackground(self, *args):
     globals.backgroundImgName = self.value
     globals.backgroundImg = globals.imgIndex[self.value].copy()
     globals.userConfig['settings']['bg_select'] = self.name
     globals.userConfig['settings']['primary_color'] = self.color_value
-    data.saveData()
+    if not delaySaving:
+        data.saveData()

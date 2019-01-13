@@ -1,5 +1,11 @@
 import globals
 
+def getMostRecentCall():
+    import os, traceback
+    txt = traceback.format_stack()[-3].splitlines()[0]
+    txt = txt.replace(os.getcwd()+'\\', '')
+    return txt.strip()
+
 def scaleMemory(x, decimals=0, tag=True):
     GIBIBYTE = 1073741820
     MEBIBYTE = 1048576
