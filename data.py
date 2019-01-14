@@ -63,8 +63,6 @@ def loadData(firstLoad=False):
     globals.log.info("Loaded configs.")
     
     #Load all assets
-    print(os.listdir('data'))
-    print(os.path.isdir(os.path.abspath('data/logs')))
     for file in os.listdir('data'):
         if file == 'logs':
             continue
