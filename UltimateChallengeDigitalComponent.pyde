@@ -212,18 +212,21 @@ def loadScreen():
         loadText = 'Loading assets...'
         loadBar()
         totalRequests, finishedRequests, requestCount, finishedCount = data.loadData(True)
-        if not totalRequests == 0 and not requestCount == 0:
-            if finishedRequests != totalRequests:
-                loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
-                loadBar(finishedRequests, totalRequests, 45)
-                return False
-        elif totalRequests == 0 and not requestCount == 0:
-            if finishedRequests != totalRequests:
-                loadText = 'Progress: '+str(finishedCount) + '/'+str(requestCount)
-                loadBar(finishedCount, requestCount, 45)
-                return False
-        loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
-        loadBar(finishedRequests, totalRequests, 45)
+        try:
+            if not totalRequests == 0 and not requestCount == 0:
+                if finishedRequests != totalRequests:
+                    loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
+                    loadBar(finishedRequests, totalRequests, 45)
+                    return False
+            elif totalRequests == 0 and not requestCount == 0:
+                if finishedRequests != totalRequests:
+                    loadText = 'Progress: '+str(finishedCount) + '/'+str(requestCount)
+                    loadBar(finishedCount, requestCount, 45)
+                    return False
+            loadText = 'Progress: '+scaleMemory(finishedRequests, 2) + '/'+scaleMemory(totalRequests, 2)
+            loadBar(finishedRequests, totalRequests, 45)
+        except:
+            pass
         loadText = 'Initializing settings screen...'
     elif stage == 2:
         pushStyle()
