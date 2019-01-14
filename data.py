@@ -63,8 +63,9 @@ def loadData(firstLoad=False):
     globals.log.info("Loaded configs.")
     
     #Load all assets
-    os.chdir('data')
-    for file in os.listdir(os.getcwd()):
+    print(os.listdir('data'))
+    print(os.path.isdir(os.path.abspath('data/logs')))
+    for file in os.listdir('data'):
         if file == 'logs':
             continue
         filetype = file.split(".")[1]
@@ -72,15 +73,14 @@ def loadData(firstLoad=False):
         
         #Images
         if filetype == "png":
-            totalRequests += os.path.getsize(os.path.realpath(file))
+            totalRequests += os.path.getsize(os.path.realpath('data/'+file))
             _totalRequests += 1
             imgIndex[name] = requestImage(file)
-            assetNames[name] = os.path.realpath(file)
+            assetNames[name] = os.path.realpath('data/'+file)
             
         #Fonts
         elif filetype == "vlw":
             fonts[file.split("-")[0]] = loadFont(file)
-    os.chdir('..')
     loadingAssets = True
     globals.cardConfig = cardConfig
     globals.userConfig = userConfig
