@@ -116,15 +116,19 @@ def init():
     fontSelectRadio4.releaseAction = setFont
     
     categories['Fonts'] = Object.endGroup()
+    setfont = False
     for o in categories['Fonts']:
         if not o.fullName in PFont.list():
             categories['Fonts'].remove(o)
             continue
         if o.name == globals.userConfig['settings']['font']:
             o.releaseAction(o, -1)
+            setfont = True
             o.activated = True
         else:
             o.activated = False
+    else:
+        fontSelectRadio1.releaseAction(o, -1)
     
     Object.startGroup()
 
