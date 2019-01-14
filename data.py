@@ -64,7 +64,9 @@ def loadData(firstLoad=False):
     
     #Load all assets
     os.chdir('data')
-    for file in [_ for _ in os.listdir(os.getcwd()) if os.path.isfile(_)]:
+    for file in os.listdir(os.getcwd()):
+        if file == 'logs':
+            continue
         filetype = file.split(".")[1]
         name = file.split(".")[0]
         
