@@ -5,12 +5,14 @@ from util import getMostRecentCall
 
 loadingAssets = False
 totalRequests = 0
+_totalRequests = 0
 loadStart = 0
 assetNames = dict()
 def loadData(firstLoad=False):
     global loadStart
     global loadingAssets
     global totalRequests
+    global _totalRequests
     global assetNames
     
     imgIndex = globals.imgIndex
@@ -27,6 +29,7 @@ def loadData(firstLoad=False):
         
         lastLoadedAsset = None
         finishedRequests = 0
+        _finishedRequests = 0
         for img in imgIndex:
             imgWidth = imgIndex[img].width
             if imgWidth == 0:
@@ -35,11 +38,12 @@ def loadData(firstLoad=False):
                 var = False
             else:
                 loadStart = millis()
-                finishedRequests += os.path.getsize(assetNames[img]) 
-        if totalRequests == finishedRequests:
+                finishedRequests += os.path.getsize(assetNames[img])
+                _finishedRequests += 1
+        if totalRequests == finishedRequests or _totalRequests == _finishedRequests:
             globals.imgIndex = imgIndex
             loadingAssets = False
-        return totalRequests, finishedRequests
+        return totalRequests, finishedRequests, _totalRequests, _finishedRequests
     else:
         totalRequests = 0
     
@@ -66,6 +70,7 @@ def loadData(firstLoad=False):
         #Images
         if filetype == "png":
             totalRequests += os.path.getsize(os.path.realpath('data\\'+file))
+            _totalRequests += 1
             imgIndex[name] = requestImage(file)
             assetNames[name] = os.path.realpath('data\\'+file)
             
@@ -76,7 +81,7 @@ def loadData(firstLoad=False):
     loadingAssets = True
     globals.cardConfig = cardConfig
     globals.userConfig = userConfig
-    return totalRequests, 0
+    return totalRequests, 0 , _totalRequests, 0
     
 def saveData():
     import time
