@@ -129,6 +129,8 @@ def init():
             o.activated = False
     if not setFont:
         fontSelectRadio1.releaseAction(o, -1)
+    if globals.font == None:
+        globals.font = createFont('placeholder', 100, True)
     
     Object.startGroup()
 
