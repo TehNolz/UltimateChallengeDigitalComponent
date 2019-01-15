@@ -17,6 +17,7 @@ class Object:
     
     mousePress = False
     mouseRelease = False
+    mouseButton = 0
     clickPos = Vector2()
     
     def __init__(self, x = None, y = None):

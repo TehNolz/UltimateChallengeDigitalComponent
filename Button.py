@@ -53,6 +53,7 @@ class Button(Object):
     
     def setPosition(self, x, y): Object.setPosition(self, x, y)
     def drawImage(self):
+        mouseButton = self.mouseButton
         textAlign(CENTER)
         rectMode(CORNER)
         colorMode(HSB,255,255,255)

@@ -364,6 +364,7 @@ def mousePressed():
     try:
         textInput.check()
         Object.clickPos = Vector2(mouseX, mouseY)
+        Object.mouseButton = mouseButton
     except:
         showErrorMessage()
     
