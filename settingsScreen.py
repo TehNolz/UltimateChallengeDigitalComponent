@@ -127,7 +127,7 @@ def init():
             o.activated = True
         else:
             o.activated = False
-    else:
+    if not setFont:
         fontSelectRadio1.releaseAction(o, -1)
     
     Object.startGroup()

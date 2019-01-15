@@ -30,6 +30,8 @@ def showErrorMessage():
     for line in tb_lines:
         lineno = tb_lines.index(line)+1
         _line = line.replace(os.path.dirname(os.path.realpath(__file__))+'\\', '')
+        # attempt at Unix compatibility
+        _line = line.replace((os.path.dirname(os.path.realpath(__file__))+'\\').replace('\\', '/'), '')
 
         if not ignoreLog and lineno < len(tb_lines)-2:
             bare_tb += _line + '\n'
