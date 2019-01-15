@@ -25,7 +25,7 @@ def loadData(firstLoad=False):
         # Raise an exception if an asset takes more than 2000 ms to load.
         # This usually means a memory overflow has ocurred.
         if millis() - loadStart > 5000:
-            raise BufferError('Asset loading timed out. (>2000ms)')
+            raise BufferError('Asset loading timed out. (>5000ms)')
         
         lastLoadedAsset = None
         finishedRequests = 0
